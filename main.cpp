@@ -266,8 +266,8 @@ int ZenomMatlab::initialize()
                         xtsi[sigIdx].numColumns);
     }
 
-    setFrequency( 1/1000000000.0*rtmGetStepSize(rtM) );
-    setDuration( (double)rtmGetStepSize(rtM) );
+    setFrequency( (double)rtmGetStepSize(rtM) );
+    setDuration ( (double)rtmGetTFinal(rtM) );
 
     fprintf(stderr, "init done!");
     
