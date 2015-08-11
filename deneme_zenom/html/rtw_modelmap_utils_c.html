@@ -1,0 +1,931 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>RTW Report - rtw_modelmap_utils.c</title>
+<style> .LN { font-style: italic; color: #888888 } </style>
+<style> .CT { font-style: italic; color: #117755 } </style>
+<style> .PP { font-style: bold;   color: #992211 } </style>
+<style> .KW { font-style: bold;   color: #112266 } </style>
+<style> .DT { font-style: bold;   color: #112266 } </style>
+<link rel="stylesheet" type="text/css" href="rtwreport.css"></link><script language="JavaScript" type="text/javascript" src="rtwreport_utils.js"></script>
+<SCRIPT type="text/javascript" src="rtwannotate.js"></SCRIPT>
+</head>
+<body bgcolor="#eeeeee" text="#1122aa" onload="try {if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window.document); else local_onload();}} catch(err) {};if (typeof rtwannotate === 'function') {rtwannotate('rtw_modelmap_utils_c_cov.xml');}">
+<p>
+<table border="0" cellspacing="0" cellpadding="6" width="100%%" height="100%%"><tr><td width="100%%" valign="top" bgcolor="#ffffff">
+<h4>File: <a href="../../../../../../usr/local/MATLAB/R2014a/rtw/c/src/rtw_modelmap_utils.c" target="rtwreport_document_frame" id="linkToText_plain">rtw_modelmap_utils.c</a></h4>
+<pre id="RTWcode">
+<span><a class="LN" name="1">    1   </a><span class="CT">/* Copyright 2003-2013 The MathWorks, Inc. */</span>
+</span><span><a class="LN" name="2">    2   </a>
+</span><span><a class="LN" name="3">    3   </a><span class="CT">/**</span>
+</span><span><a class="LN" name="4">    4   </a><span class="CT"> * Utility functions to traverse and access information from ModelMappingInfo</span>
+</span><span><a class="LN" name="5">    5   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="6">    6   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="7">    7   </a>
+</span><span><a class="LN" name="8">    8   </a><font color="#992211">#</font><span class="PP">ifdef</span> SL_INTERNAL
+</span><span><a class="LN" name="9">    9   </a>
+</span><span><a class="LN" name="10">   10   </a><font color="#992211">#</font> <span class="PP">include</span> <font color="#992211">&quot;version.h&quot;</font>
+</span><span><a class="LN" name="11">   11   </a><font color="#992211">#</font> <span class="PP">include</span> <font color="#992211">&quot;util.h&quot;</font>
+</span><span><a class="LN" name="12">   12   </a><font color="#992211">#</font> <span class="PP">include</span> <font color="#992211">&quot;simstruct/simstruc_types.h&quot;</font>
+</span><span><a class="LN" name="13">   13   </a><font color="#992211">#</font> <span class="PP">include</span> <font color="#992211">&quot;simulinkcoder_capi/rtw_modelmap.h&quot;</font>
+</span><span><a class="LN" name="14">   14   </a>
+</span><span><a class="LN" name="15">   15   </a><font color="#992211">#</font><span class="PP">else</span>
+</span><span><a class="LN" name="16">   16   </a>
+</span><span><a class="LN" name="17">   17   </a><font color="#992211">#</font> <span class="PP">include</span> <font color="#992211">&lt;stdlib.h&gt;</font>
+</span><span><a class="LN" name="18">   18   </a><font color="#992211">#</font> <span class="PP">include</span> <font color="#992211">&lt;assert.h&gt;</font>
+</span><span><a class="LN" name="19">   19   </a>
+</span><span><a class="LN" name="20">   20   </a><font color="#992211">#</font> <span class="PP">define</span>  utFree(arg)    <span class="PP">if</span> (arg) free(arg)
+</span><span><a class="LN" name="21">   21   </a><font color="#992211">#</font> <span class="PP">define</span>  utMalloc(arg)  malloc(arg)
+</span><span><a class="LN" name="22">   22   </a><font color="#992211">#</font> <span class="PP">define</span>  utAssert(exp)  assert(exp)
+</span><span><a class="LN" name="23">   23   </a><font color="#992211">#</font> <span class="PP">define</span>  UNUSED_PARAMETER(x)
+</span><span><a class="LN" name="24">   24   </a>
+</span><span><a class="LN" name="25">   25   </a><font color="#992211">#</font> <span class="PP">include</span> <font color="#992211">&quot;builtin_typeid_types.h&quot;</font>
+</span><span><a class="LN" name="26">   26   </a><font color="#992211">#</font> <span class="PP">include</span> <font color="#992211">&quot;rtwtypes.h&quot;</font>
+</span><span><a class="LN" name="27">   27   </a><font color="#992211">#</font> <span class="PP">include</span> <font color="#992211">&quot;rtw_modelmap.h&quot;</font>
+</span><span><a class="LN" name="28">   28   </a>
+</span><span><a class="LN" name="29">   29   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="30">   30   </a>
+</span><span><a class="LN" name="31">   31   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&lt;string.h&gt;</font>
+</span><span><a class="LN" name="32">   32   </a>
+</span><span><a class="LN" name="33">   33   </a><span class="DT">static</span> <span class="DT">const</span> char_T* <a name="var_rtwCAPI_mallocError">rtwCAPI_mallocError</a> = <font color="#1122ff">&quot;Memory Allocation Error&quot;</font>;
+</span><span><a class="LN" name="34">   34   </a>
+</span><span><a class="LN" name="35">   35   </a><span class="CT">/** Function: rtwCAPI_EncodePath ===============================================</span>
+</span><span><a class="LN" name="36">   36   </a><span class="CT"> *  Abatract:</span>
+</span><span><a class="LN" name="37">   37   </a><span class="CT"> *     Escape all '|' characters in bpath. For examples 'aaa|b' will become</span>
+</span><span><a class="LN" name="38">   38   </a><span class="CT"> *     'aaa~|b'. The caller is responsible for freeing the returned string</span>
+</span><span><a class="LN" name="39">   39   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="40">   40   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="41">   41   </a><span class="CT"> * NOTE: returned string can be NULL in two cases:</span>
+</span><span><a class="LN" name="42">   42   </a><span class="CT"> *     (1) string passed in was NULL</span>
+</span><span><a class="LN" name="43">   43   </a><span class="CT"> *     (2) a memory allocation error occurred</span>
+</span><span><a class="LN" name="44">   44   </a><span class="CT"> * In the second case, the caller need to report the error</span>
+</span><span><a class="LN" name="45">   45   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="46">   46   </a><span class="DT">char</span>* <a name="fcn_rtwCAPI_EncodePath">rtwCAPI_EncodePath</a>(<span class="DT">const</span> <span class="DT">char</span>* path)
+</span><span><a class="LN" name="47">   47   </a><b>{</b>
+</span><span><a class="LN" name="48">   48   </a>    <span class="DT">char</span>* encodedPath     = NULL;
+</span><span><a class="LN" name="49">   49   </a>    size_t pathLen        = (path==NULL) ? 0:strlen(path) + 1;
+</span><span><a class="LN" name="50">   50   </a>    size_t encodedPathLen = pathLen;
+</span><span><a class="LN" name="51">   51   </a>    <span class="DT">unsigned</span> i;
+</span><span><a class="LN" name="52">   52   </a>    <span class="DT">unsigned</span> j = 0;
+</span><span><a class="LN" name="53">   53   </a>
+</span><span><a class="LN" name="54">   54   </a>    <span class="KW">if</span> (path == NULL) <span class="KW">return</span> NULL;
+</span><span><a class="LN" name="55">   55   </a>
+</span><span><a class="LN" name="56">   56   </a>    <span class="KW">for</span> (i = 0; i &lt; pathLen; ++i) <b>{</b>
+</span><span><a class="LN" name="57">   57   </a>        <span class="KW">if</span> (path[i] == <font color="#1122ff">'|'</font> || path[i] == <font color="#1122ff">'~'</font>) ++encodedPathLen;
+</span><span><a class="LN" name="58">   58   </a>    <b>}</b>
+</span><span><a class="LN" name="59">   59   </a>
+</span><span><a class="LN" name="60">   60   </a>    encodedPath = (char_T*)utMalloc(encodedPathLen*<span class="KW">sizeof</span>(char_T));
+</span><span><a class="LN" name="61">   61   </a>    <span class="KW">if</span> (encodedPath == NULL) <span class="KW">return</span> encodedPath;
+</span><span><a class="LN" name="62">   62   </a>
+</span><span><a class="LN" name="63">   63   </a>    <span class="KW">for</span> (i = 0; i &lt; pathLen; ++i) <b>{</b>
+</span><span><a class="LN" name="64">   64   </a>        <span class="DT">char</span> ch = path[i];
+</span><span><a class="LN" name="65">   65   </a>        <span class="KW">if</span> (ch == <font color="#1122ff">'~'</font> || ch == <font color="#1122ff">'|'</font>) encodedPath[j++] = <font color="#1122ff">'~'</font>;
+</span><span><a class="LN" name="66">   66   </a>        encodedPath[j++] = ch;
+</span><span><a class="LN" name="67">   67   </a>    <b>}</b>
+</span><span><a class="LN" name="68">   68   </a>    utAssert(j == encodedPathLen);
+</span><span><a class="LN" name="69">   69   </a>    utAssert(encodedPath[j-1] == <font color="#1122ff">'\0'</font>);
+</span><span><a class="LN" name="70">   70   </a>
+</span><span><a class="LN" name="71">   71   </a>    <span class="KW">return</span> encodedPath;
+</span><span><a class="LN" name="72">   72   </a>
+</span><span><a class="LN" name="73">   73   </a><b>}</b> <span class="CT">/* rtwCAPI_EncodePath */</span>
+</span><span><a class="LN" name="74">   74   </a>
+</span><span><a class="LN" name="75">   75   </a><span class="CT">/** Function: rtwCAPI_GetSigAddrFromMap ========================================</span>
+</span><span><a class="LN" name="76">   76   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="77">   77   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="78">   78   </a><span class="DT">void</span> <a name="fcn_rtwCAPI_GetSigAddrFromMap">rtwCAPI_GetSigAddrFromMap</a>(uint8_T      isPointer,
+</span><span><a class="LN" name="79">   79   </a>                               int_T*       sigComplexity,
+</span><span><a class="LN" name="80">   80   </a>                               int_T*       sigDataType,
+</span><span><a class="LN" name="81">   81   </a>                               <span class="DT">void</span>**       sigDataAddr,
+</span><span><a class="LN" name="82">   82   </a>                               int_T*       sigIdx,
+</span><span><a class="LN" name="83">   83   </a>                               uint_T       mapIdx,
+</span><span><a class="LN" name="84">   84   </a>                               <span class="DT">void</span>**       dataAddrMap)
+</span><span><a class="LN" name="85">   85   </a><b>{</b>
+</span><span><a class="LN" name="86">   86   </a>    <span class="KW">if</span> (isPointer) <b>{</b>
+</span><span><a class="LN" name="87">   87   </a>        <span class="CT">/* Dereference pointer and cache the address */</span>
+</span><span><a class="LN" name="88">   88   </a>
+</span><span><a class="LN" name="89">   89   </a>        <span class="CT">/* Imported Pointers cannot be complex - Assert */</span>
+</span><span><a class="LN" name="90">   90   </a>        utAssert(sigComplexity[*sigIdx] != 1);
+</span><span><a class="LN" name="91">   91   </a>        UNUSED_PARAMETER(sigComplexity);
+</span><span><a class="LN" name="92">   92   </a>
+</span><span><a class="LN" name="93">   93   </a>        <span class="CT">/* Check for data type and dereference accordingly */</span>
+</span><span><a class="LN" name="94">   94   </a>        <span class="KW">switch</span> (sigDataType[*sigIdx]) <b>{</b>
+</span><span><a class="LN" name="95">   95   </a>          <span class="KW">case</span> SS_DOUBLE:
+</span><span><a class="LN" name="96">   96   </a>            sigDataAddr[*sigIdx] = \
+</span><span><a class="LN" name="97">   97   </a>                (<span class="DT">void</span>*) *((real_T **) dataAddrMap[mapIdx]);
+</span><span><a class="LN" name="98">   98   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="99">   99   </a>          <span class="KW">case</span> SS_SINGLE:
+</span><span><a class="LN" name="100">  100   </a>            sigDataAddr[*sigIdx] = \
+</span><span><a class="LN" name="101">  101   </a>                (<span class="DT">void</span>*) *((real32_T **) dataAddrMap[mapIdx]);
+</span><span><a class="LN" name="102">  102   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="103">  103   </a>          <span class="KW">case</span> SS_UINT32:
+</span><span><a class="LN" name="104">  104   </a>            sigDataAddr[*sigIdx] = \
+</span><span><a class="LN" name="105">  105   </a>                (<span class="DT">void</span>*) *((uint32_T **) dataAddrMap[mapIdx]);
+</span><span><a class="LN" name="106">  106   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="107">  107   </a>          <span class="KW">case</span> SS_INT32:
+</span><span><a class="LN" name="108">  108   </a>            sigDataAddr[*sigIdx] = \
+</span><span><a class="LN" name="109">  109   </a>                (<span class="DT">void</span>*) *((int32_T **) dataAddrMap[mapIdx]);
+</span><span><a class="LN" name="110">  110   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="111">  111   </a>          <span class="KW">case</span> SS_UINT16:
+</span><span><a class="LN" name="112">  112   </a>            sigDataAddr[*sigIdx] = \
+</span><span><a class="LN" name="113">  113   </a>                (<span class="DT">void</span>*) *((uint16_T **) dataAddrMap[mapIdx]);
+</span><span><a class="LN" name="114">  114   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="115">  115   </a>          <span class="KW">case</span> SS_INT16:
+</span><span><a class="LN" name="116">  116   </a>            sigDataAddr[*sigIdx] = \
+</span><span><a class="LN" name="117">  117   </a>                (<span class="DT">void</span>*) *((int16_T **) dataAddrMap[mapIdx]);
+</span><span><a class="LN" name="118">  118   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="119">  119   </a>          <span class="KW">case</span> SS_UINT8:
+</span><span><a class="LN" name="120">  120   </a>            sigDataAddr[*sigIdx] = \
+</span><span><a class="LN" name="121">  121   </a>                (<span class="DT">void</span>*) *((uint8_T **) dataAddrMap[mapIdx]);
+</span><span><a class="LN" name="122">  122   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="123">  123   </a>          <span class="KW">case</span> SS_INT8:
+</span><span><a class="LN" name="124">  124   </a>            sigDataAddr[*sigIdx] = \
+</span><span><a class="LN" name="125">  125   </a>                (<span class="DT">void</span>*) *((int8_T **) dataAddrMap[mapIdx]);
+</span><span><a class="LN" name="126">  126   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="127">  127   </a>          <span class="KW">case</span> SS_BOOLEAN:
+</span><span><a class="LN" name="128">  128   </a>            sigDataAddr[*sigIdx] = \
+</span><span><a class="LN" name="129">  129   </a>                (<span class="DT">void</span>*) *((boolean_T **) dataAddrMap[mapIdx]);
+</span><span><a class="LN" name="130">  130   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="131">  131   </a>          <span class="KW">default</span>:
+</span><span><a class="LN" name="132">  132   </a>            sigDataAddr[*sigIdx] = \
+</span><span><a class="LN" name="133">  133   </a>                (<span class="DT">void</span>*) *((real_T **) dataAddrMap[mapIdx]);
+</span><span><a class="LN" name="134">  134   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="135">  135   </a>        <b>}</b>  <span class="CT">/* end switch */</span>
+</span><span><a class="LN" name="136">  136   </a>    <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="137">  137   </a>        <span class="CT">/* if Data is not a pointer store the address directly */</span>
+</span><span><a class="LN" name="138">  138   </a>        sigDataAddr[*sigIdx] = dataAddrMap[mapIdx];
+</span><span><a class="LN" name="139">  139   </a>    <b>}</b>
+</span><span><a class="LN" name="140">  140   </a>
+</span><span><a class="LN" name="141">  141   </a><b>}</b> <span class="CT">/* rtwCAPI_GetSigAddrFromMap */</span>
+</span><span><a class="LN" name="142">  142   </a>
+</span><span><a class="LN" name="143">  143   </a>
+</span><span><a class="LN" name="144">  144   </a><span class="CT">/** Function: rtwCAPI_HasStates ================================================</span>
+</span><span><a class="LN" name="145">  145   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="146">  146   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="147">  147   </a>boolean_T <a name="fcn_rtwCAPI_HasStates">rtwCAPI_HasStates</a>(<span class="DT">const</span> rtwCAPI_ModelMappingInfo* mmi)
+</span><span><a class="LN" name="148">  148   </a><b>{</b>
+</span><span><a class="LN" name="149">  149   </a>    int_T i;
+</span><span><a class="LN" name="150">  150   </a>    int_T nCMMI;
+</span><span><a class="LN" name="151">  151   </a>
+</span><span><a class="LN" name="152">  152   </a>    <span class="KW">if</span> (mmi == NULL) <span class="KW">return</span>(0U);
+</span><span><a class="LN" name="153">  153   </a>
+</span><span><a class="LN" name="154">  154   </a>    <span class="KW">if</span> (rtwCAPI_GetNumStates(mmi) &gt; 0) <span class="KW">return</span>(1U);
+</span><span><a class="LN" name="155">  155   </a>
+</span><span><a class="LN" name="156">  156   </a>    nCMMI = rtwCAPI_GetChildMMIArrayLen(mmi);
+</span><span><a class="LN" name="157">  157   </a>    <span class="KW">for</span> (i = 0; i &lt; nCMMI; ++i) <b>{</b>
+</span><span><a class="LN" name="158">  158   </a>        <span class="KW">if</span> (<a href="#fcn_rtwCAPI_HasStates" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_HasStates');" target="_self"><font color="#1122aa">rtwCAPI_HasStates</font></a>(rtwCAPI_GetChildMMI(mmi,i))) <span class="KW">return</span>(1U);
+</span><span><a class="LN" name="159">  159   </a>    <b>}</b>
+</span><span><a class="LN" name="160">  160   </a>    <span class="KW">return</span>(0U);
+</span><span><a class="LN" name="161">  161   </a>
+</span><span><a class="LN" name="162">  162   </a><b>}</b> <span class="CT">/* rtwCAPI_HasStates */</span>
+</span><span><a class="LN" name="163">  163   </a>
+</span><span><a class="LN" name="164">  164   </a>
+</span><span><a class="LN" name="165">  165   </a>
+</span><span><a class="LN" name="166">  166   </a><span class="CT">/** Function: rtwCAPI_GetNumStateRecords =======================================</span>
+</span><span><a class="LN" name="167">  167   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="168">  168   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="169">  169   </a>int_T <a name="fcn_rtwCAPI_GetNumStateRecords">rtwCAPI_GetNumStateRecords</a>(<span class="DT">const</span> rtwCAPI_ModelMappingInfo* mmi)
+</span><span><a class="LN" name="170">  170   </a><b>{</b>
+</span><span><a class="LN" name="171">  171   </a>    int_T i;
+</span><span><a class="LN" name="172">  172   </a>    int_T nRecs;
+</span><span><a class="LN" name="173">  173   </a>    int_T nCMMI;
+</span><span><a class="LN" name="174">  174   </a>
+</span><span><a class="LN" name="175">  175   </a>    <span class="KW">if</span> (mmi == NULL) <span class="KW">return</span>(0);
+</span><span><a class="LN" name="176">  176   </a>
+</span><span><a class="LN" name="177">  177   </a>    nRecs = rtwCAPI_GetNumStates(mmi);
+</span><span><a class="LN" name="178">  178   </a>
+</span><span><a class="LN" name="179">  179   </a>    nCMMI = rtwCAPI_GetChildMMIArrayLen(mmi);
+</span><span><a class="LN" name="180">  180   </a>    <span class="KW">for</span> (i = 0; i &lt; nCMMI; ++i) <b>{</b>
+</span><span><a class="LN" name="181">  181   </a>        <span class="DT">const</span> rtwCAPI_ModelMappingInfo* cMMI = rtwCAPI_GetChildMMI(mmi,i);
+</span><span><a class="LN" name="182">  182   </a>        nRecs += <a href="#fcn_rtwCAPI_GetNumStateRecords" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetNumStateRecords');" target="_self"><font color="#1122aa">rtwCAPI_GetNumStateRecords</font></a>(cMMI);
+</span><span><a class="LN" name="183">  183   </a>    <b>}</b>
+</span><span><a class="LN" name="184">  184   </a>    <span class="KW">return</span>(nRecs);
+</span><span><a class="LN" name="185">  185   </a>
+</span><span><a class="LN" name="186">  186   </a><b>}</b> <span class="CT">/* rtwCAPI_GetNumStateRecords */</span>
+</span><span><a class="LN" name="187">  187   </a>
+</span><span><a class="LN" name="188">  188   </a>
+</span><span><a class="LN" name="189">  189   </a><span class="CT">/** Function: rtwCAPI_GetNumStateRecordsForRTWLogging ==========================</span>
+</span><span><a class="LN" name="190">  190   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="191">  191   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="192">  192   </a>int_T <a name="fcn_rtwCAPI_GetNumStateRecordsForRTWLogging">rtwCAPI_GetNumStateRecordsForRTWLogging</a>(<span class="DT">const</span> rtwCAPI_ModelMappingInfo* mmi)
+</span><span><a class="LN" name="193">  193   </a><b>{</b>
+</span><span><a class="LN" name="194">  194   </a>    int_T i;
+</span><span><a class="LN" name="195">  195   </a>    int_T nRecs = 0;
+</span><span><a class="LN" name="196">  196   </a>    int_T nStates;
+</span><span><a class="LN" name="197">  197   </a>    int_T nCMMI;
+</span><span><a class="LN" name="198">  198   </a>    <span class="DT">const</span> rtwCAPI_States *states;
+</span><span><a class="LN" name="199">  199   </a>    <span class="DT">const</span> rtwCAPI_DataTypeMap* dataTypeMap;
+</span><span><a class="LN" name="200">  200   </a>
+</span><span><a class="LN" name="201">  201   </a>    <span class="KW">if</span> (mmi == NULL) <span class="KW">return</span>(0);
+</span><span><a class="LN" name="202">  202   </a>
+</span><span><a class="LN" name="203">  203   </a>    nStates = rtwCAPI_GetNumStates(mmi);
+</span><span><a class="LN" name="204">  204   </a>    states = rtwCAPI_GetStates(mmi);
+</span><span><a class="LN" name="205">  205   </a>    dataTypeMap = rtwCAPI_GetDataTypeMap(mmi);
+</span><span><a class="LN" name="206">  206   </a>
+</span><span><a class="LN" name="207">  207   </a>    <span class="KW">for</span> (i = 0; i &lt; nStates; ++i) <b>{</b>
+</span><span><a class="LN" name="208">  208   </a>        <span class="KW">if</span> (rtwCAPI_CanLogStateToMATFile(dataTypeMap, states, i)) <b>{</b>
+</span><span><a class="LN" name="209">  209   </a>            ++nRecs;
+</span><span><a class="LN" name="210">  210   </a>        <b>}</b>
+</span><span><a class="LN" name="211">  211   </a>    <b>}</b>
+</span><span><a class="LN" name="212">  212   </a>
+</span><span><a class="LN" name="213">  213   </a>    nCMMI = rtwCAPI_GetChildMMIArrayLen(mmi);
+</span><span><a class="LN" name="214">  214   </a>    <span class="KW">for</span> (i = 0; i &lt; nCMMI; ++i) <b>{</b>
+</span><span><a class="LN" name="215">  215   </a>        <span class="DT">const</span> rtwCAPI_ModelMappingInfo* cMMI = rtwCAPI_GetChildMMI(mmi,i);
+</span><span><a class="LN" name="216">  216   </a>        nRecs += <a href="#fcn_rtwCAPI_GetNumStateRecordsForRTWLogging" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetNumStateRecordsForRTWLogging');" target="_self"><font color="#1122aa">rtwCAPI_GetNumStateRecordsForRTWLogging</font></a>(cMMI);
+</span><span><a class="LN" name="217">  217   </a>    <b>}</b>
+</span><span><a class="LN" name="218">  218   </a>
+</span><span><a class="LN" name="219">  219   </a>    <span class="KW">return</span>(nRecs);
+</span><span><a class="LN" name="220">  220   </a>
+</span><span><a class="LN" name="221">  221   </a><b>}</b> <span class="CT">/* rtwCAPI_GetNumStateRecordsForRTWLogging */</span>
+</span><span><a class="LN" name="222">  222   </a>
+</span><span><a class="LN" name="223">  223   </a>
+</span><span><a class="LN" name="224">  224   </a><span class="CT">/** Function: rtwCAPI_GetNumContStateRecords ===================================</span>
+</span><span><a class="LN" name="225">  225   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="226">  226   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="227">  227   </a>int_T <a name="fcn_rtwCAPI_GetNumContStateRecords">rtwCAPI_GetNumContStateRecords</a>(<span class="DT">const</span> rtwCAPI_ModelMappingInfo* mmi)
+</span><span><a class="LN" name="228">  228   </a><b>{</b>
+</span><span><a class="LN" name="229">  229   </a>    int_T i;
+</span><span><a class="LN" name="230">  230   </a>    int_T nRecs;
+</span><span><a class="LN" name="231">  231   </a>    int_T nCMMI;
+</span><span><a class="LN" name="232">  232   </a>    int_T nCStateRecs;
+</span><span><a class="LN" name="233">  233   </a>    <span class="DT">const</span> rtwCAPI_States* states;
+</span><span><a class="LN" name="234">  234   </a>    <span class="DT">const</span> rtwCAPI_DataTypeMap* dataTypeMap;
+</span><span><a class="LN" name="235">  235   </a>
+</span><span><a class="LN" name="236">  236   </a>    <span class="KW">if</span> (mmi == NULL) <span class="KW">return</span> 0;
+</span><span><a class="LN" name="237">  237   </a>
+</span><span><a class="LN" name="238">  238   </a>    nCStateRecs = 0;
+</span><span><a class="LN" name="239">  239   </a>    states      = rtwCAPI_GetStates(mmi);
+</span><span><a class="LN" name="240">  240   </a>    dataTypeMap = rtwCAPI_GetDataTypeMap(mmi);
+</span><span><a class="LN" name="241">  241   </a>
+</span><span><a class="LN" name="242">  242   </a>    nRecs = rtwCAPI_GetNumStates(mmi);
+</span><span><a class="LN" name="243">  243   </a>    <span class="KW">for</span> (i = 0; i &lt; nRecs; i++) <b>{</b>
+</span><span><a class="LN" name="244">  244   </a>        <span class="KW">if</span> (rtwCAPI_IsAContinuousState(states,i)) <b>{</b>
+</span><span><a class="LN" name="245">  245   </a>            ++nCStateRecs;
+</span><span><a class="LN" name="246">  246   </a>
+</span><span><a class="LN" name="247">  247   </a>            <span class="CT">/* All continuous states should be able to be logged to MAT-File</span>
+</span><span><a class="LN" name="248">  248   </a><span class="CT">             * so we do not need to skip any states here. */</span>
+</span><span><a class="LN" name="249">  249   </a>            utAssert(rtwCAPI_CanLogStateToMATFile(dataTypeMap, states, i));
+</span><span><a class="LN" name="250">  250   </a>        <b>}</b>
+</span><span><a class="LN" name="251">  251   </a>    <b>}</b>
+</span><span><a class="LN" name="252">  252   </a>
+</span><span><a class="LN" name="253">  253   </a>    nCMMI = rtwCAPI_GetChildMMIArrayLen(mmi);
+</span><span><a class="LN" name="254">  254   </a>    <span class="KW">for</span> (i = 0; i &lt; nCMMI; ++i) <b>{</b>
+</span><span><a class="LN" name="255">  255   </a>        <span class="DT">const</span> rtwCAPI_ModelMappingInfo* cMMI = rtwCAPI_GetChildMMI(mmi,i);
+</span><span><a class="LN" name="256">  256   </a>        nCStateRecs += <a href="#fcn_rtwCAPI_GetNumContStateRecords" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetNumContStateRecords');" target="_self"><font color="#1122aa">rtwCAPI_GetNumContStateRecords</font></a>(cMMI);
+</span><span><a class="LN" name="257">  257   </a>    <b>}</b>
+</span><span><a class="LN" name="258">  258   </a>    <span class="KW">return</span> nCStateRecs;
+</span><span><a class="LN" name="259">  259   </a>
+</span><span><a class="LN" name="260">  260   </a><b>}</b> <span class="CT">/* rtwCAPI_GetNumContStateRecords */</span>
+</span><span><a class="LN" name="261">  261   </a>
+</span><span><a class="LN" name="262">  262   </a>
+</span><span><a class="LN" name="263">  263   </a><span class="CT">/** Function: rtwCAPI_FreeFullPaths ============================================</span>
+</span><span><a class="LN" name="264">  264   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="265">  265   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="266">  266   </a><span class="DT">void</span> <a name="fcn_rtwCAPI_FreeFullPaths">rtwCAPI_FreeFullPaths</a>(rtwCAPI_ModelMappingInfo* mmi)
+</span><span><a class="LN" name="267">  267   </a><b>{</b>
+</span><span><a class="LN" name="268">  268   </a>    int_T   i;
+</span><span><a class="LN" name="269">  269   </a>    int_T   nCMMI;
+</span><span><a class="LN" name="270">  270   </a>    char_T* fullPath;
+</span><span><a class="LN" name="271">  271   </a>
+</span><span><a class="LN" name="272">  272   </a>    <span class="KW">if</span> (mmi == NULL) <span class="KW">return</span>;
+</span><span><a class="LN" name="273">  273   </a>
+</span><span><a class="LN" name="274">  274   </a>    fullPath = rtwCAPI_GetFullPath(mmi);
+</span><span><a class="LN" name="275">  275   </a>    utAssert(fullPath != NULL);
+</span><span><a class="LN" name="276">  276   </a>    utFree(fullPath);
+</span><span><a class="LN" name="277">  277   </a>    rtwCAPI_SetFullPath(*mmi, NULL);
+</span><span><a class="LN" name="278">  278   </a>
+</span><span><a class="LN" name="279">  279   </a>    nCMMI = rtwCAPI_GetChildMMIArrayLen(mmi);
+</span><span><a class="LN" name="280">  280   </a>    <span class="KW">for</span> (i = 0; i &lt; nCMMI; ++i) <b>{</b>
+</span><span><a class="LN" name="281">  281   </a>        rtwCAPI_ModelMappingInfo* cMMI = rtwCAPI_GetChildMMI(mmi,i);
+</span><span><a class="LN" name="282">  282   </a>        <a href="#fcn_rtwCAPI_FreeFullPaths" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_FreeFullPaths');" target="_self"><font color="#1122aa">rtwCAPI_FreeFullPaths</font></a>(cMMI);
+</span><span><a class="LN" name="283">  283   </a>    <b>}</b>
+</span><span><a class="LN" name="284">  284   </a>
+</span><span><a class="LN" name="285">  285   </a><b>}</b> <span class="CT">/* rtwCAPI_FreeFullPaths */</span>
+</span><span><a class="LN" name="286">  286   </a>
+</span><span><a class="LN" name="287">  287   </a>
+</span><span><a class="LN" name="288">  288   </a><span class="CT">/** Function: rtwCAPI_UpdateFullPaths =========================================*</span>
+</span><span><a class="LN" name="289">  289   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="290">  290   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="291">  291   </a><span class="DT">const</span> char_T* <a name="fcn_rtwCAPI_UpdateFullPaths">rtwCAPI_UpdateFullPaths</a>(rtwCAPI_ModelMappingInfo* mmi,
+</span><span><a class="LN" name="292">  292   </a>                                      <span class="DT">const</span> char_T* path,
+</span><span><a class="LN" name="293">  293   </a>                                      boolean_T isCalledFromTopModel)
+</span><span><a class="LN" name="294">  294   </a><b>{</b>
+</span><span><a class="LN" name="295">  295   </a>    int_T         i;
+</span><span><a class="LN" name="296">  296   </a>    int_T         nCMMI;
+</span><span><a class="LN" name="297">  297   </a>    size_t        pathLen;
+</span><span><a class="LN" name="298">  298   </a>    char_T*       mmiPath;
+</span><span><a class="LN" name="299">  299   </a>    size_t        mmiPathLen;
+</span><span><a class="LN" name="300">  300   </a>    char_T*       relMMIPath;
+</span><span><a class="LN" name="301">  301   </a>    size_t        relMMIPathLen;
+</span><span><a class="LN" name="302">  302   </a>
+</span><span><a class="LN" name="303">  303   </a>    <span class="KW">if</span> (mmi == NULL) <span class="KW">return</span> NULL;
+</span><span><a class="LN" name="304">  304   </a>
+</span><span><a class="LN" name="305">  305   </a>    utAssert(path != NULL);
+</span><span><a class="LN" name="306">  306   </a>    utAssert( rtwCAPI_GetFullPath(mmi) == NULL );
+</span><span><a class="LN" name="307">  307   </a>
+</span><span><a class="LN" name="308">  308   </a>    pathLen = strlen(path)+1;
+</span><span><a class="LN" name="309">  309   </a>
+</span><span><a class="LN" name="310">  310   </a>    <span class="KW">if</span> (isCalledFromTopModel) <b>{</b>
+</span><span><a class="LN" name="311">  311   </a>        <span class="CT">/* If called from top model - FullPath is same as path */</span>
+</span><span><a class="LN" name="312">  312   </a>        mmiPath = (char_T*)utMalloc(pathLen*<span class="KW">sizeof</span>(char_T));
+</span><span><a class="LN" name="313">  313   </a>        (<span class="DT">void</span>)memcpy(mmiPath, path, pathLen*<span class="KW">sizeof</span>(char_T));
+</span><span><a class="LN" name="314">  314   </a>    <b>}</b>
+</span><span><a class="LN" name="315">  315   </a>    <span class="KW">else</span> <b>{</b>        
+</span><span><a class="LN" name="316">  316   </a>        relMMIPath = <a href="#fcn_rtwCAPI_EncodePath" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_EncodePath');" target="_self"><font color="#1122aa">rtwCAPI_EncodePath</font></a>(rtwCAPI_GetPath(mmi));
+</span><span><a class="LN" name="317">  317   </a>        <span class="KW">if</span> ( (relMMIPath== NULL) &amp;&amp; (rtwCAPI_GetPath(mmi) != NULL)) <b>{</b>
+</span><span><a class="LN" name="318">  318   </a>            <span class="KW">return</span> <a href="#var_rtwCAPI_mallocError" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtwCAPI_mallocError');" target="_self"><font color="#1122aa">rtwCAPI_mallocError</font></a>;
+</span><span><a class="LN" name="319">  319   </a>        <b>}</b>
+</span><span><a class="LN" name="320">  320   </a>        relMMIPathLen = relMMIPath ? (strlen(relMMIPath) + 1) : 0;
+</span><span><a class="LN" name="321">  321   </a>        
+</span><span><a class="LN" name="322">  322   </a>        mmiPathLen = pathLen + relMMIPathLen;
+</span><span><a class="LN" name="323">  323   </a>        
+</span><span><a class="LN" name="324">  324   </a>        mmiPath = (char_T*)utMalloc(mmiPathLen*<span class="KW">sizeof</span>(char_T));
+</span><span><a class="LN" name="325">  325   </a>        <span class="KW">if</span> (mmiPath == NULL) <span class="KW">return</span> <a href="#var_rtwCAPI_mallocError" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtwCAPI_mallocError');" target="_self"><font color="#1122aa">rtwCAPI_mallocError</font></a>;
+</span><span><a class="LN" name="326">  326   </a>        (<span class="DT">void</span>)memcpy(mmiPath, path, pathLen*<span class="KW">sizeof</span>(char_T));
+</span><span><a class="LN" name="327">  327   </a>        utAssert(mmiPath[pathLen-1] == <font color="#1122ff">'\0'</font>);
+</span><span><a class="LN" name="328">  328   </a>        
+</span><span><a class="LN" name="329">  329   </a>        <span class="KW">if</span> (relMMIPath) <b>{</b>
+</span><span><a class="LN" name="330">  330   </a>            <span class="CT">/* mmiPath = path + | + relMMIPath + '\0' */</span>
+</span><span><a class="LN" name="331">  331   </a>            mmiPath[pathLen-1] = <font color="#1122ff">'|'</font>;
+</span><span><a class="LN" name="332">  332   </a>            (<span class="DT">void</span>)memcpy(&amp;(mmiPath[pathLen]),
+</span><span><a class="LN" name="333">  333   </a>                         relMMIPath, relMMIPathLen*<span class="KW">sizeof</span>(char_T));
+</span><span><a class="LN" name="334">  334   </a>            utAssert(mmiPath[mmiPathLen-1] == <font color="#1122ff">'\0'</font>);
+</span><span><a class="LN" name="335">  335   </a>            utFree(relMMIPath);
+</span><span><a class="LN" name="336">  336   </a>        <b>}</b>
+</span><span><a class="LN" name="337">  337   </a>    <b>}</b>
+</span><span><a class="LN" name="338">  338   </a>    rtwCAPI_SetFullPath(*mmi, mmiPath);
+</span><span><a class="LN" name="339">  339   </a>
+</span><span><a class="LN" name="340">  340   </a>    nCMMI = rtwCAPI_GetChildMMIArrayLen(mmi);
+</span><span><a class="LN" name="341">  341   </a>    <span class="KW">for</span> (i = 0; i &lt; nCMMI; ++i) <b>{</b>
+</span><span><a class="LN" name="342">  342   </a>        rtwCAPI_ModelMappingInfo* cMMI = rtwCAPI_GetChildMMI(mmi,i);
+</span><span><a class="LN" name="343">  343   </a>        <span class="DT">const</span> char_T* errstr = <a href="#fcn_rtwCAPI_UpdateFullPaths" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_UpdateFullPaths');" target="_self"><font color="#1122aa">rtwCAPI_UpdateFullPaths</font></a>(cMMI, mmiPath, 0);
+</span><span><a class="LN" name="344">  344   </a>        <span class="KW">if</span> (errstr != NULL) <span class="KW">return</span> errstr;
+</span><span><a class="LN" name="345">  345   </a>    <b>}</b>
+</span><span><a class="LN" name="346">  346   </a>    <span class="KW">return</span> NULL;
+</span><span><a class="LN" name="347">  347   </a>
+</span><span><a class="LN" name="348">  348   </a><b>}</b> <span class="CT">/* rtwCAPI_UpdateFullPaths */</span>
+</span><span><a class="LN" name="349">  349   </a>
+</span><span><a class="LN" name="350">  350   </a>
+</span><span><a class="LN" name="351">  351   </a><span class="CT">/** Function: rtwCAPI_GetFullStateBlockPath ===================================</span>
+</span><span><a class="LN" name="352">  352   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="353">  353   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="354">  354   </a><span class="DT">char</span>* <a name="fcn_rtwCAPI_GetFullStateBlockPath">rtwCAPI_GetFullStateBlockPath</a>(<span class="DT">const</span> <span class="DT">char</span>* stateBlockPath,
+</span><span><a class="LN" name="355">  355   </a>                                           <span class="DT">const</span> <span class="DT">char</span>* mmiPath,
+</span><span><a class="LN" name="356">  356   </a>                                           size_t      mmiPathLen,
+</span><span><a class="LN" name="357">  357   </a>                                           boolean_T   crossingModel)
+</span><span><a class="LN" name="358">  358   </a><b>{</b>
+</span><span><a class="LN" name="359">  359   </a>    char_T* blockPath          = NULL;
+</span><span><a class="LN" name="360">  360   </a>    char_T* fullStateBlockPath = NULL;
+</span><span><a class="LN" name="361">  361   </a>    size_t     fullStateBlockPathLen;
+</span><span><a class="LN" name="362">  362   </a>
+</span><span><a class="LN" name="363">  363   </a>    <span class="KW">if</span> (stateBlockPath == NULL) <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="364">  364   </a>
+</span><span><a class="LN" name="365">  365   </a>    <span class="CT">/* fullStateBlockPath = mmiPath + | + blockPath + '\0' */</span>
+</span><span><a class="LN" name="366">  366   </a>    <span class="CT">/* If crossing a model boundary encode, otherwise do not */</span>
+</span><span><a class="LN" name="367">  367   </a>
+</span><span><a class="LN" name="368">  368   </a>    <span class="KW">if</span> (crossingModel) <b>{</b>
+</span><span><a class="LN" name="369">  369   </a>        blockPath = <a href="#fcn_rtwCAPI_EncodePath" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_EncodePath');" target="_self"><font color="#1122aa">rtwCAPI_EncodePath</font></a>(stateBlockPath);
+</span><span><a class="LN" name="370">  370   </a>        <span class="KW">if</span> (blockPath == NULL) <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="371">  371   </a>    <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="372">  372   </a>        size_t len = strlen(stateBlockPath)+1;
+</span><span><a class="LN" name="373">  373   </a>        blockPath = (<span class="DT">char</span>*)utMalloc(len*<span class="KW">sizeof</span>(<span class="DT">char</span>));
+</span><span><a class="LN" name="374">  374   </a>        <span class="KW">if</span> (blockPath == NULL) <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="375">  375   </a>        (<span class="DT">void</span>)strcpy(blockPath,stateBlockPath);
+</span><span><a class="LN" name="376">  376   </a>    <b>}</b>
+</span><span><a class="LN" name="377">  377   </a>    utAssert(blockPath != NULL);
+</span><span><a class="LN" name="378">  378   </a>    fullStateBlockPathLen = ( (mmiPath==NULL) ?
+</span><span><a class="LN" name="379">  379   </a>                              strlen(blockPath) + 1 :
+</span><span><a class="LN" name="380">  380   </a>                              mmiPathLen + strlen(blockPath) + 2 );
+</span><span><a class="LN" name="381">  381   </a>    fullStateBlockPath    = (<span class="DT">char</span>*)utMalloc(fullStateBlockPathLen*<span class="KW">sizeof</span>(<span class="DT">char</span>));
+</span><span><a class="LN" name="382">  382   </a>    <span class="KW">if</span> (fullStateBlockPath == NULL) <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="383">  383   </a>
+</span><span><a class="LN" name="384">  384   </a>    <span class="KW">if</span> (mmiPath != NULL) <b>{</b>
+</span><span><a class="LN" name="385">  385   </a>        (<span class="DT">void</span>)strcpy(fullStateBlockPath, mmiPath);
+</span><span><a class="LN" name="386">  386   </a>        fullStateBlockPath[mmiPathLen]   = <font color="#1122ff">'|'</font>;
+</span><span><a class="LN" name="387">  387   </a>        fullStateBlockPath[mmiPathLen+1] =  <font color="#1122ff">'\0'</font>;
+</span><span><a class="LN" name="388">  388   </a>        (<span class="DT">void</span>)strcat(fullStateBlockPath, blockPath);
+</span><span><a class="LN" name="389">  389   </a>    <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="390">  390   </a>        (<span class="DT">void</span>)strcpy(fullStateBlockPath, blockPath);
+</span><span><a class="LN" name="391">  391   </a>        fullStateBlockPath[fullStateBlockPathLen-1] =  <font color="#1122ff">'\0'</font>;
+</span><span><a class="LN" name="392">  392   </a>    <b>}</b>
+</span><span><a class="LN" name="393">  393   </a>    utAssert(fullStateBlockPath[fullStateBlockPathLen-1] == <font color="#1122ff">'\0'</font>);
+</span><span><a class="LN" name="394">  394   </a>
+</span><span><a class="LN" name="395">  395   </a>  EXIT_POINT:
+</span><span><a class="LN" name="396">  396   </a>    utFree(blockPath);
+</span><span><a class="LN" name="397">  397   </a>    <span class="KW">return</span> fullStateBlockPath; <span class="CT">/* caller is responsible for free */</span>
+</span><span><a class="LN" name="398">  398   </a><b>}</b>
+</span><span><a class="LN" name="399">  399   </a>
+</span><span><a class="LN" name="400">  400   </a>uint_T <a name="fcn_rtwCAPI_GetStateWidth">rtwCAPI_GetStateWidth</a>(<span class="DT">const</span> rtwCAPI_DimensionMap* dimMap,
+</span><span><a class="LN" name="401">  401   </a>                             <span class="DT">const</span> uint_T*               dimArray,
+</span><span><a class="LN" name="402">  402   </a>                             <span class="DT">const</span> rtwCAPI_States*       states,
+</span><span><a class="LN" name="403">  403   </a>                             uint_T                      iState)
+</span><span><a class="LN" name="404">  404   </a><b>{</b>
+</span><span><a class="LN" name="405">  405   </a>    uint_T mapIdx = rtwCAPI_GetStateDimensionIdx(states, iState);
+</span><span><a class="LN" name="406">  406   </a>    utAssert( rtwCAPI_GetNumDims(dimMap,mapIdx) == 2 );
+</span><span><a class="LN" name="407">  407   </a>    mapIdx = rtwCAPI_GetDimArrayIndex(dimMap, mapIdx);
+</span><span><a class="LN" name="408">  408   </a>    <span class="KW">return</span> (dimArray[mapIdx] * dimArray[mapIdx+1]);
+</span><span><a class="LN" name="409">  409   </a><b>}</b>
+</span><span><a class="LN" name="410">  410   </a>
+</span><span><a class="LN" name="411">  411   </a>
+</span><span><a class="LN" name="412">  412   </a>
+</span><span><a class="LN" name="413">  413   </a><span class="CT">/** Function: rtwCAPI_GetStateRecordInfo =======================================</span>
+</span><span><a class="LN" name="414">  414   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="415">  415   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="416">  416   </a><span class="DT">const</span> char_T* <a name="fcn_rtwCAPI_GetStateRecordInfo">rtwCAPI_GetStateRecordInfo</a>(<span class="DT">const</span> rtwCAPI_ModelMappingInfo* mmi,
+</span><span><a class="LN" name="417">  417   </a>                                         <span class="DT">const</span> char_T**    sigBlockName,
+</span><span><a class="LN" name="418">  418   </a>                                         <span class="DT">const</span> char_T**    sigLabel,
+</span><span><a class="LN" name="419">  419   </a>                                         <span class="DT">const</span> char_T**    sigName,
+</span><span><a class="LN" name="420">  420   </a>                                         int_T*            sigWidth,
+</span><span><a class="LN" name="421">  421   </a>                                         int_T*            sigDataType,
+</span><span><a class="LN" name="422">  422   </a>                                         int_T*            logDataType,
+</span><span><a class="LN" name="423">  423   </a>                                         int_T*            sigComplexity,
+</span><span><a class="LN" name="424">  424   </a>                                         <span class="DT">void</span>**            sigDataAddr,
+</span><span><a class="LN" name="425">  425   </a>                                         boolean_T*        sigCrossMdlRef,
+</span><span><a class="LN" name="426">  426   </a>                                         <span class="DT">const</span> char_T**    sigPathAlias,
+</span><span><a class="LN" name="427">  427   </a>                                         real_T*           sigSampleTime,
+</span><span><a class="LN" name="428">  428   </a>                                         int_T*            sigIdx,
+</span><span><a class="LN" name="429">  429   </a>                                         boolean_T         crossingModel,
+</span><span><a class="LN" name="430">  430   </a>                                         real_T*           contStateDeriv,
+</span><span><a class="LN" name="431">  431   </a>                                         boolean_T         rtwLogging)
+</span><span><a class="LN" name="432">  432   </a><b>{</b>
+</span><span><a class="LN" name="433">  433   </a>    int_T               i;
+</span><span><a class="LN" name="434">  434   </a>    int_T               nCMMI;
+</span><span><a class="LN" name="435">  435   </a>    int_T               nStates;
+</span><span><a class="LN" name="436">  436   </a>    <span class="DT">const</span> char_T*       mmiPath;
+</span><span><a class="LN" name="437">  437   </a>    size_t              mmiPathLen;
+</span><span><a class="LN" name="438">  438   </a>    <span class="DT">const</span> rtwCAPI_States*  states;
+</span><span><a class="LN" name="439">  439   </a>    <span class="DT">const</span> rtwCAPI_DimensionMap* dimMap;
+</span><span><a class="LN" name="440">  440   </a>    <span class="DT">const</span> uint_T*       dimArray;
+</span><span><a class="LN" name="441">  441   </a>    <span class="DT">const</span> rtwCAPI_DataTypeMap*  dataTypeMap;
+</span><span><a class="LN" name="442">  442   </a>    <span class="DT">void</span>**              dataAddrMap;
+</span><span><a class="LN" name="443">  443   </a>    <span class="DT">const</span> char_T*       errstr = NULL;
+</span><span><a class="LN" name="444">  444   </a>    uint8_T             isPointer = 0;
+</span><span><a class="LN" name="445">  445   </a>
+</span><span><a class="LN" name="446">  446   </a>    <span class="KW">if</span> (mmi == NULL) <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="447">  447   </a>
+</span><span><a class="LN" name="448">  448   </a>    nCMMI = rtwCAPI_GetChildMMIArrayLen(mmi);
+</span><span><a class="LN" name="449">  449   </a>    <span class="KW">for</span> (i = 0; i &lt; nCMMI; ++i) <b>{</b>
+</span><span><a class="LN" name="450">  450   </a>        rtwCAPI_ModelMappingInfo* cMMI = rtwCAPI_GetChildMMI(mmi,i);
+</span><span><a class="LN" name="451">  451   </a>        real_T* childContStateDeriv = NULL;
+</span><span><a class="LN" name="452">  452   </a>
+</span><span><a class="LN" name="453">  453   </a>        <span class="KW">if</span> (cMMI == NULL) <span class="KW">continue</span>;
+</span><span><a class="LN" name="454">  454   </a>
+</span><span><a class="LN" name="455">  455   </a>        <span class="KW">if</span> (contStateDeriv) <b>{</b>
+</span><span><a class="LN" name="456">  456   </a>            <span class="DT">int</span> idx;
+</span><span><a class="LN" name="457">  457   </a>
+</span><span><a class="LN" name="458">  458   </a>            idx = rtwCAPI_MMIGetContStateStartIndex(cMMI);
+</span><span><a class="LN" name="459">  459   </a>            <span class="KW">if</span>(idx == -1) <span class="KW">continue</span>;
+</span><span><a class="LN" name="460">  460   </a>            
+</span><span><a class="LN" name="461">  461   </a>            childContStateDeriv = &amp;contStateDeriv[idx];
+</span><span><a class="LN" name="462">  462   </a>        <b>}</b>
+</span><span><a class="LN" name="463">  463   </a>        errstr = <a href="#fcn_rtwCAPI_GetStateRecordInfo" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetStateRecordInfo');" target="_self"><font color="#1122aa">rtwCAPI_GetStateRecordInfo</font></a>(cMMI,
+</span><span><a class="LN" name="464">  464   </a>                                            sigBlockName,
+</span><span><a class="LN" name="465">  465   </a>                                            sigLabel,
+</span><span><a class="LN" name="466">  466   </a>                                            sigName,
+</span><span><a class="LN" name="467">  467   </a>                                            sigWidth,
+</span><span><a class="LN" name="468">  468   </a>                                            sigDataType,
+</span><span><a class="LN" name="469">  469   </a>                                            logDataType,
+</span><span><a class="LN" name="470">  470   </a>                                            sigComplexity,
+</span><span><a class="LN" name="471">  471   </a>                                            sigDataAddr,
+</span><span><a class="LN" name="472">  472   </a>                                            sigCrossMdlRef,
+</span><span><a class="LN" name="473">  473   </a>                                            sigPathAlias,
+</span><span><a class="LN" name="474">  474   </a>                                            sigSampleTime,
+</span><span><a class="LN" name="475">  475   </a>                                            sigIdx,
+</span><span><a class="LN" name="476">  476   </a>                                            0x1, <span class="CT">/* true, */</span>
+</span><span><a class="LN" name="477">  477   </a>                                            childContStateDeriv,
+</span><span><a class="LN" name="478">  478   </a>                                            rtwLogging);
+</span><span><a class="LN" name="479">  479   </a>        <span class="KW">if</span> (errstr != NULL) <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="480">  480   </a>    <b>}</b>
+</span><span><a class="LN" name="481">  481   </a>
+</span><span><a class="LN" name="482">  482   </a>    nStates = rtwCAPI_GetNumStates(mmi);
+</span><span><a class="LN" name="483">  483   </a>    <span class="KW">if</span> (nStates &lt; 1) <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="484">  484   </a>
+</span><span><a class="LN" name="485">  485   </a>    mmiPath     = rtwCAPI_GetFullPath(mmi);
+</span><span><a class="LN" name="486">  486   </a>    mmiPathLen  = (mmiPath==NULL)? 0 : strlen(mmiPath);
+</span><span><a class="LN" name="487">  487   </a>    states      = rtwCAPI_GetStates(mmi);
+</span><span><a class="LN" name="488">  488   </a>    dimMap      = rtwCAPI_GetDimensionMap(mmi);
+</span><span><a class="LN" name="489">  489   </a>    dimArray    = rtwCAPI_GetDimensionArray(mmi);
+</span><span><a class="LN" name="490">  490   </a>    dataTypeMap = rtwCAPI_GetDataTypeMap(mmi);
+</span><span><a class="LN" name="491">  491   </a>    dataAddrMap = rtwCAPI_GetDataAddressMap(mmi);
+</span><span><a class="LN" name="492">  492   </a>
+</span><span><a class="LN" name="493">  493   </a>    <span class="KW">for</span> (i = 0; i &lt; nStates; ++i) <b>{</b>
+</span><span><a class="LN" name="494">  494   </a>        uint_T      mapIdx;
+</span><span><a class="LN" name="495">  495   </a>
+</span><span><a class="LN" name="496">  496   </a>        <span class="CT">/* If collecting continuous states, skip non-continuous states */</span>
+</span><span><a class="LN" name="497">  497   </a>        <span class="KW">if</span> (contStateDeriv &amp;&amp; !rtwCAPI_IsAContinuousState(states,i)) <span class="KW">continue</span>;
+</span><span><a class="LN" name="498">  498   </a>
+</span><span><a class="LN" name="499">  499   </a>        <span class="CT">/* For RTW logging, skip states that cannot be logged to MAT-File. */</span>
+</span><span><a class="LN" name="500">  500   </a>        <span class="KW">if</span> ((rtwLogging) &amp;&amp;
+</span><span><a class="LN" name="501">  501   </a>            (rtwCAPI_CanLogStateToMATFile(dataTypeMap, states, i) == false)) <span class="KW">continue</span>;
+</span><span><a class="LN" name="502">  502   </a>
+</span><span><a class="LN" name="503">  503   </a>        <span class="CT">/* BlockPath (caller is responsible for free) */</span>
+</span><span><a class="LN" name="504">  504   </a>        sigBlockName[*sigIdx] =
+</span><span><a class="LN" name="505">  505   </a>            <a href="#fcn_rtwCAPI_GetFullStateBlockPath" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetFullStateBlockPath');" target="_self"><font color="#1122aa">rtwCAPI_GetFullStateBlockPath</font></a>(rtwCAPI_GetStateBlockPath(states,i),
+</span><span><a class="LN" name="506">  506   </a>                                          mmiPath, mmiPathLen, crossingModel);
+</span><span><a class="LN" name="507">  507   </a>        <span class="KW">if</span> (sigBlockName[*sigIdx] == NULL) <b>{</b>
+</span><span><a class="LN" name="508">  508   </a>            errstr = <a href="#var_rtwCAPI_mallocError" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtwCAPI_mallocError');" target="_self"><font color="#1122aa">rtwCAPI_mallocError</font></a>;
+</span><span><a class="LN" name="509">  509   </a>            <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="510">  510   </a>        <b>}</b>
+</span><span><a class="LN" name="511">  511   </a>
+</span><span><a class="LN" name="512">  512   </a>        <span class="CT">/* Label */</span>
+</span><span><a class="LN" name="513">  513   </a>        <span class="KW">if</span> (rtwCAPI_IsAContinuousState(states,i))<b>{</b>
+</span><span><a class="LN" name="514">  514   </a>            sigLabel[*sigIdx] = <font color="#1122ff">&quot;CSTATE&quot;</font>;
+</span><span><a class="LN" name="515">  515   </a>        <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="516">  516   </a>            sigLabel[*sigIdx] = <font color="#1122ff">&quot;DSTATE&quot;</font>;
+</span><span><a class="LN" name="517">  517   </a>        <b>}</b>
+</span><span><a class="LN" name="518">  518   </a>        sigName[*sigIdx] = rtwCAPI_GetStateName(states, i);
+</span><span><a class="LN" name="519">  519   </a>
+</span><span><a class="LN" name="520">  520   </a>        <span class="CT">/* Width */</span>
+</span><span><a class="LN" name="521">  521   </a>        sigWidth[*sigIdx] = <a href="#fcn_rtwCAPI_GetStateWidth" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetStateWidth');" target="_self"><font color="#1122aa">rtwCAPI_GetStateWidth</font></a>(dimMap, dimArray, states, i);
+</span><span><a class="LN" name="522">  522   </a>
+</span><span><a class="LN" name="523">  523   </a>        <span class="CT">/* DataType and logDataType */</span>
+</span><span><a class="LN" name="524">  524   </a>        mapIdx = rtwCAPI_GetStateDataTypeIdx(states, i);
+</span><span><a class="LN" name="525">  525   </a>        sigDataType[*sigIdx] = rtwCAPI_GetDataTypeSLId(dataTypeMap, mapIdx);
+</span><span><a class="LN" name="526">  526   </a>        <span class="CT">/* this mimics code in simulink.dll:DtGetDataTypeLoggingId() */</span>
+</span><span><a class="LN" name="527">  527   </a>        <span class="KW">if</span> (logDataType) <b>{</b>
+</span><span><a class="LN" name="528">  528   </a>            <span class="KW">switch</span> (sigDataType[*sigIdx]) <b>{</b>
+</span><span><a class="LN" name="529">  529   </a>              <span class="KW">case</span> SS_DOUBLE:
+</span><span><a class="LN" name="530">  530   </a>              <span class="KW">case</span> SS_SINGLE:
+</span><span><a class="LN" name="531">  531   </a>              <span class="KW">case</span> SS_INT8:
+</span><span><a class="LN" name="532">  532   </a>              <span class="KW">case</span> SS_UINT8:
+</span><span><a class="LN" name="533">  533   </a>              <span class="KW">case</span> SS_INT16:
+</span><span><a class="LN" name="534">  534   </a>              <span class="KW">case</span> SS_UINT16:
+</span><span><a class="LN" name="535">  535   </a>              <span class="KW">case</span> SS_INT32:
+</span><span><a class="LN" name="536">  536   </a>              <span class="KW">case</span> SS_UINT32:
+</span><span><a class="LN" name="537">  537   </a>              <span class="KW">case</span> SS_BOOLEAN:
+</span><span><a class="LN" name="538">  538   </a>                logDataType[*sigIdx] = sigDataType[*sigIdx];
+</span><span><a class="LN" name="539">  539   </a>                <span class="KW">break</span>;
+</span><span><a class="LN" name="540">  540   </a>              <span class="KW">case</span> SS_ENUM_TYPE:
+</span><span><a class="LN" name="541">  541   </a>                logDataType[*sigIdx] = SS_INT32;
+</span><span><a class="LN" name="542">  542   </a>                <span class="KW">break</span>;
+</span><span><a class="LN" name="543">  543   </a>              <span class="KW">default</span>:
+</span><span><a class="LN" name="544">  544   </a>                logDataType[*sigIdx] = SS_DOUBLE;
+</span><span><a class="LN" name="545">  545   </a>                <span class="KW">break</span>;
+</span><span><a class="LN" name="546">  546   </a>            <b>}</b>
+</span><span><a class="LN" name="547">  547   </a>        <b>}</b>
+</span><span><a class="LN" name="548">  548   </a>
+</span><span><a class="LN" name="549">  549   </a>        <span class="CT">/* Complexity */</span>
+</span><span><a class="LN" name="550">  550   </a>        sigComplexity[*sigIdx] = rtwCAPI_GetDataIsComplex(dataTypeMap, mapIdx);
+</span><span><a class="LN" name="551">  551   </a>
+</span><span><a class="LN" name="552">  552   </a>        <span class="CT">/* Data Access - Pointer or Direct*/</span>
+</span><span><a class="LN" name="553">  553   </a>        isPointer = ((uint8_T)rtwCAPI_GetDataIsPointer(dataTypeMap, mapIdx));
+</span><span><a class="LN" name="554">  554   </a>
+</span><span><a class="LN" name="555">  555   </a>        <span class="CT">/* Address */</span>
+</span><span><a class="LN" name="556">  556   </a>        <span class="KW">if</span> (contStateDeriv) <b>{</b>
+</span><span><a class="LN" name="557">  557   </a>            int_T csvIdx = rtwCAPI_GetContStateStartIndex(states,i);
+</span><span><a class="LN" name="558">  558   </a>            utAssert(csvIdx &gt;= 0);
+</span><span><a class="LN" name="559">  559   </a>            sigDataAddr[*sigIdx] = &amp;contStateDeriv[csvIdx];
+</span><span><a class="LN" name="560">  560   </a>        <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="561">  561   </a>            mapIdx = rtwCAPI_GetStateAddrIdx(states,i);
+</span><span><a class="LN" name="562">  562   </a>            <a href="#fcn_rtwCAPI_GetSigAddrFromMap" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetSigAddrFromMap');" target="_self"><font color="#1122aa">rtwCAPI_GetSigAddrFromMap</font></a>(isPointer, sigComplexity, sigDataType,
+</span><span><a class="LN" name="563">  563   </a>                                      sigDataAddr, sigIdx, mapIdx, dataAddrMap);
+</span><span><a class="LN" name="564">  564   </a>        <b>}</b>
+</span><span><a class="LN" name="565">  565   </a>
+</span><span><a class="LN" name="566">  566   </a>        <span class="CT">/* CrossingModelBoundary */</span>
+</span><span><a class="LN" name="567">  567   </a>        sigCrossMdlRef[*sigIdx] = crossingModel;
+</span><span><a class="LN" name="568">  568   </a>
+</span><span><a class="LN" name="569">  569   </a>        <span class="KW">if</span> (sigPathAlias &amp;&amp; 
+</span><span><a class="LN" name="570">  570   </a>            rtwCAPI_GetStatePathAlias(states,i) != NULL &amp;&amp; 
+</span><span><a class="LN" name="571">  571   </a>            rtwCAPI_GetStatePathAlias(states,i)[0] != <font color="#1122ff">'\0'</font>) <b>{</b>
+</span><span><a class="LN" name="572">  572   </a>            sigPathAlias[*sigIdx] =  
+</span><span><a class="LN" name="573">  573   </a>                <a href="#fcn_rtwCAPI_GetFullStateBlockPath" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetFullStateBlockPath');" target="_self"><font color="#1122aa">rtwCAPI_GetFullStateBlockPath</font></a>(rtwCAPI_GetStatePathAlias(states,i),
+</span><span><a class="LN" name="574">  574   </a>                                              mmiPath, mmiPathLen, crossingModel);
+</span><span><a class="LN" name="575">  575   </a>        <b>}</b>
+</span><span><a class="LN" name="576">  576   </a>        
+</span><span><a class="LN" name="577">  577   </a>        <span class="CT">/* Sample Time */</span>
+</span><span><a class="LN" name="578">  578   </a>        <span class="KW">if</span> (sigSampleTime) <b>{</b>
+</span><span><a class="LN" name="579">  579   </a>            <span class="DT">const</span> rtwCAPI_SampleTimeMap* tsMap = rtwCAPI_GetSampleTimeMap(mmi);
+</span><span><a class="LN" name="580">  580   </a>            int_T TID;
+</span><span><a class="LN" name="581">  581   </a>            mapIdx = rtwCAPI_GetStateSampleTimeIdx(states, i);
+</span><span><a class="LN" name="582">  582   </a>            TID = rtwCAPI_GetSampleTimeTID(tsMap, mapIdx);
+</span><span><a class="LN" name="583">  583   </a>            <span class="KW">if</span> (TID &gt;= 0) <b>{</b>
+</span><span><a class="LN" name="584">  584   </a>                sigSampleTime[2*(*sigIdx)] =
+</span><span><a class="LN" name="585">  585   </a>                    *((<span class="DT">const</span> real_T*)rtwCAPI_GetSamplePeriodPtr(tsMap,mapIdx));
+</span><span><a class="LN" name="586">  586   </a>                sigSampleTime[2*(*sigIdx)+1] =
+</span><span><a class="LN" name="587">  587   </a>                    *((<span class="DT">const</span> real_T*)rtwCAPI_GetSampleOffsetPtr(tsMap,mapIdx));
+</span><span><a class="LN" name="588">  588   </a>            <b>}</b> <span class="KW">else</span> <b>{</b> <span class="CT">/* triggered */</span>
+</span><span><a class="LN" name="589">  589   </a>                utAssert(TID==-1); 
+</span><span><a class="LN" name="590">  590   </a>                sigSampleTime[2*(*sigIdx)]   = -1.0;
+</span><span><a class="LN" name="591">  591   </a>                sigSampleTime[2*(*sigIdx)+1] = -1.0;
+</span><span><a class="LN" name="592">  592   </a>            <b>}</b>
+</span><span><a class="LN" name="593">  593   </a>        <b>}</b>
+</span><span><a class="LN" name="594">  594   </a>
+</span><span><a class="LN" name="595">  595   </a>        ++(*sigIdx);
+</span><span><a class="LN" name="596">  596   </a>    <b>}</b>
+</span><span><a class="LN" name="597">  597   </a>
+</span><span><a class="LN" name="598">  598   </a>  EXIT_POINT:
+</span><span><a class="LN" name="599">  599   </a>    <span class="KW">return</span>(errstr);
+</span><span><a class="LN" name="600">  600   </a>
+</span><span><a class="LN" name="601">  601   </a><b>}</b> <span class="CT">/* rtwCAPI_GetStateRecordInfo */</span>
+</span><span><a class="LN" name="602">  602   </a>
+</span><span><a class="LN" name="603">  603   </a><span class="CT">/* Signal Logging functions */</span>
+</span><span><a class="LN" name="604">  604   </a>
+</span><span><a class="LN" name="605">  605   </a><span class="CT">/** Function: rtwCAPI_GetNumSigLogRecords ======================================</span>
+</span><span><a class="LN" name="606">  606   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="607">  607   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="608">  608   </a>int_T <a name="fcn_rtwCAPI_GetNumSigLogRecords">rtwCAPI_GetNumSigLogRecords</a>(<span class="DT">const</span> rtwCAPI_ModelMappingInfo* mmi)
+</span><span><a class="LN" name="609">  609   </a><b>{</b>
+</span><span><a class="LN" name="610">  610   </a>    int_T i;
+</span><span><a class="LN" name="611">  611   </a>    int_T nRecs;
+</span><span><a class="LN" name="612">  612   </a>    int_T nCMMI;
+</span><span><a class="LN" name="613">  613   </a>
+</span><span><a class="LN" name="614">  614   </a>    <span class="KW">if</span> (mmi == NULL) <span class="KW">return</span>(0);
+</span><span><a class="LN" name="615">  615   </a>
+</span><span><a class="LN" name="616">  616   </a>    nRecs = rtwCAPI_GetNumSignals(mmi);
+</span><span><a class="LN" name="617">  617   </a>
+</span><span><a class="LN" name="618">  618   </a>    nCMMI = rtwCAPI_GetChildMMIArrayLen(mmi);
+</span><span><a class="LN" name="619">  619   </a>    <span class="KW">for</span> (i = 0; i &lt; nCMMI; ++i) <b>{</b>
+</span><span><a class="LN" name="620">  620   </a>        <span class="DT">const</span> rtwCAPI_ModelMappingInfo* cMMI = rtwCAPI_GetChildMMI(mmi,i);
+</span><span><a class="LN" name="621">  621   </a>        nRecs += <a href="#fcn_rtwCAPI_GetNumSigLogRecords" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetNumSigLogRecords');" target="_self"><font color="#1122aa">rtwCAPI_GetNumSigLogRecords</font></a>(cMMI);
+</span><span><a class="LN" name="622">  622   </a>    <b>}</b>
+</span><span><a class="LN" name="623">  623   </a>    <span class="KW">return</span>(nRecs);
+</span><span><a class="LN" name="624">  624   </a>
+</span><span><a class="LN" name="625">  625   </a><b>}</b> <span class="CT">/* rtwCAPI_GetNumSigLogRecords */</span>
+</span><span><a class="LN" name="626">  626   </a>
+</span><span><a class="LN" name="627">  627   </a>
+</span><span><a class="LN" name="628">  628   </a><span class="CT">/** Function: rtwCAPI_GetNumSigLogRecordsForRTWLogging =========================</span>
+</span><span><a class="LN" name="629">  629   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="630">  630   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="631">  631   </a>int_T <a name="fcn_rtwCAPI_GetNumSigLogRecordsForRTWLogging">rtwCAPI_GetNumSigLogRecordsForRTWLogging</a>(<span class="DT">const</span> rtwCAPI_ModelMappingInfo* mmi)
+</span><span><a class="LN" name="632">  632   </a><b>{</b>
+</span><span><a class="LN" name="633">  633   </a>    int_T i;
+</span><span><a class="LN" name="634">  634   </a>    int_T nRecs = 0;
+</span><span><a class="LN" name="635">  635   </a>    int_T nSignals = 0;
+</span><span><a class="LN" name="636">  636   </a>    int_T nCMMI;
+</span><span><a class="LN" name="637">  637   </a>    <span class="DT">const</span> rtwCAPI_Signals *signals = NULL;
+</span><span><a class="LN" name="638">  638   </a>    <span class="DT">const</span> rtwCAPI_DataTypeMap* dataTypeMap;
+</span><span><a class="LN" name="639">  639   </a>
+</span><span><a class="LN" name="640">  640   </a>    <span class="KW">if</span> (mmi == NULL) <span class="KW">return</span>(0);
+</span><span><a class="LN" name="641">  641   </a>
+</span><span><a class="LN" name="642">  642   </a>    nSignals = rtwCAPI_GetNumSignals(mmi);
+</span><span><a class="LN" name="643">  643   </a>    signals = rtwCAPI_GetSignals(mmi);
+</span><span><a class="LN" name="644">  644   </a>    dataTypeMap = rtwCAPI_GetDataTypeMap(mmi);
+</span><span><a class="LN" name="645">  645   </a>
+</span><span><a class="LN" name="646">  646   </a>    <span class="KW">for</span> (i = 0; i &lt; nSignals; ++i) <b>{</b>
+</span><span><a class="LN" name="647">  647   </a>        <span class="KW">if</span> (rtwCAPI_CanLogSignalToMATFile(dataTypeMap, signals, i)) <b>{</b>
+</span><span><a class="LN" name="648">  648   </a>            ++nRecs;
+</span><span><a class="LN" name="649">  649   </a>        <b>}</b>
+</span><span><a class="LN" name="650">  650   </a>    <b>}</b>
+</span><span><a class="LN" name="651">  651   </a>
+</span><span><a class="LN" name="652">  652   </a>    nCMMI = rtwCAPI_GetChildMMIArrayLen(mmi);
+</span><span><a class="LN" name="653">  653   </a>    <span class="KW">for</span> (i = 0; i &lt; nCMMI; ++i) <b>{</b>
+</span><span><a class="LN" name="654">  654   </a>        <span class="DT">const</span> rtwCAPI_ModelMappingInfo* cMMI = rtwCAPI_GetChildMMI(mmi,i);
+</span><span><a class="LN" name="655">  655   </a>        nRecs += <a href="#fcn_rtwCAPI_GetNumSigLogRecordsForRTWLogging" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetNumSigLogRecordsForRTWLogging');" target="_self"><font color="#1122aa">rtwCAPI_GetNumSigLogRecordsForRTWLogging</font></a>(cMMI);
+</span><span><a class="LN" name="656">  656   </a>    <b>}</b>
+</span><span><a class="LN" name="657">  657   </a>
+</span><span><a class="LN" name="658">  658   </a>    <span class="KW">return</span>(nRecs);
+</span><span><a class="LN" name="659">  659   </a>
+</span><span><a class="LN" name="660">  660   </a><b>}</b> <span class="CT">/* rtwCAPI_GetNumSigLogRecords */</span>
+</span><span><a class="LN" name="661">  661   </a>
+</span><span><a class="LN" name="662">  662   </a>
+</span><span><a class="LN" name="663">  663   </a><span class="CT">/** Function: rtwCAPI_GetSigLogRecordInfo ======================================</span>
+</span><span><a class="LN" name="664">  664   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="665">  665   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="666">  666   </a><span class="DT">const</span> char_T* <a name="fcn_rtwCAPI_GetSigLogRecordInfo">rtwCAPI_GetSigLogRecordInfo</a>(<span class="DT">const</span> rtwCAPI_ModelMappingInfo* mmi,
+</span><span><a class="LN" name="667">  667   </a>                                          <span class="DT">const</span> char_T**    sigBlockName,
+</span><span><a class="LN" name="668">  668   </a>                                          <span class="DT">const</span> char_T**    sigLabel,
+</span><span><a class="LN" name="669">  669   </a>                                          int_T*            sigWidth,
+</span><span><a class="LN" name="670">  670   </a>                                          int_T*            sigDataType,
+</span><span><a class="LN" name="671">  671   </a>                                          int_T*            logDataType,
+</span><span><a class="LN" name="672">  672   </a>                                          int_T*            sigComplexity,
+</span><span><a class="LN" name="673">  673   </a>                                          <span class="DT">void</span>**            sigDataAddr,
+</span><span><a class="LN" name="674">  674   </a>                                          boolean_T*        sigCrossMdlRef,
+</span><span><a class="LN" name="675">  675   </a>                                          int_T*            sigIdx,
+</span><span><a class="LN" name="676">  676   </a>                                          boolean_T         crossingModel,
+</span><span><a class="LN" name="677">  677   </a>                                          boolean_T         rtwLogging)
+</span><span><a class="LN" name="678">  678   </a><b>{</b>
+</span><span><a class="LN" name="679">  679   </a>    int_T               i;
+</span><span><a class="LN" name="680">  680   </a>    int_T               nCMMI;
+</span><span><a class="LN" name="681">  681   </a>    int_T               nSignals;
+</span><span><a class="LN" name="682">  682   </a>    <span class="DT">const</span> char_T*       mmiPath;
+</span><span><a class="LN" name="683">  683   </a>    size_t              mmiPathLen;
+</span><span><a class="LN" name="684">  684   </a>    <span class="DT">const</span> rtwCAPI_Signals*  signals;
+</span><span><a class="LN" name="685">  685   </a>    <span class="DT">const</span> rtwCAPI_DimensionMap* dimMap;
+</span><span><a class="LN" name="686">  686   </a>    <span class="DT">const</span> uint_T*       dimArray;
+</span><span><a class="LN" name="687">  687   </a>    <span class="DT">const</span> rtwCAPI_DataTypeMap*  dataTypeMap;
+</span><span><a class="LN" name="688">  688   </a>    <span class="DT">void</span>**              dataAddrMap;
+</span><span><a class="LN" name="689">  689   </a>    <span class="DT">const</span> char_T*       errstr = NULL;
+</span><span><a class="LN" name="690">  690   </a>    uint8_T             isPointer = 0;
+</span><span><a class="LN" name="691">  691   </a>    <span class="DT">char</span>*               blockPath = NULL;
+</span><span><a class="LN" name="692">  692   </a>
+</span><span><a class="LN" name="693">  693   </a>    <span class="KW">if</span> (mmi == NULL) <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="694">  694   </a>
+</span><span><a class="LN" name="695">  695   </a>    nCMMI = rtwCAPI_GetChildMMIArrayLen(mmi);
+</span><span><a class="LN" name="696">  696   </a>    <span class="KW">for</span> (i = 0; i &lt; nCMMI; ++i) <b>{</b>
+</span><span><a class="LN" name="697">  697   </a>        rtwCAPI_ModelMappingInfo* cMMI = rtwCAPI_GetChildMMI(mmi,i);
+</span><span><a class="LN" name="698">  698   </a>
+</span><span><a class="LN" name="699">  699   </a>        errstr = <a href="#fcn_rtwCAPI_GetSigLogRecordInfo" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetSigLogRecordInfo');" target="_self"><font color="#1122aa">rtwCAPI_GetSigLogRecordInfo</font></a>(cMMI,
+</span><span><a class="LN" name="700">  700   </a>                                             sigBlockName,
+</span><span><a class="LN" name="701">  701   </a>                                             sigLabel,
+</span><span><a class="LN" name="702">  702   </a>                                             sigWidth,
+</span><span><a class="LN" name="703">  703   </a>                                             sigDataType,
+</span><span><a class="LN" name="704">  704   </a>                                             logDataType,
+</span><span><a class="LN" name="705">  705   </a>                                             sigComplexity,
+</span><span><a class="LN" name="706">  706   </a>                                             sigDataAddr,
+</span><span><a class="LN" name="707">  707   </a>                                             sigCrossMdlRef,
+</span><span><a class="LN" name="708">  708   </a>                                             sigIdx,
+</span><span><a class="LN" name="709">  709   </a>                                             true,
+</span><span><a class="LN" name="710">  710   </a>                                             rtwLogging);
+</span><span><a class="LN" name="711">  711   </a>        <span class="KW">if</span> (errstr != NULL) <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="712">  712   </a>    <b>}</b>
+</span><span><a class="LN" name="713">  713   </a>
+</span><span><a class="LN" name="714">  714   </a>    nSignals = rtwCAPI_GetNumSignals(mmi);
+</span><span><a class="LN" name="715">  715   </a>    <span class="KW">if</span> (nSignals &lt; 1) <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="716">  716   </a>
+</span><span><a class="LN" name="717">  717   </a>    mmiPath     = rtwCAPI_GetFullPath(mmi);
+</span><span><a class="LN" name="718">  718   </a>    mmiPathLen  = (mmiPath==NULL)? 0 : strlen(mmiPath);
+</span><span><a class="LN" name="719">  719   </a>    signals     = rtwCAPI_GetSignals(mmi);
+</span><span><a class="LN" name="720">  720   </a>    dimMap      = rtwCAPI_GetDimensionMap(mmi);
+</span><span><a class="LN" name="721">  721   </a>    dimArray    = rtwCAPI_GetDimensionArray(mmi);
+</span><span><a class="LN" name="722">  722   </a>    dataTypeMap = rtwCAPI_GetDataTypeMap(mmi);
+</span><span><a class="LN" name="723">  723   </a>    dataAddrMap = rtwCAPI_GetDataAddressMap(mmi);
+</span><span><a class="LN" name="724">  724   </a>
+</span><span><a class="LN" name="725">  725   </a>    <span class="KW">for</span> (i = 0; i &lt; nSignals; ++i) <b>{</b>
+</span><span><a class="LN" name="726">  726   </a>        uint_T mapIdx;
+</span><span><a class="LN" name="727">  727   </a>        size_t sigPathLen;
+</span><span><a class="LN" name="728">  728   </a>        <span class="DT">char</span>*  sigPath;
+</span><span><a class="LN" name="729">  729   </a>
+</span><span><a class="LN" name="730">  730   </a>        <span class="CT">/* For RTW logging, skip states that cannot be logged to MAT-File. */</span>
+</span><span><a class="LN" name="731">  731   </a>        <span class="KW">if</span> ((rtwLogging) &amp;&amp;
+</span><span><a class="LN" name="732">  732   </a>            (rtwCAPI_CanLogSignalToMATFile(dataTypeMap, signals, i) == false)) <span class="KW">continue</span>;
+</span><span><a class="LN" name="733">  733   </a>
+</span><span><a class="LN" name="734">  734   </a>        <span class="CT">/* sigBlockPath = mmiPath + | + BlockPath + '\0' */</span>
+</span><span><a class="LN" name="735">  735   </a>        <span class="CT">/* If crossing a model boundary encode, otherwise do not */</span>
+</span><span><a class="LN" name="736">  736   </a>
+</span><span><a class="LN" name="737">  737   </a>        <span class="KW">if</span> (crossingModel) <b>{</b>
+</span><span><a class="LN" name="738">  738   </a>            blockPath = <a href="#fcn_rtwCAPI_EncodePath" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_EncodePath');" target="_self"><font color="#1122aa">rtwCAPI_EncodePath</font></a>(rtwCAPI_GetSignalBlockPath(signals, i));
+</span><span><a class="LN" name="739">  739   </a>            <span class="KW">if</span> ( (blockPath == NULL) &amp;&amp;
+</span><span><a class="LN" name="740">  740   </a>                 (rtwCAPI_GetSignalBlockPath(signals, i) != NULL)) <b>{</b>
+</span><span><a class="LN" name="741">  741   </a>                errstr = <a href="#var_rtwCAPI_mallocError" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtwCAPI_mallocError');" target="_self"><font color="#1122aa">rtwCAPI_mallocError</font></a>;
+</span><span><a class="LN" name="742">  742   </a>                <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="743">  743   </a>            <b>}</b>
+</span><span><a class="LN" name="744">  744   </a>        <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="745">  745   </a>            <span class="DT">const</span> <span class="DT">char</span>* constBlockPath = rtwCAPI_GetSignalBlockPath(signals, i);
+</span><span><a class="LN" name="746">  746   </a>            blockPath = (<span class="DT">char</span>*)utMalloc((strlen(constBlockPath)+1)*<span class="KW">sizeof</span>(<span class="DT">char</span>));
+</span><span><a class="LN" name="747">  747   </a>            (<span class="DT">void</span>)strcpy(blockPath, constBlockPath);
+</span><span><a class="LN" name="748">  748   </a>        <b>}</b>
+</span><span><a class="LN" name="749">  749   </a>        utAssert(blockPath != NULL);
+</span><span><a class="LN" name="750">  750   </a>        sigPathLen = ( (mmiPath==NULL) ?
+</span><span><a class="LN" name="751">  751   </a>                                   strlen(blockPath) + 1 :
+</span><span><a class="LN" name="752">  752   </a>                                   mmiPathLen + strlen(blockPath) + 2 );
+</span><span><a class="LN" name="753">  753   </a>        sigPath    = (<span class="DT">char</span>*)utMalloc(sigPathLen*<span class="KW">sizeof</span>(<span class="DT">char</span>));
+</span><span><a class="LN" name="754">  754   </a>        <span class="KW">if</span> (sigPath == NULL) <b>{</b>
+</span><span><a class="LN" name="755">  755   </a>            errstr = <a href="#var_rtwCAPI_mallocError" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtwCAPI_mallocError');" target="_self"><font color="#1122aa">rtwCAPI_mallocError</font></a>;
+</span><span><a class="LN" name="756">  756   </a>            <span class="KW">goto</span> EXIT_POINT;
+</span><span><a class="LN" name="757">  757   </a>        <b>}</b>
+</span><span><a class="LN" name="758">  758   </a>        <span class="KW">if</span> (mmiPath != NULL) <b>{</b>
+</span><span><a class="LN" name="759">  759   </a>            (<span class="DT">void</span>)strcpy(sigPath, mmiPath);
+</span><span><a class="LN" name="760">  760   </a>            sigPath[mmiPathLen]   = <font color="#1122ff">'|'</font>;
+</span><span><a class="LN" name="761">  761   </a>            sigPath[mmiPathLen+1] =  <font color="#1122ff">'\0'</font>;
+</span><span><a class="LN" name="762">  762   </a>            (<span class="DT">void</span>)strcat(sigPath, blockPath);
+</span><span><a class="LN" name="763">  763   </a>        <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="764">  764   </a>            (<span class="DT">void</span>)strcpy(sigPath, blockPath);
+</span><span><a class="LN" name="765">  765   </a>            sigPath[sigPathLen-1] =  <font color="#1122ff">'\0'</font>;
+</span><span><a class="LN" name="766">  766   </a>        <b>}</b>
+</span><span><a class="LN" name="767">  767   </a>       <span class="CT">/* need to free for every iteration of the loop, but also have</span>
+</span><span><a class="LN" name="768">  768   </a><span class="CT">        * the free below EXIT_POINT in case of error */</span>
+</span><span><a class="LN" name="769">  769   </a>        utFree(blockPath);
+</span><span><a class="LN" name="770">  770   </a>        blockPath = NULL;
+</span><span><a class="LN" name="771">  771   </a>        utAssert(sigPath[sigPathLen-1] == <font color="#1122ff">'\0'</font>);
+</span><span><a class="LN" name="772">  772   </a>        sigBlockName[*sigIdx] = sigPath; <span class="CT">/* caller is responsible for free */</span>
+</span><span><a class="LN" name="773">  773   </a>
+</span><span><a class="LN" name="774">  774   </a>        <span class="CT">/* Label */</span>
+</span><span><a class="LN" name="775">  775   </a>        sigLabel[*sigIdx] = rtwCAPI_GetSignalName(signals, i);
+</span><span><a class="LN" name="776">  776   </a>
+</span><span><a class="LN" name="777">  777   </a>        <span class="CT">/* Width */</span>
+</span><span><a class="LN" name="778">  778   </a>        mapIdx = rtwCAPI_GetSignalDimensionIdx(signals, i);
+</span><span><a class="LN" name="779">  779   </a>        utAssert( rtwCAPI_GetNumDims(dimMap,mapIdx) == 2 );
+</span><span><a class="LN" name="780">  780   </a>        mapIdx = rtwCAPI_GetDimArrayIndex(dimMap, mapIdx);
+</span><span><a class="LN" name="781">  781   </a>        sigWidth[*sigIdx] = dimArray[mapIdx] * dimArray[mapIdx+1];
+</span><span><a class="LN" name="782">  782   </a>
+</span><span><a class="LN" name="783">  783   </a>        <span class="CT">/* DataType and logDataType */</span>
+</span><span><a class="LN" name="784">  784   </a>        mapIdx = rtwCAPI_GetSignalDataTypeIdx(signals, i);
+</span><span><a class="LN" name="785">  785   </a>        sigDataType[*sigIdx] = rtwCAPI_GetDataTypeSLId(dataTypeMap, mapIdx);
+</span><span><a class="LN" name="786">  786   </a>        <span class="CT">/* this mimics code in simulink.dll:mapSigDataTypeToLogDataType */</span>
+</span><span><a class="LN" name="787">  787   </a>        <span class="KW">switch</span> (sigDataType[*sigIdx]) <b>{</b>
+</span><span><a class="LN" name="788">  788   </a>          <span class="KW">case</span> SS_DOUBLE:
+</span><span><a class="LN" name="789">  789   </a>          <span class="KW">case</span> SS_SINGLE:
+</span><span><a class="LN" name="790">  790   </a>          <span class="KW">case</span> SS_INT8:
+</span><span><a class="LN" name="791">  791   </a>          <span class="KW">case</span> SS_UINT8:
+</span><span><a class="LN" name="792">  792   </a>          <span class="KW">case</span> SS_INT16:
+</span><span><a class="LN" name="793">  793   </a>          <span class="KW">case</span> SS_UINT16:
+</span><span><a class="LN" name="794">  794   </a>          <span class="KW">case</span> SS_INT32:
+</span><span><a class="LN" name="795">  795   </a>          <span class="KW">case</span> SS_UINT32:
+</span><span><a class="LN" name="796">  796   </a>          <span class="KW">case</span> SS_BOOLEAN:
+</span><span><a class="LN" name="797">  797   </a>            logDataType[*sigIdx] = sigDataType[*sigIdx];
+</span><span><a class="LN" name="798">  798   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="799">  799   </a>          <span class="KW">case</span> SS_ENUM_TYPE:
+</span><span><a class="LN" name="800">  800   </a>            logDataType[*sigIdx] = SS_INT32;
+</span><span><a class="LN" name="801">  801   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="802">  802   </a>          <span class="KW">default</span>:
+</span><span><a class="LN" name="803">  803   </a>            logDataType[*sigIdx] = SS_DOUBLE;
+</span><span><a class="LN" name="804">  804   </a>            <span class="KW">break</span>;
+</span><span><a class="LN" name="805">  805   </a>        <b>}</b>
+</span><span><a class="LN" name="806">  806   </a>
+</span><span><a class="LN" name="807">  807   </a>        <span class="CT">/* Complexity */</span>
+</span><span><a class="LN" name="808">  808   </a>        sigComplexity[*sigIdx] = rtwCAPI_GetDataIsComplex(dataTypeMap, mapIdx);
+</span><span><a class="LN" name="809">  809   </a>
+</span><span><a class="LN" name="810">  810   </a>        <span class="CT">/* Data Access - Pointer or Direct*/</span>
+</span><span><a class="LN" name="811">  811   </a>        isPointer = ((uint8_T)rtwCAPI_GetDataIsPointer(dataTypeMap, mapIdx));
+</span><span><a class="LN" name="812">  812   </a>
+</span><span><a class="LN" name="813">  813   </a>        <span class="CT">/* Address */</span>
+</span><span><a class="LN" name="814">  814   </a>        mapIdx = rtwCAPI_GetSignalAddrIdx(signals, i);
+</span><span><a class="LN" name="815">  815   </a>
+</span><span><a class="LN" name="816">  816   </a>        <a href="#fcn_rtwCAPI_GetSigAddrFromMap" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetSigAddrFromMap');" target="_self"><font color="#1122aa">rtwCAPI_GetSigAddrFromMap</font></a>(isPointer, sigComplexity, sigDataType,
+</span><span><a class="LN" name="817">  817   </a>                                  sigDataAddr, sigIdx, mapIdx, dataAddrMap);
+</span><span><a class="LN" name="818">  818   </a>
+</span><span><a class="LN" name="819">  819   </a>        <span class="CT">/* CrossingModelBoundary */</span>
+</span><span><a class="LN" name="820">  820   </a>        sigCrossMdlRef[*sigIdx] = crossingModel;
+</span><span><a class="LN" name="821">  821   </a>
+</span><span><a class="LN" name="822">  822   </a>        ++(*sigIdx);
+</span><span><a class="LN" name="823">  823   </a>    <b>}</b>
+</span><span><a class="LN" name="824">  824   </a>
+</span><span><a class="LN" name="825">  825   </a>  EXIT_POINT:
+</span><span><a class="LN" name="826">  826   </a>    utFree(blockPath);
+</span><span><a class="LN" name="827">  827   </a>    <span class="KW">return</span>(errstr);
+</span><span><a class="LN" name="828">  828   </a>
+</span><span><a class="LN" name="829">  829   </a><b>}</b> <span class="CT">/* rtwCAPI_GetSigLogRecordInfo */</span>
+</span><span><a class="LN" name="830">  830   </a>
+</span><span><a class="LN" name="831">  831   </a>
+</span><span><a class="LN" name="832">  832   </a><span class="CT">/** Function: rtwCAPI_CountSysRan ==============================================</span>
+</span><span><a class="LN" name="833">  833   </a><span class="CT"> *   Recursive function that counts the number of non-NULL pointers in the array</span>
+</span><span><a class="LN" name="834">  834   </a><span class="CT"> *   of system ran dwork pointers, for the given MMI and below</span>
+</span><span><a class="LN" name="835">  835   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="836">  836   </a><span class="DT">void</span> <a name="fcn_rtwCAPI_CountSysRan">rtwCAPI_CountSysRan</a>(<span class="DT">const</span> rtwCAPI_ModelMappingInfo *mmi,
+</span><span><a class="LN" name="837">  837   </a>			 <span class="DT">int</span>                            *count)
+</span><span><a class="LN" name="838">  838   </a><b>{</b>
+</span><span><a class="LN" name="839">  839   </a>    sysRanDType **sysRan;
+</span><span><a class="LN" name="840">  840   </a>    <span class="DT">int</span> numSys;
+</span><span><a class="LN" name="841">  841   </a>    <span class="DT">int</span> nCMMI;
+</span><span><a class="LN" name="842">  842   </a>    <span class="DT">int</span> numSysRan = 0;
+</span><span><a class="LN" name="843">  843   </a>    <span class="DT">int</span> i;
+</span><span><a class="LN" name="844">  844   </a>
+</span><span><a class="LN" name="845">  845   </a>    <span class="KW">if</span> (mmi == NULL) <span class="KW">return</span>;
+</span><span><a class="LN" name="846">  846   </a>
+</span><span><a class="LN" name="847">  847   </a>    sysRan = rtwCAPI_GetSystemRan(mmi);
+</span><span><a class="LN" name="848">  848   </a>    numSys    = rtwCAPI_GetNumSystems(mmi);
+</span><span><a class="LN" name="849">  849   </a>    nCMMI     = rtwCAPI_GetChildMMIArrayLen(mmi);
+</span><span><a class="LN" name="850">  850   </a>
+</span><span><a class="LN" name="851">  851   </a>    <span class="CT">/* Recurse over children */</span>
+</span><span><a class="LN" name="852">  852   </a>    <span class="KW">for</span> (i = 0; i &lt; nCMMI; i++) <b>{</b>
+</span><span><a class="LN" name="853">  853   </a>        <a href="#fcn_rtwCAPI_CountSysRan" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_CountSysRan');" target="_self"><font color="#1122aa">rtwCAPI_CountSysRan</font></a>(rtwCAPI_GetChildMMI(mmi,i), &amp;numSysRan);
+</span><span><a class="LN" name="854">  854   </a>    <b>}</b>
+</span><span><a class="LN" name="855">  855   </a>
+</span><span><a class="LN" name="856">  856   </a>    <span class="CT">/* Count number of dworks in this MMI - skip root */</span>
+</span><span><a class="LN" name="857">  857   </a>    <span class="KW">for</span> (i = 1; i&lt; numSys; i++) <b>{</b>
+</span><span><a class="LN" name="858">  858   </a>        <span class="KW">if</span> (sysRan[i] != NULL) numSysRan++;
+</span><span><a class="LN" name="859">  859   </a>    <b>}</b>
+</span><span><a class="LN" name="860">  860   </a>
+</span><span><a class="LN" name="861">  861   </a>    *count += numSysRan;
+</span><span><a class="LN" name="862">  862   </a>
+</span><span><a class="LN" name="863">  863   </a><b>}</b> <span class="CT">/* end rtwCAPI_CountSysRan */</span>
+</span><span><a class="LN" name="864">  864   </a>
+</span><span><a class="LN" name="865">  865   </a>
+</span><span><a class="LN" name="866">  866   </a><span class="CT">/** Function: rtwCAPI_FillSysRan ===============================================</span>
+</span><span><a class="LN" name="867">  867   </a><span class="CT"> *   Recursive function that fills in the system ran dwork pointers and their</span>
+</span><span><a class="LN" name="868">  868   </a><span class="CT"> *   corresponding tids in the given array, for the given MMI and below.  The</span>
+</span><span><a class="LN" name="869">  869   </a><span class="CT"> *   array to be filled in must be allocated outside</span>
+</span><span><a class="LN" name="870">  870   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="871">  871   </a><span class="DT">void</span> <a name="fcn_rtwCAPI_FillSysRan">rtwCAPI_FillSysRan</a>(<span class="DT">const</span> rtwCAPI_ModelMappingInfo *mmi,
+</span><span><a class="LN" name="872">  872   </a>			sysRanDType                    **sysRan,
+</span><span><a class="LN" name="873">  873   </a>			<span class="DT">int</span>                            *sysTid,
+</span><span><a class="LN" name="874">  874   </a>                        <span class="DT">int</span>                            *fillIdx)
+</span><span><a class="LN" name="875">  875   </a><b>{</b>
+</span><span><a class="LN" name="876">  876   </a>    <span class="DT">int</span>       numSys;
+</span><span><a class="LN" name="877">  877   </a>    sysRanDType **mmiSysRan;
+</span><span><a class="LN" name="878">  878   </a>    <span class="DT">int</span>       nCMMI;
+</span><span><a class="LN" name="879">  879   </a>    <span class="DT">int</span>       *mmiSysTid;
+</span><span><a class="LN" name="880">  880   </a>    <span class="DT">int</span>       idx         = *fillIdx;
+</span><span><a class="LN" name="881">  881   </a>    <span class="DT">const</span> <span class="DT">int</span> *mmiConSys;
+</span><span><a class="LN" name="882">  882   </a>    <span class="DT">int</span> i;
+</span><span><a class="LN" name="883">  883   </a>
+</span><span><a class="LN" name="884">  884   </a>    <span class="KW">if</span> (mmi == NULL) <span class="KW">return</span>;
+</span><span><a class="LN" name="885">  885   </a>
+</span><span><a class="LN" name="886">  886   </a>    numSys      = rtwCAPI_GetNumSystems(mmi);
+</span><span><a class="LN" name="887">  887   </a>    mmiSysRan = rtwCAPI_GetSystemRan(mmi);
+</span><span><a class="LN" name="888">  888   </a>    nCMMI       = rtwCAPI_GetChildMMIArrayLen(mmi);
+</span><span><a class="LN" name="889">  889   </a>    mmiSysTid  = rtwCAPI_GetSystemTid(mmi);
+</span><span><a class="LN" name="890">  890   </a>    mmiConSys  = rtwCAPI_GetContextSystems(mmi);
+</span><span><a class="LN" name="891">  891   </a>
+</span><span><a class="LN" name="892">  892   </a>    <span class="CT">/* Recurse over children */</span>
+</span><span><a class="LN" name="893">  893   </a>    <span class="KW">for</span> (i = 0; i &lt; nCMMI; i++) <b>{</b>
+</span><span><a class="LN" name="894">  894   </a>        <a href="#fcn_rtwCAPI_FillSysRan" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_FillSysRan');" target="_self"><font color="#1122aa">rtwCAPI_FillSysRan</font></a>(rtwCAPI_GetChildMMI(mmi,i), sysRan, sysTid, &amp;idx);
+</span><span><a class="LN" name="895">  895   </a>    <b>}</b>
+</span><span><a class="LN" name="896">  896   </a>
+</span><span><a class="LN" name="897">  897   </a>    <span class="CT">/* Populate arrays with dwork pointers and tid - skip root */</span>
+</span><span><a class="LN" name="898">  898   </a>    <span class="KW">for</span> (i = 1; i&lt; numSys; i++) <b>{</b>
+</span><span><a class="LN" name="899">  899   </a>        <span class="KW">if</span> (mmiSysRan[i] != NULL) <b>{</b>
+</span><span><a class="LN" name="900">  900   </a>            idx++;
+</span><span><a class="LN" name="901">  901   </a>            sysRan[idx] = mmiSysRan[i];
+</span><span><a class="LN" name="902">  902   </a>            sysTid[idx] = mmiSysTid[mmiConSys[i]];
+</span><span><a class="LN" name="903">  903   </a>        <b>}</b>
+</span><span><a class="LN" name="904">  904   </a>    <b>}</b>
+</span><span><a class="LN" name="905">  905   </a>
+</span><span><a class="LN" name="906">  906   </a>    *fillIdx = idx;
+</span><span><a class="LN" name="907">  907   </a>
+</span><span><a class="LN" name="908">  908   </a><b>}</b> <span class="CT">/* end rtwCAPI_FillSysRan */</span>
+</span><span><a class="LN" name="909">  909   </a>
+</span></pre>
+</td></tr></table>
+</p>
+</body>
+</html>

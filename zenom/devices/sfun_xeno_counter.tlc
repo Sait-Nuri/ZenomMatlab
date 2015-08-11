@@ -1,0 +1,32 @@
+%%
+%% $Revision $ 
+%% $RCSfile: sfun_xeno_counter.tlc,v $
+%%
+%% Abstract:
+%%      TLC file for the Q8 Counter Output device of Linux-Xenomai Target.
+%%
+%% Copyright 2008-2011 EK
+
+%implements "sfun_xeno_counter" "C"
+
+%% Function: Start ==========================================================
+%%
+%% Purpose:
+%%      Q8 Counter initialization code.
+%%
+%function Start(block, system) Output
+  /* S-Function "sfun_q8_counter" initialization Block: %<Name> */
+%%
+%assign clock       =      CAST( "Number",SFcnParamSettings.clock)-1
+%assign period        = 	CAST( "Real",SFcnParamSettings.period)
+
+%assign cntrlen       =    CAST( "Number",SFcnParamSettings.cntrlen)
+
+    Q8CounterOutput(0,%<clock>,%<period>,%<cntrlen>);
+
+%endfunction  
+
+
+%% [EOF] sfun_q8_encoder.tlc
+              
+                    

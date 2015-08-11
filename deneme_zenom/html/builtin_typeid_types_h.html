@@ -1,0 +1,65 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>RTW Report - builtin_typeid_types.h</title>
+<style> .LN { font-style: italic; color: #888888 } </style>
+<style> .CT { font-style: italic; color: #117755 } </style>
+<style> .PP { font-style: bold;   color: #992211 } </style>
+<style> .KW { font-style: bold;   color: #112266 } </style>
+<style> .DT { font-style: bold;   color: #112266 } </style>
+<link rel="stylesheet" type="text/css" href="rtwreport.css"></link><script language="JavaScript" type="text/javascript" src="rtwreport_utils.js"></script>
+<SCRIPT type="text/javascript" src="rtwannotate.js"></SCRIPT>
+</head>
+<body bgcolor="#eeeeee" text="#1122aa" onload="try {if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window.document); else local_onload();}} catch(err) {};if (typeof rtwannotate === 'function') {rtwannotate('builtin_typeid_types_h_cov.xml');}">
+<p>
+<table border="0" cellspacing="0" cellpadding="6" width="100%%" height="100%%"><tr><td width="100%%" valign="top" bgcolor="#ffffff">
+<h4>File: <a href="../builtin_typeid_types.h" target="rtwreport_document_frame" id="linkToText_plain">builtin_typeid_types.h</a></h4>
+<pre id="RTWcode">
+<span><a class="LN" name="1">    1   </a><span class="CT">/*</span>
+</span><span><a class="LN" name="2">    2   </a><span class="CT"> * builtin_typeid_types.h</span>
+</span><span><a class="LN" name="3">    3   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="4">    4   </a><span class="CT"> * Code generation for model "deneme".</span>
+</span><span><a class="LN" name="5">    5   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="6">    6   </a><span class="CT"> * Model version              : 1.8</span>
+</span><span><a class="LN" name="7">    7   </a><span class="CT"> * Simulink Coder version : 8.6 (R2014a) 27-Dec-2013</span>
+</span><span><a class="LN" name="8">    8   </a><span class="CT"> * C source code generated on : Mon Aug 10 17:05:58 2015</span>
+</span><span><a class="LN" name="9">    9   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="10">   10   </a><span class="CT"> * Target selection: zenom.tlc</span>
+</span><span><a class="LN" name="11">   11   </a><span class="CT"> * Note: GRT includes extra infrastructure and instrumentation for prototyping</span>
+</span><span><a class="LN" name="12">   12   </a><span class="CT"> * Embedded hardware selection: 32-bit Generic</span>
+</span><span><a class="LN" name="13">   13   </a><span class="CT"> * Code generation objectives: Unspecified</span>
+</span><span><a class="LN" name="14">   14   </a><span class="CT"> * Validation result: Not run</span>
+</span><span><a class="LN" name="15">   15   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="16">   16   </a>
+</span><span><a class="LN" name="17">   17   </a><font color="#992211">#</font><span class="PP">ifndef</span> __BUILTIN_TYPEID_TYPES_H__
+</span><span><a class="LN" name="18">   18   </a><font color="#992211">#</font><span class="PP">define</span> __BUILTIN_TYPEID_TYPES_H__
+</span><span><a class="LN" name="19">   19   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;rtwtypes.h&quot;</font>
+</span><span><a class="LN" name="20">   20   </a><font color="#992211">#</font><span class="PP">ifndef</span> __BUILTIN_TYPEID_TYPES__
+</span><span><a class="LN" name="21">   21   </a><font color="#992211">#</font><span class="PP">define</span> __BUILTIN_TYPEID_TYPES__
+</span><span><a class="LN" name="22">   22   </a>
+</span><span><a class="LN" name="23">   23   </a><span class="CT">/* Enumeration of built-in data types */</span>
+</span><span><a class="LN" name="24">   24   </a><span class="KW">typedef</span> <span class="KW">enum</span> <b>{</b>
+</span><span><a class="LN" name="25">   25   </a>  SS_DOUBLE = 0,                       <span class="CT">/* real_T    */</span>
+</span><span><a class="LN" name="26">   26   </a>  SS_SINGLE = 1,                       <span class="CT">/* real32_T  */</span>
+</span><span><a class="LN" name="27">   27   </a>  SS_INT8 = 2,                         <span class="CT">/* int8_T    */</span>
+</span><span><a class="LN" name="28">   28   </a>  SS_UINT8 = 3,                        <span class="CT">/* uint8_T   */</span>
+</span><span><a class="LN" name="29">   29   </a>  SS_INT16 = 4,                        <span class="CT">/* int16_T   */</span>
+</span><span><a class="LN" name="30">   30   </a>  SS_UINT16 = 5,                       <span class="CT">/* uint16_T  */</span>
+</span><span><a class="LN" name="31">   31   </a>  SS_INT32 = 6,                        <span class="CT">/* int32_T   */</span>
+</span><span><a class="LN" name="32">   32   </a>  SS_UINT32 = 7,                       <span class="CT">/* uint32_T  */</span>
+</span><span><a class="LN" name="33">   33   </a>  SS_BOOLEAN = 8                       <span class="CT">/* boolean_T */</span>
+</span><span><a class="LN" name="34">   34   </a><b>}</b> <a name="type_BuiltInDTypeId">BuiltInDTypeId</a>;
+</span><span><a class="LN" name="35">   35   </a>
+</span><span><a class="LN" name="36">   36   </a><font color="#992211">#</font><span class="PP">define</span> SS_NUM_BUILT_IN_DTYPE          ((int_T)SS_BOOLEAN+1)
+</span><span><a class="LN" name="37">   37   </a>
+</span><span><a class="LN" name="38">   38   </a><span class="CT">/* Enumeration for MAT-file logging code */</span>
+</span><span><a class="LN" name="39">   39   </a><span class="KW">typedef</span> int_T <a name="type_DTypeId">DTypeId</a>;
+</span><span><a class="LN" name="40">   40   </a>
+</span><span><a class="LN" name="41">   41   </a><font color="#992211">#</font><span class="PP">endif</span>                                 <span class="CT">/* __BUILTIN_TYPEID_TYPES__ */</span>
+</span><span><a class="LN" name="42">   42   </a><font color="#992211">#</font><span class="PP">endif</span>                                 <span class="CT">/* __BUILTIN_TYPEID_TYPES_H__ */</span>
+</span><span><a class="LN" name="43">   43   </a>
+</span></pre>
+</td></tr></table>
+</p>
+</body>
+</html>

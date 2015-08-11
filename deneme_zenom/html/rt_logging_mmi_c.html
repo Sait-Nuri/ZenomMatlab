@@ -1,0 +1,204 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>RTW Report - rt_logging_mmi.c</title>
+<style> .LN { font-style: italic; color: #888888 } </style>
+<style> .CT { font-style: italic; color: #117755 } </style>
+<style> .PP { font-style: bold;   color: #992211 } </style>
+<style> .KW { font-style: bold;   color: #112266 } </style>
+<style> .DT { font-style: bold;   color: #112266 } </style>
+<link rel="stylesheet" type="text/css" href="rtwreport.css"></link><script language="JavaScript" type="text/javascript" src="rtwreport_utils.js"></script>
+<SCRIPT type="text/javascript" src="rtwannotate.js"></SCRIPT>
+</head>
+<body bgcolor="#eeeeee" text="#1122aa" onload="try {if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window.document); else local_onload();}} catch(err) {};if (typeof rtwannotate === 'function') {rtwannotate('rt_logging_mmi_c_cov.xml');}">
+<p>
+<table border="0" cellspacing="0" cellpadding="6" width="100%%" height="100%%"><tr><td width="100%%" valign="top" bgcolor="#ffffff">
+<h4>File: <a href="../../../../../../usr/local/MATLAB/R2014a/rtw/c/src/rt_logging_mmi.c" target="rtwreport_document_frame" id="linkToText_plain">rt_logging_mmi.c</a></h4>
+<pre id="RTWcode">
+<span><a class="LN" name="1">    1   </a><span class="CT">/* </span>
+</span><span><a class="LN" name="2">    2   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="3">    3   </a><span class="CT"> * Copyright 1994-2013 The MathWorks, Inc.</span>
+</span><span><a class="LN" name="4">    4   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="5">    5   </a><span class="CT"> * File: rt_logging_mmi.c</span>
+</span><span><a class="LN" name="6">    6   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="7">    7   </a><span class="CT"> * Abstract:</span>
+</span><span><a class="LN" name="8">    8   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="9">    9   </a>
+</span><span><a class="LN" name="10">   10   </a><font color="#992211">#</font><span class="PP">ifndef</span> rt_logging_c
+</span><span><a class="LN" name="11">   11   </a><font color="#992211">#</font><span class="PP">define</span> rt_logging_c
+</span><span><a class="LN" name="12">   12   </a>
+</span><span><a class="LN" name="13">   13   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&lt;stdlib.h&gt;</font>
+</span><span><a class="LN" name="14">   14   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&lt;stddef.h&gt;</font>
+</span><span><a class="LN" name="15">   15   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;rtwtypes.h&quot;</font>
+</span><span><a class="LN" name="16">   16   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;builtin_typeid_types.h&quot;</font>
+</span><span><a class="LN" name="17">   17   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;rtw_matlogging.h&quot;</font>
+</span><span><a class="LN" name="18">   18   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;rtw_modelmap.h&quot;</font>
+</span><span><a class="LN" name="19">   19   </a>
+</span><span><a class="LN" name="20">   20   </a><span class="DT">static</span> <span class="DT">const</span> char_T rtMemAllocError[] = <font color="#1122ff">&quot;Memory allocation error&quot;</font>;
+</span><span><a class="LN" name="21">   21   </a><font color="#992211">#</font><span class="PP">define</span> FREE(m) <span class="PP">if</span> (m != NULL) free(m)
+</span><span><a class="LN" name="22">   22   </a>
+</span><span><a class="LN" name="23">   23   </a><font color="#992211">#</font><span class="PP">define</span> ACCESS_C_API_FOR_RTW_LOGGING true
+</span><span><a class="LN" name="24">   24   </a>
+</span><span><a class="LN" name="25">   25   </a><span class="CT">/* Function: rt_FillStateSigInfoFromMMI =======================================</span>
+</span><span><a class="LN" name="26">   26   </a><span class="CT"> * Abstract:</span>
+</span><span><a class="LN" name="27">   27   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="28">   28   </a><span class="CT"> * Returns:</span>
+</span><span><a class="LN" name="29">   29   </a><span class="CT"> *	== NULL  =&gt; success.</span>
+</span><span><a class="LN" name="30">   30   </a><span class="CT"> *	~= NULL  =&gt; failure, the return value is a pointer to the error</span>
+</span><span><a class="LN" name="31">   31   </a><span class="CT"> *                           message, which is also set in the simstruct.</span>
+</span><span><a class="LN" name="32">   32   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="33">   33   </a><span class="DT">const</span> char_T * <a name="fcn_rt_FillStateSigInfoFromMMI">rt_FillStateSigInfoFromMMI</a>(RTWLogInfo   *li,
+</span><span><a class="LN" name="34">   34   </a>                                                 <span class="DT">const</span> char_T **errStatus)
+</span><span><a class="LN" name="35">   35   </a><b>{</b>
+</span><span><a class="LN" name="36">   36   </a>    int_T                  i;
+</span><span><a class="LN" name="37">   37   </a>    int_T                  nSignals     = 0;
+</span><span><a class="LN" name="38">   38   </a>    int_T                  *dims        = NULL;
+</span><span><a class="LN" name="39">   39   </a>    <a href="builtin_typeid_types_h.html#type_BuiltInDTypeId" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_BuiltInDTypeId');" target="_self"><font color="#1122aa">BuiltInDTypeId</font></a>         *dTypes      = NULL;
+</span><span><a class="LN" name="40">   40   </a>    int_T                  *cSgnls      = NULL;
+</span><span><a class="LN" name="41">   41   </a>    char_T                 **labels     = NULL;
+</span><span><a class="LN" name="42">   42   </a>    char_T                 **blockNames = NULL;
+</span><span><a class="LN" name="43">   43   </a>    char_T                 **stateNames = NULL;
+</span><span><a class="LN" name="44">   44   </a>    boolean_T              *crossMdlRef = NULL;
+</span><span><a class="LN" name="45">   45   </a>    <span class="DT">void</span>                   **sigDataAddr = NULL;
+</span><span><a class="LN" name="46">   46   </a>    int_T                  *logDataType = NULL;
+</span><span><a class="LN" name="47">   47   </a>    boolean_T              *isVarDims   = NULL;
+</span><span><a class="LN" name="48">   48   </a>
+</span><span><a class="LN" name="49">   49   </a>
+</span><span><a class="LN" name="50">   50   </a>    <span class="DT">const</span> rtwCAPI_ModelMappingInfo *mmi = (<span class="DT">const</span> rtwCAPI_ModelMappingInfo *)rtliGetMMI(li);
+</span><span><a class="LN" name="51">   51   </a>
+</span><span><a class="LN" name="52">   52   </a>    int_T                  sigIdx       = 0;
+</span><span><a class="LN" name="53">   53   </a>
+</span><span><a class="LN" name="54">   54   </a>    RTWLogSignalInfo *     sigInfo;
+</span><span><a class="LN" name="55">   55   </a>    <span class="CT">/* reset error status */</span>
+</span><span><a class="LN" name="56">   56   </a>    *errStatus = NULL;
+</span><span><a class="LN" name="57">   57   </a>
+</span><span><a class="LN" name="58">   58   </a>    sigInfo = (RTWLogSignalInfo *)calloc(1,<span class="KW">sizeof</span>(RTWLogSignalInfo));
+</span><span><a class="LN" name="59">   59   </a>    <span class="KW">if</span> (sigInfo == NULL) <span class="KW">goto</span> ERROR_EXIT;
+</span><span><a class="LN" name="60">   60   </a>
+</span><span><a class="LN" name="61">   61   </a>    nSignals = <a href="rtw_modelmap_utils_c.html#fcn_rtwCAPI_GetNumStateRecordsForRTWLogging" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetNumStateRecordsForRTWLogging');" target="_self"><font color="#1122aa">rtwCAPI_GetNumStateRecordsForRTWLogging</font></a>(mmi);
+</span><span><a class="LN" name="62">   62   </a>
+</span><span><a class="LN" name="63">   63   </a>    <span class="KW">if</span> (nSignals &gt;0) <b>{</b>
+</span><span><a class="LN" name="64">   64   </a>        <span class="CT">/* These are all freed before exiting this function */</span>
+</span><span><a class="LN" name="65">   65   </a>        dims        = (int_T *)calloc(nSignals,<span class="KW">sizeof</span>(int_T));
+</span><span><a class="LN" name="66">   66   </a>        <span class="KW">if</span> (dims == NULL) <span class="KW">goto</span> ERROR_EXIT;
+</span><span><a class="LN" name="67">   67   </a>        dTypes      = (<a href="builtin_typeid_types_h.html#type_BuiltInDTypeId" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_BuiltInDTypeId');" target="_self"><font color="#1122aa">BuiltInDTypeId</font></a> *)calloc(nSignals,<span class="KW">sizeof</span>(<a href="builtin_typeid_types_h.html#type_BuiltInDTypeId" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_BuiltInDTypeId');" target="_self"><font color="#1122aa">BuiltInDTypeId</font></a>));
+</span><span><a class="LN" name="68">   68   </a>        <span class="KW">if</span> (dTypes == NULL) <span class="KW">goto</span> ERROR_EXIT;
+</span><span><a class="LN" name="69">   69   </a>        cSgnls      = (int_T *)calloc(nSignals,<span class="KW">sizeof</span>(int_T));
+</span><span><a class="LN" name="70">   70   </a>        <span class="KW">if</span> (cSgnls == NULL) <span class="KW">goto</span> ERROR_EXIT;
+</span><span><a class="LN" name="71">   71   </a>        labels      = (char_T **)calloc(nSignals, <span class="KW">sizeof</span>(char_T*));
+</span><span><a class="LN" name="72">   72   </a>        <span class="KW">if</span> (labels == NULL) <span class="KW">goto</span> ERROR_EXIT;
+</span><span><a class="LN" name="73">   73   </a>        blockNames  = (char_T**)calloc(nSignals, <span class="KW">sizeof</span>(char_T*));
+</span><span><a class="LN" name="74">   74   </a>        <span class="KW">if</span> (blockNames == NULL) <span class="KW">goto</span> ERROR_EXIT;
+</span><span><a class="LN" name="75">   75   </a>        stateNames  = (char_T**)calloc(nSignals, <span class="KW">sizeof</span>(char_T*));
+</span><span><a class="LN" name="76">   76   </a>        <span class="KW">if</span> (stateNames == NULL) <span class="KW">goto</span> ERROR_EXIT;
+</span><span><a class="LN" name="77">   77   </a>        crossMdlRef  = (boolean_T*)calloc(nSignals, <span class="KW">sizeof</span>(boolean_T));
+</span><span><a class="LN" name="78">   78   </a>        <span class="KW">if</span> (crossMdlRef == NULL) <span class="KW">goto</span> ERROR_EXIT;
+</span><span><a class="LN" name="79">   79   </a>        logDataType = (int_T *)calloc(nSignals,<span class="KW">sizeof</span>(int_T));
+</span><span><a class="LN" name="80">   80   </a>        <span class="KW">if</span> (logDataType == NULL) <span class="KW">goto</span> ERROR_EXIT;
+</span><span><a class="LN" name="81">   81   </a>        <span class="CT">/* Allocate memeory for isVarDims pointer and set all elements to 0's */</span>
+</span><span><a class="LN" name="82">   82   </a>        isVarDims = (boolean_T *)calloc(nSignals,<span class="KW">sizeof</span>(boolean_T));
+</span><span><a class="LN" name="83">   83   </a>        <span class="KW">if</span> (isVarDims == NULL) <span class="KW">goto</span> ERROR_EXIT;
+</span><span><a class="LN" name="84">   84   </a>
+</span><span><a class="LN" name="85">   85   </a>        <span class="CT">/* This is freed in stopDataLogging (it's needed in the meantime) */</span>
+</span><span><a class="LN" name="86">   86   </a>        sigDataAddr = (<span class="DT">void</span> **)calloc(nSignals,<span class="KW">sizeof</span>(<span class="DT">void</span> *));
+</span><span><a class="LN" name="87">   87   </a>        <span class="KW">if</span> (sigDataAddr == NULL) <span class="KW">goto</span> ERROR_EXIT;
+</span><span><a class="LN" name="88">   88   </a>
+</span><span><a class="LN" name="89">   89   </a>        *errStatus = <a href="rtw_modelmap_utils_c.html#fcn_rtwCAPI_GetStateRecordInfo" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtwCAPI_GetStateRecordInfo');" target="_self"><font color="#1122aa">rtwCAPI_GetStateRecordInfo</font></a>(mmi,
+</span><span><a class="LN" name="90">   90   </a>                                                (<span class="DT">const</span> char_T**) blockNames,
+</span><span><a class="LN" name="91">   91   </a>                                                (<span class="DT">const</span> char_T**) labels,
+</span><span><a class="LN" name="92">   92   </a>                                                (<span class="DT">const</span> char_T**) stateNames,
+</span><span><a class="LN" name="93">   93   </a>                                                dims,
+</span><span><a class="LN" name="94">   94   </a>                                                (int_T*)dTypes,
+</span><span><a class="LN" name="95">   95   </a>                                                logDataType,
+</span><span><a class="LN" name="96">   96   </a>                                                cSgnls,
+</span><span><a class="LN" name="97">   97   </a>                                                sigDataAddr,
+</span><span><a class="LN" name="98">   98   </a>                                                crossMdlRef,
+</span><span><a class="LN" name="99">   99   </a>                                                NULL,
+</span><span><a class="LN" name="100">  100   </a>                                                NULL, <span class="CT">/* sigSampleTime */</span>
+</span><span><a class="LN" name="101">  101   </a>                                                &amp;sigIdx,
+</span><span><a class="LN" name="102">  102   </a>                                                false, <span class="CT">/* crossingModel */</span>
+</span><span><a class="LN" name="103">  103   </a>                                                NULL,  <span class="CT">/* stateDerivVector */</span>
+</span><span><a class="LN" name="104">  104   </a>                                                ACCESS_C_API_FOR_RTW_LOGGING);
+</span><span><a class="LN" name="105">  105   </a>
+</span><span><a class="LN" name="106">  106   </a>        <span class="KW">if</span> (*errStatus != NULL) <span class="KW">goto</span> ERROR_EXIT;
+</span><span><a class="LN" name="107">  107   </a>
+</span><span><a class="LN" name="108">  108   </a>        rtliSetLogXSignalPtrs(li,(LogSignalPtrsType)sigDataAddr);
+</span><span><a class="LN" name="109">  109   </a>    <b>}</b>
+</span><span><a class="LN" name="110">  110   </a>
+</span><span><a class="LN" name="111">  111   </a>    sigInfo-&gt;numSignals = nSignals;
+</span><span><a class="LN" name="112">  112   </a>    sigInfo-&gt;numCols = dims;
+</span><span><a class="LN" name="113">  113   </a>    sigInfo-&gt;numDims = NULL;
+</span><span><a class="LN" name="114">  114   </a>    sigInfo-&gt;dims = dims;
+</span><span><a class="LN" name="115">  115   </a>    sigInfo-&gt;dataTypes = dTypes;
+</span><span><a class="LN" name="116">  116   </a>    sigInfo-&gt;complexSignals = cSgnls;
+</span><span><a class="LN" name="117">  117   </a>    sigInfo-&gt;frameData = NULL;
+</span><span><a class="LN" name="118">  118   </a>    sigInfo-&gt;labels.ptr = labels;
+</span><span><a class="LN" name="119">  119   </a>    sigInfo-&gt;titles = NULL;
+</span><span><a class="LN" name="120">  120   </a>    sigInfo-&gt;titleLengths = NULL;
+</span><span><a class="LN" name="121">  121   </a>    sigInfo-&gt;plotStyles = NULL;
+</span><span><a class="LN" name="122">  122   </a>    sigInfo-&gt;blockNames.ptr = blockNames;
+</span><span><a class="LN" name="123">  123   </a>    sigInfo-&gt;stateNames.ptr = stateNames;
+</span><span><a class="LN" name="124">  124   </a>    sigInfo-&gt;crossMdlRef = crossMdlRef;
+</span><span><a class="LN" name="125">  125   </a>    sigInfo-&gt;dataTypeConvert = NULL;
+</span><span><a class="LN" name="126">  126   </a>
+</span><span><a class="LN" name="127">  127   </a>    sigInfo-&gt;isVarDims = isVarDims;
+</span><span><a class="LN" name="128">  128   </a>    sigInfo-&gt;currSigDims = NULL;
+</span><span><a class="LN" name="129">  129   </a>
+</span><span><a class="LN" name="130">  130   </a>    rtliSetLogXSignalInfo(li,sigInfo);
+</span><span><a class="LN" name="131">  131   </a>
+</span><span><a class="LN" name="132">  132   </a>    <span class="CT">/* Free logDataType it's not needed any more,</span>
+</span><span><a class="LN" name="133">  133   </a><span class="CT">     * the rest of them will be freed later */</span>
+</span><span><a class="LN" name="134">  134   </a>    FREE(logDataType);
+</span><span><a class="LN" name="135">  135   </a>    <span class="KW">return</span>(NULL); <span class="CT">/* NORMAL_EXIT */</span>
+</span><span><a class="LN" name="136">  136   </a>
+</span><span><a class="LN" name="137">  137   </a>  ERROR_EXIT:
+</span><span><a class="LN" name="138">  138   </a>    <span class="KW">if</span> (*errStatus == NULL) <b>{</b>
+</span><span><a class="LN" name="139">  139   </a>        *errStatus = rtMemAllocError;
+</span><span><a class="LN" name="140">  140   </a>    <b>}</b>
+</span><span><a class="LN" name="141">  141   </a>    <span class="CT">/* Free local stuff that was allocated. It is no longer needed */</span>
+</span><span><a class="LN" name="142">  142   </a>    <span class="KW">for</span> (i = 0; i &lt; nSignals; ++i) utFree(blockNames[i]);
+</span><span><a class="LN" name="143">  143   </a>    FREE(blockNames);
+</span><span><a class="LN" name="144">  144   </a>    <span class="KW">for</span> (i = 0; i &lt; nSignals; ++i) utFree(stateNames[i]);
+</span><span><a class="LN" name="145">  145   </a>    FREE(stateNames);
+</span><span><a class="LN" name="146">  146   </a>    FREE(labels);
+</span><span><a class="LN" name="147">  147   </a>    FREE(dims);
+</span><span><a class="LN" name="148">  148   </a>    FREE(dTypes);
+</span><span><a class="LN" name="149">  149   </a>    FREE(logDataType);
+</span><span><a class="LN" name="150">  150   </a>    FREE(cSgnls);
+</span><span><a class="LN" name="151">  151   </a>    FREE(isVarDims);
+</span><span><a class="LN" name="152">  152   </a>    <span class="KW">return</span>(*errStatus);
+</span><span><a class="LN" name="153">  153   </a>
+</span><span><a class="LN" name="154">  154   </a><b>}</b> <span class="CT">/* end rt_InitSignalsStruct */</span>
+</span><span><a class="LN" name="155">  155   </a>
+</span><span><a class="LN" name="156">  156   </a><span class="DT">void</span> <a name="fcn_rt_CleanUpForStateLogWithMMI">rt_CleanUpForStateLogWithMMI</a>(RTWLogInfo *li)
+</span><span><a class="LN" name="157">  157   </a><b>{</b>
+</span><span><a class="LN" name="158">  158   </a>    int_T i;
+</span><span><a class="LN" name="159">  159   </a>    RTWLogSignalInfo *sigInfo = _rtliGetLogXSignalInfo(li); <span class="CT">/* get the non-const ptr */</span>
+</span><span><a class="LN" name="160">  160   </a>    int_T nSignals = sigInfo-&gt;numSignals;
+</span><span><a class="LN" name="161">  161   </a>
+</span><span><a class="LN" name="162">  162   </a>    <span class="KW">if</span> ( nSignals &gt; 0 ) <b>{</b>
+</span><span><a class="LN" name="163">  163   </a>
+</span><span><a class="LN" name="164">  164   </a>        <span class="KW">for</span> (i = 0; i &lt; nSignals; ++i) utFree(sigInfo-&gt;blockNames.ptr[i]);
+</span><span><a class="LN" name="165">  165   </a>        FREE(sigInfo-&gt;blockNames.ptr);
+</span><span><a class="LN" name="166">  166   </a>        FREE(sigInfo-&gt;labels.ptr);
+</span><span><a class="LN" name="167">  167   </a>        FREE(sigInfo-&gt;crossMdlRef);
+</span><span><a class="LN" name="168">  168   </a>        FREE(sigInfo-&gt;dims);
+</span><span><a class="LN" name="169">  169   </a>        FREE(sigInfo-&gt;dataTypes);
+</span><span><a class="LN" name="170">  170   </a>        FREE(sigInfo-&gt;complexSignals);
+</span><span><a class="LN" name="171">  171   </a>        FREE(sigInfo-&gt;isVarDims);
+</span><span><a class="LN" name="172">  172   </a>
+</span><span><a class="LN" name="173">  173   </a>        FREE(sigInfo);
+</span><span><a class="LN" name="174">  174   </a>        rtliSetLogXSignalInfo(li, NULL);
+</span><span><a class="LN" name="175">  175   </a>
+</span><span><a class="LN" name="176">  176   </a>        FREE(_rtliGetLogXSignalPtrs(li)); <span class="CT">/* get the non-const ptr */</span>
+</span><span><a class="LN" name="177">  177   </a>        rtliSetLogXSignalPtrs(li,NULL);
+</span><span><a class="LN" name="178">  178   </a>    <b>}</b>
+</span><span><a class="LN" name="179">  179   </a><b>}</b>
+</span><span><a class="LN" name="180">  180   </a>
+</span><span><a class="LN" name="181">  181   </a><font color="#992211">#</font><span class="PP">endif</span> <span class="CT">/*  rt_logging_mmi_c */</span>
+</span><span><a class="LN" name="182">  182   </a>
+</span></pre>
+</td></tr></table>
+</p>
+</body>
+</html>

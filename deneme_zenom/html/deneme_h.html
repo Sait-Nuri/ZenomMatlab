@@ -1,0 +1,1043 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>RTW Report - deneme.h</title>
+<style> .LN { font-style: italic; color: #888888 } </style>
+<style> .CT { font-style: italic; color: #117755 } </style>
+<style> .PP { font-style: bold;   color: #992211 } </style>
+<style> .KW { font-style: bold;   color: #112266 } </style>
+<style> .DT { font-style: bold;   color: #112266 } </style>
+<link rel="stylesheet" type="text/css" href="rtwreport.css"></link><script language="JavaScript" type="text/javascript" src="rtwreport_utils.js"></script>
+<SCRIPT type="text/javascript" src="rtwannotate.js"></SCRIPT>
+</head>
+<body bgcolor="#eeeeee" text="#1122aa" onload="try {if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window.document); else local_onload();}} catch(err) {};if (typeof rtwannotate === 'function') {rtwannotate('deneme_h_cov.xml');}">
+<p>
+<table border="0" cellspacing="0" cellpadding="6" width="100%%" height="100%%"><tr><td width="100%%" valign="top" bgcolor="#ffffff">
+<h4>File: <a href="../deneme.h" target="rtwreport_document_frame" id="linkToText_plain">deneme.h</a></h4>
+<pre id="RTWcode">
+<span><a class="LN" name="1">    1   </a><span class="CT">/*</span>
+</span><span><a class="LN" name="2">    2   </a><span class="CT"> * deneme.h</span>
+</span><span><a class="LN" name="3">    3   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="4">    4   </a><span class="CT"> * Code generation for model "deneme".</span>
+</span><span><a class="LN" name="5">    5   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="6">    6   </a><span class="CT"> * Model version              : 1.8</span>
+</span><span><a class="LN" name="7">    7   </a><span class="CT"> * Simulink Coder version : 8.6 (R2014a) 27-Dec-2013</span>
+</span><span><a class="LN" name="8">    8   </a><span class="CT"> * C source code generated on : Mon Aug 10 17:05:58 2015</span>
+</span><span><a class="LN" name="9">    9   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="10">   10   </a><span class="CT"> * Target selection: zenom.tlc</span>
+</span><span><a class="LN" name="11">   11   </a><span class="CT"> * Note: GRT includes extra infrastructure and instrumentation for prototyping</span>
+</span><span><a class="LN" name="12">   12   </a><span class="CT"> * Embedded hardware selection: 32-bit Generic</span>
+</span><span><a class="LN" name="13">   13   </a><span class="CT"> * Code generation objectives: Unspecified</span>
+</span><span><a class="LN" name="14">   14   </a><span class="CT"> * Validation result: Not run</span>
+</span><span><a class="LN" name="15">   15   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="16">   16   </a><font color="#992211">#</font><span class="PP">ifndef</span> RTW_HEADER_deneme_h_
+</span><span><a class="LN" name="17">   17   </a><font color="#992211">#</font><span class="PP">define</span> RTW_HEADER_deneme_h_
+</span><span><a class="LN" name="18">   18   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&lt;math.h&gt;</font>
+</span><span><a class="LN" name="19">   19   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&lt;string.h&gt;</font>
+</span><span><a class="LN" name="20">   20   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&lt;stddef.h&gt;</font>
+</span><span><a class="LN" name="21">   21   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;rtw_modelmap.h&quot;</font>
+</span><span><a class="LN" name="22">   22   </a><font color="#992211">#</font><span class="PP">ifndef</span> deneme_COMMON_INCLUDES_
+</span><span><a class="LN" name="23">   23   </a><font color="#992211">#</font> <span class="PP">define</span> deneme_COMMON_INCLUDES_
+</span><span><a class="LN" name="24">   24   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;rtwtypes.h&quot;</font>
+</span><span><a class="LN" name="25">   25   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;simstruc.h&quot;</font>
+</span><span><a class="LN" name="26">   26   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;fixedpoint.h&quot;</font>
+</span><span><a class="LN" name="27">   27   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;rt_logging.h&quot;</font>
+</span><span><a class="LN" name="28">   28   </a><font color="#992211">#</font><span class="PP">endif</span>                                 <span class="CT">/* deneme_COMMON_INCLUDES_ */</span>
+</span><span><a class="LN" name="29">   29   </a>
+</span><span><a class="LN" name="30">   30   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;deneme_types.h&quot;</font>
+</span><span><a class="LN" name="31">   31   </a>
+</span><span><a class="LN" name="32">   32   </a><span class="CT">/* Shared type includes */</span>
+</span><span><a class="LN" name="33">   33   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;multiword_types.h&quot;</font>
+</span><span><a class="LN" name="34">   34   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;rtGetInf.h&quot;</font>
+</span><span><a class="LN" name="35">   35   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;rt_nonfinite.h&quot;</font>
+</span><span><a class="LN" name="36">   36   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;rt_defines.h&quot;</font>
+</span><span><a class="LN" name="37">   37   </a>
+</span><span><a class="LN" name="38">   38   </a><span class="CT">/* Macros for accessing real-time model data structure */</span>
+</span><span><a class="LN" name="39">   39   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetBlkStateChangeFlag
+</span><span><a class="LN" name="40">   40   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetBlkStateChangeFlag(rtm) ((rtm)-&gt;ModelData.blkStateChange)
+</span><span><a class="LN" name="41">   41   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="42">   42   </a>
+</span><span><a class="LN" name="43">   43   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetBlkStateChangeFlag
+</span><span><a class="LN" name="44">   44   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetBlkStateChangeFlag(rtm, val) ((rtm)-&gt;ModelData.blkStateChange = (val))
+</span><span><a class="LN" name="45">   45   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="46">   46   </a>
+</span><span><a class="LN" name="47">   47   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetBlockIO
+</span><span><a class="LN" name="48">   48   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetBlockIO(rtm)            ((rtm)-&gt;ModelData.blockIO)
+</span><span><a class="LN" name="49">   49   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="50">   50   </a>
+</span><span><a class="LN" name="51">   51   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetBlockIO
+</span><span><a class="LN" name="52">   52   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetBlockIO(rtm, val)       ((rtm)-&gt;ModelData.blockIO = (val))
+</span><span><a class="LN" name="53">   53   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="54">   54   </a>
+</span><span><a class="LN" name="55">   55   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetChecksums
+</span><span><a class="LN" name="56">   56   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetChecksums(rtm)          ((rtm)-&gt;Sizes.checksums)
+</span><span><a class="LN" name="57">   57   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="58">   58   </a>
+</span><span><a class="LN" name="59">   59   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetChecksums
+</span><span><a class="LN" name="60">   60   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetChecksums(rtm, val)     ((rtm)-&gt;Sizes.checksums = (val))
+</span><span><a class="LN" name="61">   61   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="62">   62   </a>
+</span><span><a class="LN" name="63">   63   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetConstBlockIO
+</span><span><a class="LN" name="64">   64   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetConstBlockIO(rtm)       ((rtm)-&gt;ModelData.constBlockIO)
+</span><span><a class="LN" name="65">   65   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="66">   66   </a>
+</span><span><a class="LN" name="67">   67   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetConstBlockIO
+</span><span><a class="LN" name="68">   68   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetConstBlockIO(rtm, val)  ((rtm)-&gt;ModelData.constBlockIO = (val))
+</span><span><a class="LN" name="69">   69   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="70">   70   </a>
+</span><span><a class="LN" name="71">   71   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetContStateDisabled
+</span><span><a class="LN" name="72">   72   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetContStateDisabled(rtm)  ((rtm)-&gt;ModelData.contStateDisabled)
+</span><span><a class="LN" name="73">   73   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="74">   74   </a>
+</span><span><a class="LN" name="75">   75   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetContStateDisabled
+</span><span><a class="LN" name="76">   76   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetContStateDisabled(rtm, val) ((rtm)-&gt;ModelData.contStateDisabled = (val))
+</span><span><a class="LN" name="77">   77   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="78">   78   </a>
+</span><span><a class="LN" name="79">   79   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetContStates
+</span><span><a class="LN" name="80">   80   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetContStates(rtm)         ((rtm)-&gt;ModelData.contStates)
+</span><span><a class="LN" name="81">   81   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="82">   82   </a>
+</span><span><a class="LN" name="83">   83   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetContStates
+</span><span><a class="LN" name="84">   84   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetContStates(rtm, val)    ((rtm)-&gt;ModelData.contStates = (val))
+</span><span><a class="LN" name="85">   85   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="86">   86   </a>
+</span><span><a class="LN" name="87">   87   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetDataMapInfo
+</span><span><a class="LN" name="88">   88   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetDataMapInfo(rtm)        ((rtm)-&gt;DataMapInfo)
+</span><span><a class="LN" name="89">   89   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="90">   90   </a>
+</span><span><a class="LN" name="91">   91   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetDataMapInfo
+</span><span><a class="LN" name="92">   92   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetDataMapInfo(rtm, val)   ((rtm)-&gt;DataMapInfo = (val))
+</span><span><a class="LN" name="93">   93   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="94">   94   </a>
+</span><span><a class="LN" name="95">   95   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetDefaultParam
+</span><span><a class="LN" name="96">   96   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetDefaultParam(rtm)       ((rtm)-&gt;ModelData.defaultParam)
+</span><span><a class="LN" name="97">   97   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="98">   98   </a>
+</span><span><a class="LN" name="99">   99   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetDefaultParam
+</span><span><a class="LN" name="100">  100   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetDefaultParam(rtm, val)  ((rtm)-&gt;ModelData.defaultParam = (val))
+</span><span><a class="LN" name="101">  101   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="102">  102   </a>
+</span><span><a class="LN" name="103">  103   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetDerivCacheNeedsReset
+</span><span><a class="LN" name="104">  104   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetDerivCacheNeedsReset(rtm) ((rtm)-&gt;ModelData.derivCacheNeedsReset)
+</span><span><a class="LN" name="105">  105   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="106">  106   </a>
+</span><span><a class="LN" name="107">  107   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetDerivCacheNeedsReset
+</span><span><a class="LN" name="108">  108   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetDerivCacheNeedsReset(rtm, val) ((rtm)-&gt;ModelData.derivCacheNeedsReset = (val))
+</span><span><a class="LN" name="109">  109   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="110">  110   </a>
+</span><span><a class="LN" name="111">  111   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetDirectFeedThrough
+</span><span><a class="LN" name="112">  112   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetDirectFeedThrough(rtm)  ((rtm)-&gt;Sizes.sysDirFeedThru)
+</span><span><a class="LN" name="113">  113   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="114">  114   </a>
+</span><span><a class="LN" name="115">  115   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetDirectFeedThrough
+</span><span><a class="LN" name="116">  116   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetDirectFeedThrough(rtm, val) ((rtm)-&gt;Sizes.sysDirFeedThru = (val))
+</span><span><a class="LN" name="117">  117   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="118">  118   </a>
+</span><span><a class="LN" name="119">  119   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetErrorStatusFlag
+</span><span><a class="LN" name="120">  120   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetErrorStatusFlag(rtm)    ((rtm)-&gt;errorStatus)
+</span><span><a class="LN" name="121">  121   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="122">  122   </a>
+</span><span><a class="LN" name="123">  123   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetErrorStatusFlag
+</span><span><a class="LN" name="124">  124   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetErrorStatusFlag(rtm, val) ((rtm)-&gt;errorStatus = (val))
+</span><span><a class="LN" name="125">  125   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="126">  126   </a>
+</span><span><a class="LN" name="127">  127   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetFinalTime
+</span><span><a class="LN" name="128">  128   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetFinalTime(rtm)          ((rtm)-&gt;Timing.tFinal)
+</span><span><a class="LN" name="129">  129   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="130">  130   </a>
+</span><span><a class="LN" name="131">  131   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetFinalTime
+</span><span><a class="LN" name="132">  132   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetFinalTime(rtm, val)     ((rtm)-&gt;Timing.tFinal = (val))
+</span><span><a class="LN" name="133">  133   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="134">  134   </a>
+</span><span><a class="LN" name="135">  135   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetFirstInitCondFlag
+</span><span><a class="LN" name="136">  136   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetFirstInitCondFlag(rtm)  ()
+</span><span><a class="LN" name="137">  137   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="138">  138   </a>
+</span><span><a class="LN" name="139">  139   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetFirstInitCondFlag
+</span><span><a class="LN" name="140">  140   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetFirstInitCondFlag(rtm, val) ()
+</span><span><a class="LN" name="141">  141   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="142">  142   </a>
+</span><span><a class="LN" name="143">  143   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetIntgData
+</span><span><a class="LN" name="144">  144   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetIntgData(rtm)           ((rtm)-&gt;ModelData.intgData)
+</span><span><a class="LN" name="145">  145   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="146">  146   </a>
+</span><span><a class="LN" name="147">  147   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetIntgData
+</span><span><a class="LN" name="148">  148   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetIntgData(rtm, val)      ((rtm)-&gt;ModelData.intgData = (val))
+</span><span><a class="LN" name="149">  149   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="150">  150   </a>
+</span><span><a class="LN" name="151">  151   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetMdlRefGlobalTID
+</span><span><a class="LN" name="152">  152   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetMdlRefGlobalTID(rtm)    ()
+</span><span><a class="LN" name="153">  153   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="154">  154   </a>
+</span><span><a class="LN" name="155">  155   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetMdlRefGlobalTID
+</span><span><a class="LN" name="156">  156   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetMdlRefGlobalTID(rtm, val) ()
+</span><span><a class="LN" name="157">  157   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="158">  158   </a>
+</span><span><a class="LN" name="159">  159   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetMdlRefTriggerTID
+</span><span><a class="LN" name="160">  160   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetMdlRefTriggerTID(rtm)   ()
+</span><span><a class="LN" name="161">  161   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="162">  162   </a>
+</span><span><a class="LN" name="163">  163   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetMdlRefTriggerTID
+</span><span><a class="LN" name="164">  164   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetMdlRefTriggerTID(rtm, val) ()
+</span><span><a class="LN" name="165">  165   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="166">  166   </a>
+</span><span><a class="LN" name="167">  167   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetModelMappingInfo
+</span><span><a class="LN" name="168">  168   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetModelMappingInfo(rtm)   ((rtm)-&gt;SpecialInfo.mappingInfo)
+</span><span><a class="LN" name="169">  169   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="170">  170   </a>
+</span><span><a class="LN" name="171">  171   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetModelMappingInfo
+</span><span><a class="LN" name="172">  172   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetModelMappingInfo(rtm, val) ((rtm)-&gt;SpecialInfo.mappingInfo = (val))
+</span><span><a class="LN" name="173">  173   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="174">  174   </a>
+</span><span><a class="LN" name="175">  175   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetModelName
+</span><span><a class="LN" name="176">  176   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetModelName(rtm)          ((rtm)-&gt;modelName)
+</span><span><a class="LN" name="177">  177   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="178">  178   </a>
+</span><span><a class="LN" name="179">  179   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetModelName
+</span><span><a class="LN" name="180">  180   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetModelName(rtm, val)     ((rtm)-&gt;modelName = (val))
+</span><span><a class="LN" name="181">  181   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="182">  182   </a>
+</span><span><a class="LN" name="183">  183   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNonInlinedSFcns
+</span><span><a class="LN" name="184">  184   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNonInlinedSFcns(rtm)    ()
+</span><span><a class="LN" name="185">  185   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="186">  186   </a>
+</span><span><a class="LN" name="187">  187   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNonInlinedSFcns
+</span><span><a class="LN" name="188">  188   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNonInlinedSFcns(rtm, val) ()
+</span><span><a class="LN" name="189">  189   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="190">  190   </a>
+</span><span><a class="LN" name="191">  191   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumBlockIO
+</span><span><a class="LN" name="192">  192   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumBlockIO(rtm)         ((rtm)-&gt;Sizes.numBlockIO)
+</span><span><a class="LN" name="193">  193   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="194">  194   </a>
+</span><span><a class="LN" name="195">  195   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumBlockIO
+</span><span><a class="LN" name="196">  196   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumBlockIO(rtm, val)    ((rtm)-&gt;Sizes.numBlockIO = (val))
+</span><span><a class="LN" name="197">  197   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="198">  198   </a>
+</span><span><a class="LN" name="199">  199   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumBlockParams
+</span><span><a class="LN" name="200">  200   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumBlockParams(rtm)     ((rtm)-&gt;Sizes.numBlockPrms)
+</span><span><a class="LN" name="201">  201   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="202">  202   </a>
+</span><span><a class="LN" name="203">  203   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumBlockParams
+</span><span><a class="LN" name="204">  204   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumBlockParams(rtm, val) ((rtm)-&gt;Sizes.numBlockPrms = (val))
+</span><span><a class="LN" name="205">  205   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="206">  206   </a>
+</span><span><a class="LN" name="207">  207   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumBlocks
+</span><span><a class="LN" name="208">  208   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumBlocks(rtm)          ((rtm)-&gt;Sizes.numBlocks)
+</span><span><a class="LN" name="209">  209   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="210">  210   </a>
+</span><span><a class="LN" name="211">  211   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumBlocks
+</span><span><a class="LN" name="212">  212   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumBlocks(rtm, val)     ((rtm)-&gt;Sizes.numBlocks = (val))
+</span><span><a class="LN" name="213">  213   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="214">  214   </a>
+</span><span><a class="LN" name="215">  215   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumContStates
+</span><span><a class="LN" name="216">  216   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumContStates(rtm)      ((rtm)-&gt;Sizes.numContStates)
+</span><span><a class="LN" name="217">  217   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="218">  218   </a>
+</span><span><a class="LN" name="219">  219   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumContStates
+</span><span><a class="LN" name="220">  220   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumContStates(rtm, val) ((rtm)-&gt;Sizes.numContStates = (val))
+</span><span><a class="LN" name="221">  221   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="222">  222   </a>
+</span><span><a class="LN" name="223">  223   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumDWork
+</span><span><a class="LN" name="224">  224   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumDWork(rtm)           ((rtm)-&gt;Sizes.numDwork)
+</span><span><a class="LN" name="225">  225   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="226">  226   </a>
+</span><span><a class="LN" name="227">  227   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumDWork
+</span><span><a class="LN" name="228">  228   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumDWork(rtm, val)      ((rtm)-&gt;Sizes.numDwork = (val))
+</span><span><a class="LN" name="229">  229   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="230">  230   </a>
+</span><span><a class="LN" name="231">  231   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumInputPorts
+</span><span><a class="LN" name="232">  232   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumInputPorts(rtm)      ((rtm)-&gt;Sizes.numIports)
+</span><span><a class="LN" name="233">  233   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="234">  234   </a>
+</span><span><a class="LN" name="235">  235   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumInputPorts
+</span><span><a class="LN" name="236">  236   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumInputPorts(rtm, val) ((rtm)-&gt;Sizes.numIports = (val))
+</span><span><a class="LN" name="237">  237   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="238">  238   </a>
+</span><span><a class="LN" name="239">  239   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumNonSampledZCs
+</span><span><a class="LN" name="240">  240   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumNonSampledZCs(rtm)   ((rtm)-&gt;Sizes.numNonSampZCs)
+</span><span><a class="LN" name="241">  241   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="242">  242   </a>
+</span><span><a class="LN" name="243">  243   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumNonSampledZCs
+</span><span><a class="LN" name="244">  244   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumNonSampledZCs(rtm, val) ((rtm)-&gt;Sizes.numNonSampZCs = (val))
+</span><span><a class="LN" name="245">  245   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="246">  246   </a>
+</span><span><a class="LN" name="247">  247   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumOutputPorts
+</span><span><a class="LN" name="248">  248   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumOutputPorts(rtm)     ((rtm)-&gt;Sizes.numOports)
+</span><span><a class="LN" name="249">  249   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="250">  250   </a>
+</span><span><a class="LN" name="251">  251   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumOutputPorts
+</span><span><a class="LN" name="252">  252   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumOutputPorts(rtm, val) ((rtm)-&gt;Sizes.numOports = (val))
+</span><span><a class="LN" name="253">  253   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="254">  254   </a>
+</span><span><a class="LN" name="255">  255   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumSFcnParams
+</span><span><a class="LN" name="256">  256   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumSFcnParams(rtm)      ((rtm)-&gt;Sizes.numSFcnPrms)
+</span><span><a class="LN" name="257">  257   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="258">  258   </a>
+</span><span><a class="LN" name="259">  259   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumSFcnParams
+</span><span><a class="LN" name="260">  260   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumSFcnParams(rtm, val) ((rtm)-&gt;Sizes.numSFcnPrms = (val))
+</span><span><a class="LN" name="261">  261   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="262">  262   </a>
+</span><span><a class="LN" name="263">  263   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumSFunctions
+</span><span><a class="LN" name="264">  264   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumSFunctions(rtm)      ((rtm)-&gt;Sizes.numSFcns)
+</span><span><a class="LN" name="265">  265   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="266">  266   </a>
+</span><span><a class="LN" name="267">  267   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumSFunctions
+</span><span><a class="LN" name="268">  268   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumSFunctions(rtm, val) ((rtm)-&gt;Sizes.numSFcns = (val))
+</span><span><a class="LN" name="269">  269   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="270">  270   </a>
+</span><span><a class="LN" name="271">  271   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumSampleTimes
+</span><span><a class="LN" name="272">  272   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumSampleTimes(rtm)     ((rtm)-&gt;Sizes.numSampTimes)
+</span><span><a class="LN" name="273">  273   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="274">  274   </a>
+</span><span><a class="LN" name="275">  275   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumSampleTimes
+</span><span><a class="LN" name="276">  276   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumSampleTimes(rtm, val) ((rtm)-&gt;Sizes.numSampTimes = (val))
+</span><span><a class="LN" name="277">  277   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="278">  278   </a>
+</span><span><a class="LN" name="279">  279   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumU
+</span><span><a class="LN" name="280">  280   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumU(rtm)               ((rtm)-&gt;Sizes.numU)
+</span><span><a class="LN" name="281">  281   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="282">  282   </a>
+</span><span><a class="LN" name="283">  283   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumU
+</span><span><a class="LN" name="284">  284   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumU(rtm, val)          ((rtm)-&gt;Sizes.numU = (val))
+</span><span><a class="LN" name="285">  285   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="286">  286   </a>
+</span><span><a class="LN" name="287">  287   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetNumY
+</span><span><a class="LN" name="288">  288   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetNumY(rtm)               ((rtm)-&gt;Sizes.numY)
+</span><span><a class="LN" name="289">  289   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="290">  290   </a>
+</span><span><a class="LN" name="291">  291   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetNumY
+</span><span><a class="LN" name="292">  292   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetNumY(rtm, val)          ((rtm)-&gt;Sizes.numY = (val))
+</span><span><a class="LN" name="293">  293   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="294">  294   </a>
+</span><span><a class="LN" name="295">  295   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetOdeF
+</span><span><a class="LN" name="296">  296   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetOdeF(rtm)               ((rtm)-&gt;ModelData.odeF)
+</span><span><a class="LN" name="297">  297   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="298">  298   </a>
+</span><span><a class="LN" name="299">  299   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetOdeF
+</span><span><a class="LN" name="300">  300   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetOdeF(rtm, val)          ((rtm)-&gt;ModelData.odeF = (val))
+</span><span><a class="LN" name="301">  301   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="302">  302   </a>
+</span><span><a class="LN" name="303">  303   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetOdeY
+</span><span><a class="LN" name="304">  304   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetOdeY(rtm)               ()
+</span><span><a class="LN" name="305">  305   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="306">  306   </a>
+</span><span><a class="LN" name="307">  307   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetOdeY
+</span><span><a class="LN" name="308">  308   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetOdeY(rtm, val)          ()
+</span><span><a class="LN" name="309">  309   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="310">  310   </a>
+</span><span><a class="LN" name="311">  311   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetOffsetTimeArray
+</span><span><a class="LN" name="312">  312   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetOffsetTimeArray(rtm)    ((rtm)-&gt;Timing.offsetTimesArray)
+</span><span><a class="LN" name="313">  313   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="314">  314   </a>
+</span><span><a class="LN" name="315">  315   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetOffsetTimeArray
+</span><span><a class="LN" name="316">  316   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetOffsetTimeArray(rtm, val) ((rtm)-&gt;Timing.offsetTimesArray = (val))
+</span><span><a class="LN" name="317">  317   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="318">  318   </a>
+</span><span><a class="LN" name="319">  319   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetOffsetTimePtr
+</span><span><a class="LN" name="320">  320   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetOffsetTimePtr(rtm)      ((rtm)-&gt;Timing.offsetTimes)
+</span><span><a class="LN" name="321">  321   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="322">  322   </a>
+</span><span><a class="LN" name="323">  323   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetOffsetTimePtr
+</span><span><a class="LN" name="324">  324   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetOffsetTimePtr(rtm, val) ((rtm)-&gt;Timing.offsetTimes = (val))
+</span><span><a class="LN" name="325">  325   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="326">  326   </a>
+</span><span><a class="LN" name="327">  327   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetOptions
+</span><span><a class="LN" name="328">  328   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetOptions(rtm)            ((rtm)-&gt;Sizes.options)
+</span><span><a class="LN" name="329">  329   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="330">  330   </a>
+</span><span><a class="LN" name="331">  331   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetOptions
+</span><span><a class="LN" name="332">  332   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetOptions(rtm, val)       ((rtm)-&gt;Sizes.options = (val))
+</span><span><a class="LN" name="333">  333   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="334">  334   </a>
+</span><span><a class="LN" name="335">  335   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetParamIsMalloced
+</span><span><a class="LN" name="336">  336   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetParamIsMalloced(rtm)    ()
+</span><span><a class="LN" name="337">  337   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="338">  338   </a>
+</span><span><a class="LN" name="339">  339   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetParamIsMalloced
+</span><span><a class="LN" name="340">  340   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetParamIsMalloced(rtm, val) ()
+</span><span><a class="LN" name="341">  341   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="342">  342   </a>
+</span><span><a class="LN" name="343">  343   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetPath
+</span><span><a class="LN" name="344">  344   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetPath(rtm)               ((rtm)-&gt;path)
+</span><span><a class="LN" name="345">  345   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="346">  346   </a>
+</span><span><a class="LN" name="347">  347   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetPath
+</span><span><a class="LN" name="348">  348   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetPath(rtm, val)          ((rtm)-&gt;path = (val))
+</span><span><a class="LN" name="349">  349   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="350">  350   </a>
+</span><span><a class="LN" name="351">  351   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetPerTaskSampleHits
+</span><span><a class="LN" name="352">  352   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetPerTaskSampleHits(rtm)  ()
+</span><span><a class="LN" name="353">  353   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="354">  354   </a>
+</span><span><a class="LN" name="355">  355   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetPerTaskSampleHits
+</span><span><a class="LN" name="356">  356   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetPerTaskSampleHits(rtm, val) ()
+</span><span><a class="LN" name="357">  357   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="358">  358   </a>
+</span><span><a class="LN" name="359">  359   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetPerTaskSampleHitsArray
+</span><span><a class="LN" name="360">  360   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetPerTaskSampleHitsArray(rtm) ((rtm)-&gt;Timing.perTaskSampleHitsArray)
+</span><span><a class="LN" name="361">  361   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="362">  362   </a>
+</span><span><a class="LN" name="363">  363   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetPerTaskSampleHitsArray
+</span><span><a class="LN" name="364">  364   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetPerTaskSampleHitsArray(rtm, val) ((rtm)-&gt;Timing.perTaskSampleHitsArray = (val))
+</span><span><a class="LN" name="365">  365   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="366">  366   </a>
+</span><span><a class="LN" name="367">  367   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetPerTaskSampleHitsPtr
+</span><span><a class="LN" name="368">  368   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetPerTaskSampleHitsPtr(rtm) ((rtm)-&gt;Timing.perTaskSampleHits)
+</span><span><a class="LN" name="369">  369   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="370">  370   </a>
+</span><span><a class="LN" name="371">  371   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetPerTaskSampleHitsPtr
+</span><span><a class="LN" name="372">  372   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetPerTaskSampleHitsPtr(rtm, val) ((rtm)-&gt;Timing.perTaskSampleHits = (val))
+</span><span><a class="LN" name="373">  373   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="374">  374   </a>
+</span><span><a class="LN" name="375">  375   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetPrevZCSigState
+</span><span><a class="LN" name="376">  376   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetPrevZCSigState(rtm)     ((rtm)-&gt;ModelData.prevZCSigState)
+</span><span><a class="LN" name="377">  377   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="378">  378   </a>
+</span><span><a class="LN" name="379">  379   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetPrevZCSigState
+</span><span><a class="LN" name="380">  380   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetPrevZCSigState(rtm, val) ((rtm)-&gt;ModelData.prevZCSigState = (val))
+</span><span><a class="LN" name="381">  381   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="382">  382   </a>
+</span><span><a class="LN" name="383">  383   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetRTWExtModeInfo
+</span><span><a class="LN" name="384">  384   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetRTWExtModeInfo(rtm)     ((rtm)-&gt;extModeInfo)
+</span><span><a class="LN" name="385">  385   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="386">  386   </a>
+</span><span><a class="LN" name="387">  387   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetRTWExtModeInfo
+</span><span><a class="LN" name="388">  388   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetRTWExtModeInfo(rtm, val) ((rtm)-&gt;extModeInfo = (val))
+</span><span><a class="LN" name="389">  389   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="390">  390   </a>
+</span><span><a class="LN" name="391">  391   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetRTWGeneratedSFcn
+</span><span><a class="LN" name="392">  392   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetRTWGeneratedSFcn(rtm)   ((rtm)-&gt;Sizes.rtwGenSfcn)
+</span><span><a class="LN" name="393">  393   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="394">  394   </a>
+</span><span><a class="LN" name="395">  395   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetRTWGeneratedSFcn
+</span><span><a class="LN" name="396">  396   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetRTWGeneratedSFcn(rtm, val) ((rtm)-&gt;Sizes.rtwGenSfcn = (val))
+</span><span><a class="LN" name="397">  397   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="398">  398   </a>
+</span><span><a class="LN" name="399">  399   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetRTWLogInfo
+</span><span><a class="LN" name="400">  400   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetRTWLogInfo(rtm)         ((rtm)-&gt;rtwLogInfo)
+</span><span><a class="LN" name="401">  401   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="402">  402   </a>
+</span><span><a class="LN" name="403">  403   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetRTWLogInfo
+</span><span><a class="LN" name="404">  404   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetRTWLogInfo(rtm, val)    ((rtm)-&gt;rtwLogInfo = (val))
+</span><span><a class="LN" name="405">  405   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="406">  406   </a>
+</span><span><a class="LN" name="407">  407   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetRTWRTModelMethodsInfo
+</span><span><a class="LN" name="408">  408   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetRTWRTModelMethodsInfo(rtm) ()
+</span><span><a class="LN" name="409">  409   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="410">  410   </a>
+</span><span><a class="LN" name="411">  411   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetRTWRTModelMethodsInfo
+</span><span><a class="LN" name="412">  412   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetRTWRTModelMethodsInfo(rtm, val) ()
+</span><span><a class="LN" name="413">  413   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="414">  414   </a>
+</span><span><a class="LN" name="415">  415   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetRTWSfcnInfo
+</span><span><a class="LN" name="416">  416   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetRTWSfcnInfo(rtm)        ((rtm)-&gt;sfcnInfo)
+</span><span><a class="LN" name="417">  417   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="418">  418   </a>
+</span><span><a class="LN" name="419">  419   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetRTWSfcnInfo
+</span><span><a class="LN" name="420">  420   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetRTWSfcnInfo(rtm, val)   ((rtm)-&gt;sfcnInfo = (val))
+</span><span><a class="LN" name="421">  421   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="422">  422   </a>
+</span><span><a class="LN" name="423">  423   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetRTWSolverInfo
+</span><span><a class="LN" name="424">  424   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetRTWSolverInfo(rtm)      ((rtm)-&gt;solverInfo)
+</span><span><a class="LN" name="425">  425   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="426">  426   </a>
+</span><span><a class="LN" name="427">  427   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetRTWSolverInfo
+</span><span><a class="LN" name="428">  428   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetRTWSolverInfo(rtm, val) ((rtm)-&gt;solverInfo = (val))
+</span><span><a class="LN" name="429">  429   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="430">  430   </a>
+</span><span><a class="LN" name="431">  431   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetRTWSolverInfoPtr
+</span><span><a class="LN" name="432">  432   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetRTWSolverInfoPtr(rtm)   ((rtm)-&gt;solverInfoPtr)
+</span><span><a class="LN" name="433">  433   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="434">  434   </a>
+</span><span><a class="LN" name="435">  435   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetRTWSolverInfoPtr
+</span><span><a class="LN" name="436">  436   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetRTWSolverInfoPtr(rtm, val) ((rtm)-&gt;solverInfoPtr = (val))
+</span><span><a class="LN" name="437">  437   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="438">  438   </a>
+</span><span><a class="LN" name="439">  439   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetReservedForXPC
+</span><span><a class="LN" name="440">  440   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetReservedForXPC(rtm)     ((rtm)-&gt;SpecialInfo.xpcData)
+</span><span><a class="LN" name="441">  441   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="442">  442   </a>
+</span><span><a class="LN" name="443">  443   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetReservedForXPC
+</span><span><a class="LN" name="444">  444   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetReservedForXPC(rtm, val) ((rtm)-&gt;SpecialInfo.xpcData = (val))
+</span><span><a class="LN" name="445">  445   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="446">  446   </a>
+</span><span><a class="LN" name="447">  447   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetRootDWork
+</span><span><a class="LN" name="448">  448   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetRootDWork(rtm)          ((rtm)-&gt;ModelData.dwork)
+</span><span><a class="LN" name="449">  449   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="450">  450   </a>
+</span><span><a class="LN" name="451">  451   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetRootDWork
+</span><span><a class="LN" name="452">  452   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetRootDWork(rtm, val)     ((rtm)-&gt;ModelData.dwork = (val))
+</span><span><a class="LN" name="453">  453   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="454">  454   </a>
+</span><span><a class="LN" name="455">  455   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetSFunctions
+</span><span><a class="LN" name="456">  456   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetSFunctions(rtm)         ((rtm)-&gt;childSfunctions)
+</span><span><a class="LN" name="457">  457   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="458">  458   </a>
+</span><span><a class="LN" name="459">  459   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetSFunctions
+</span><span><a class="LN" name="460">  460   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetSFunctions(rtm, val)    ((rtm)-&gt;childSfunctions = (val))
+</span><span><a class="LN" name="461">  461   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="462">  462   </a>
+</span><span><a class="LN" name="463">  463   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetSampleHitArray
+</span><span><a class="LN" name="464">  464   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetSampleHitArray(rtm)     ((rtm)-&gt;Timing.sampleHitArray)
+</span><span><a class="LN" name="465">  465   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="466">  466   </a>
+</span><span><a class="LN" name="467">  467   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetSampleHitArray
+</span><span><a class="LN" name="468">  468   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetSampleHitArray(rtm, val) ((rtm)-&gt;Timing.sampleHitArray = (val))
+</span><span><a class="LN" name="469">  469   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="470">  470   </a>
+</span><span><a class="LN" name="471">  471   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetSampleHitPtr
+</span><span><a class="LN" name="472">  472   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetSampleHitPtr(rtm)       ((rtm)-&gt;Timing.sampleHits)
+</span><span><a class="LN" name="473">  473   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="474">  474   </a>
+</span><span><a class="LN" name="475">  475   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetSampleHitPtr
+</span><span><a class="LN" name="476">  476   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetSampleHitPtr(rtm, val)  ((rtm)-&gt;Timing.sampleHits = (val))
+</span><span><a class="LN" name="477">  477   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="478">  478   </a>
+</span><span><a class="LN" name="479">  479   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetSampleTimeArray
+</span><span><a class="LN" name="480">  480   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetSampleTimeArray(rtm)    ((rtm)-&gt;Timing.sampleTimesArray)
+</span><span><a class="LN" name="481">  481   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="482">  482   </a>
+</span><span><a class="LN" name="483">  483   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetSampleTimeArray
+</span><span><a class="LN" name="484">  484   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetSampleTimeArray(rtm, val) ((rtm)-&gt;Timing.sampleTimesArray = (val))
+</span><span><a class="LN" name="485">  485   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="486">  486   </a>
+</span><span><a class="LN" name="487">  487   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetSampleTimePtr
+</span><span><a class="LN" name="488">  488   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetSampleTimePtr(rtm)      ((rtm)-&gt;Timing.sampleTimes)
+</span><span><a class="LN" name="489">  489   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="490">  490   </a>
+</span><span><a class="LN" name="491">  491   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetSampleTimePtr
+</span><span><a class="LN" name="492">  492   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetSampleTimePtr(rtm, val) ((rtm)-&gt;Timing.sampleTimes = (val))
+</span><span><a class="LN" name="493">  493   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="494">  494   </a>
+</span><span><a class="LN" name="495">  495   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetSampleTimeTaskIDArray
+</span><span><a class="LN" name="496">  496   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetSampleTimeTaskIDArray(rtm) ((rtm)-&gt;Timing.sampleTimeTaskIDArray)
+</span><span><a class="LN" name="497">  497   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="498">  498   </a>
+</span><span><a class="LN" name="499">  499   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetSampleTimeTaskIDArray
+</span><span><a class="LN" name="500">  500   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetSampleTimeTaskIDArray(rtm, val) ((rtm)-&gt;Timing.sampleTimeTaskIDArray = (val))
+</span><span><a class="LN" name="501">  501   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="502">  502   </a>
+</span><span><a class="LN" name="503">  503   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetSampleTimeTaskIDPtr
+</span><span><a class="LN" name="504">  504   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetSampleTimeTaskIDPtr(rtm) ((rtm)-&gt;Timing.sampleTimeTaskIDPtr)
+</span><span><a class="LN" name="505">  505   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="506">  506   </a>
+</span><span><a class="LN" name="507">  507   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetSampleTimeTaskIDPtr
+</span><span><a class="LN" name="508">  508   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetSampleTimeTaskIDPtr(rtm, val) ((rtm)-&gt;Timing.sampleTimeTaskIDPtr = (val))
+</span><span><a class="LN" name="509">  509   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="510">  510   </a>
+</span><span><a class="LN" name="511">  511   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetSimMode
+</span><span><a class="LN" name="512">  512   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetSimMode(rtm)            ((rtm)-&gt;simMode)
+</span><span><a class="LN" name="513">  513   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="514">  514   </a>
+</span><span><a class="LN" name="515">  515   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetSimMode
+</span><span><a class="LN" name="516">  516   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetSimMode(rtm, val)       ((rtm)-&gt;simMode = (val))
+</span><span><a class="LN" name="517">  517   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="518">  518   </a>
+</span><span><a class="LN" name="519">  519   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetSimTimeStep
+</span><span><a class="LN" name="520">  520   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetSimTimeStep(rtm)        ((rtm)-&gt;Timing.simTimeStep)
+</span><span><a class="LN" name="521">  521   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="522">  522   </a>
+</span><span><a class="LN" name="523">  523   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetSimTimeStep
+</span><span><a class="LN" name="524">  524   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetSimTimeStep(rtm, val)   ((rtm)-&gt;Timing.simTimeStep = (val))
+</span><span><a class="LN" name="525">  525   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="526">  526   </a>
+</span><span><a class="LN" name="527">  527   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetStartTime
+</span><span><a class="LN" name="528">  528   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetStartTime(rtm)          ((rtm)-&gt;Timing.tStart)
+</span><span><a class="LN" name="529">  529   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="530">  530   </a>
+</span><span><a class="LN" name="531">  531   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetStartTime
+</span><span><a class="LN" name="532">  532   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetStartTime(rtm, val)     ((rtm)-&gt;Timing.tStart = (val))
+</span><span><a class="LN" name="533">  533   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="534">  534   </a>
+</span><span><a class="LN" name="535">  535   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetStepSize
+</span><span><a class="LN" name="536">  536   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetStepSize(rtm)           ((rtm)-&gt;Timing.stepSize)
+</span><span><a class="LN" name="537">  537   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="538">  538   </a>
+</span><span><a class="LN" name="539">  539   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetStepSize
+</span><span><a class="LN" name="540">  540   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetStepSize(rtm, val)      ((rtm)-&gt;Timing.stepSize = (val))
+</span><span><a class="LN" name="541">  541   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="542">  542   </a>
+</span><span><a class="LN" name="543">  543   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetStopRequestedFlag
+</span><span><a class="LN" name="544">  544   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetStopRequestedFlag(rtm)  ((rtm)-&gt;Timing.stopRequestedFlag)
+</span><span><a class="LN" name="545">  545   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="546">  546   </a>
+</span><span><a class="LN" name="547">  547   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetStopRequestedFlag
+</span><span><a class="LN" name="548">  548   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetStopRequestedFlag(rtm, val) ((rtm)-&gt;Timing.stopRequestedFlag = (val))
+</span><span><a class="LN" name="549">  549   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="550">  550   </a>
+</span><span><a class="LN" name="551">  551   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetTaskCounters
+</span><span><a class="LN" name="552">  552   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetTaskCounters(rtm)       ()
+</span><span><a class="LN" name="553">  553   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="554">  554   </a>
+</span><span><a class="LN" name="555">  555   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetTaskCounters
+</span><span><a class="LN" name="556">  556   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetTaskCounters(rtm, val)  ()
+</span><span><a class="LN" name="557">  557   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="558">  558   </a>
+</span><span><a class="LN" name="559">  559   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetTaskTimeArray
+</span><span><a class="LN" name="560">  560   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetTaskTimeArray(rtm)      ((rtm)-&gt;Timing.tArray)
+</span><span><a class="LN" name="561">  561   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="562">  562   </a>
+</span><span><a class="LN" name="563">  563   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetTaskTimeArray
+</span><span><a class="LN" name="564">  564   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetTaskTimeArray(rtm, val) ((rtm)-&gt;Timing.tArray = (val))
+</span><span><a class="LN" name="565">  565   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="566">  566   </a>
+</span><span><a class="LN" name="567">  567   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetTimePtr
+</span><span><a class="LN" name="568">  568   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetTimePtr(rtm)            ((rtm)-&gt;Timing.t)
+</span><span><a class="LN" name="569">  569   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="570">  570   </a>
+</span><span><a class="LN" name="571">  571   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetTimePtr
+</span><span><a class="LN" name="572">  572   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetTimePtr(rtm, val)       ((rtm)-&gt;Timing.t = (val))
+</span><span><a class="LN" name="573">  573   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="574">  574   </a>
+</span><span><a class="LN" name="575">  575   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetTimingData
+</span><span><a class="LN" name="576">  576   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetTimingData(rtm)         ((rtm)-&gt;Timing.timingData)
+</span><span><a class="LN" name="577">  577   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="578">  578   </a>
+</span><span><a class="LN" name="579">  579   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetTimingData
+</span><span><a class="LN" name="580">  580   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetTimingData(rtm, val)    ((rtm)-&gt;Timing.timingData = (val))
+</span><span><a class="LN" name="581">  581   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="582">  582   </a>
+</span><span><a class="LN" name="583">  583   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetU
+</span><span><a class="LN" name="584">  584   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetU(rtm)                  ((rtm)-&gt;ModelData.inputs)
+</span><span><a class="LN" name="585">  585   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="586">  586   </a>
+</span><span><a class="LN" name="587">  587   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetU
+</span><span><a class="LN" name="588">  588   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetU(rtm, val)             ((rtm)-&gt;ModelData.inputs = (val))
+</span><span><a class="LN" name="589">  589   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="590">  590   </a>
+</span><span><a class="LN" name="591">  591   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetVarNextHitTimesListPtr
+</span><span><a class="LN" name="592">  592   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetVarNextHitTimesListPtr(rtm) ((rtm)-&gt;Timing.varNextHitTimesList)
+</span><span><a class="LN" name="593">  593   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="594">  594   </a>
+</span><span><a class="LN" name="595">  595   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetVarNextHitTimesListPtr
+</span><span><a class="LN" name="596">  596   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetVarNextHitTimesListPtr(rtm, val) ((rtm)-&gt;Timing.varNextHitTimesList = (val))
+</span><span><a class="LN" name="597">  597   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="598">  598   </a>
+</span><span><a class="LN" name="599">  599   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetY
+</span><span><a class="LN" name="600">  600   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetY(rtm)                  ((rtm)-&gt;ModelData.outputs)
+</span><span><a class="LN" name="601">  601   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="602">  602   </a>
+</span><span><a class="LN" name="603">  603   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetY
+</span><span><a class="LN" name="604">  604   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetY(rtm, val)             ((rtm)-&gt;ModelData.outputs = (val))
+</span><span><a class="LN" name="605">  605   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="606">  606   </a>
+</span><span><a class="LN" name="607">  607   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetZCCacheNeedsReset
+</span><span><a class="LN" name="608">  608   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetZCCacheNeedsReset(rtm)  ((rtm)-&gt;ModelData.zCCacheNeedsReset)
+</span><span><a class="LN" name="609">  609   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="610">  610   </a>
+</span><span><a class="LN" name="611">  611   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetZCCacheNeedsReset
+</span><span><a class="LN" name="612">  612   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetZCCacheNeedsReset(rtm, val) ((rtm)-&gt;ModelData.zCCacheNeedsReset = (val))
+</span><span><a class="LN" name="613">  613   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="614">  614   </a>
+</span><span><a class="LN" name="615">  615   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetZCSignalValues
+</span><span><a class="LN" name="616">  616   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetZCSignalValues(rtm)     ((rtm)-&gt;ModelData.zcSignalValues)
+</span><span><a class="LN" name="617">  617   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="618">  618   </a>
+</span><span><a class="LN" name="619">  619   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetZCSignalValues
+</span><span><a class="LN" name="620">  620   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetZCSignalValues(rtm, val) ((rtm)-&gt;ModelData.zcSignalValues = (val))
+</span><span><a class="LN" name="621">  621   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="622">  622   </a>
+</span><span><a class="LN" name="623">  623   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGet_TimeOfLastOutput
+</span><span><a class="LN" name="624">  624   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGet_TimeOfLastOutput(rtm)  ((rtm)-&gt;Timing.timeOfLastOutput)
+</span><span><a class="LN" name="625">  625   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="626">  626   </a>
+</span><span><a class="LN" name="627">  627   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSet_TimeOfLastOutput
+</span><span><a class="LN" name="628">  628   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSet_TimeOfLastOutput(rtm, val) ((rtm)-&gt;Timing.timeOfLastOutput = (val))
+</span><span><a class="LN" name="629">  629   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="630">  630   </a>
+</span><span><a class="LN" name="631">  631   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetdX
+</span><span><a class="LN" name="632">  632   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetdX(rtm)                 ((rtm)-&gt;ModelData.derivs)
+</span><span><a class="LN" name="633">  633   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="634">  634   </a>
+</span><span><a class="LN" name="635">  635   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetdX
+</span><span><a class="LN" name="636">  636   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetdX(rtm, val)            ((rtm)-&gt;ModelData.derivs = (val))
+</span><span><a class="LN" name="637">  637   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="638">  638   </a>
+</span><span><a class="LN" name="639">  639   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetChecksumVal
+</span><span><a class="LN" name="640">  640   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetChecksumVal(rtm, idx)   ((rtm)-&gt;Sizes.checksums[idx])
+</span><span><a class="LN" name="641">  641   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="642">  642   </a>
+</span><span><a class="LN" name="643">  643   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetChecksumVal
+</span><span><a class="LN" name="644">  644   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetChecksumVal(rtm, idx, val) ((rtm)-&gt;Sizes.checksums[idx] = (val))
+</span><span><a class="LN" name="645">  645   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="646">  646   </a>
+</span><span><a class="LN" name="647">  647   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetDWork
+</span><span><a class="LN" name="648">  648   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetDWork(rtm, idx)         ((rtm)-&gt;ModelData.dwork[idx])
+</span><span><a class="LN" name="649">  649   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="650">  650   </a>
+</span><span><a class="LN" name="651">  651   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetDWork
+</span><span><a class="LN" name="652">  652   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetDWork(rtm, idx, val)    ((rtm)-&gt;ModelData.dwork[idx] = (val))
+</span><span><a class="LN" name="653">  653   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="654">  654   </a>
+</span><span><a class="LN" name="655">  655   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetOffsetTime
+</span><span><a class="LN" name="656">  656   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetOffsetTime(rtm, idx)    ((rtm)-&gt;Timing.offsetTimes[idx])
+</span><span><a class="LN" name="657">  657   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="658">  658   </a>
+</span><span><a class="LN" name="659">  659   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetOffsetTime
+</span><span><a class="LN" name="660">  660   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetOffsetTime(rtm, idx, val) ((rtm)-&gt;Timing.offsetTimes[idx] = (val))
+</span><span><a class="LN" name="661">  661   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="662">  662   </a>
+</span><span><a class="LN" name="663">  663   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetSFunction
+</span><span><a class="LN" name="664">  664   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetSFunction(rtm, idx)     ((rtm)-&gt;childSfunctions[idx])
+</span><span><a class="LN" name="665">  665   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="666">  666   </a>
+</span><span><a class="LN" name="667">  667   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetSFunction
+</span><span><a class="LN" name="668">  668   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetSFunction(rtm, idx, val) ((rtm)-&gt;childSfunctions[idx] = (val))
+</span><span><a class="LN" name="669">  669   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="670">  670   </a>
+</span><span><a class="LN" name="671">  671   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetSampleTime
+</span><span><a class="LN" name="672">  672   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetSampleTime(rtm, idx)    ((rtm)-&gt;Timing.sampleTimes[idx])
+</span><span><a class="LN" name="673">  673   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="674">  674   </a>
+</span><span><a class="LN" name="675">  675   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetSampleTime
+</span><span><a class="LN" name="676">  676   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetSampleTime(rtm, idx, val) ((rtm)-&gt;Timing.sampleTimes[idx] = (val))
+</span><span><a class="LN" name="677">  677   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="678">  678   </a>
+</span><span><a class="LN" name="679">  679   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetSampleTimeTaskID
+</span><span><a class="LN" name="680">  680   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetSampleTimeTaskID(rtm, idx) ((rtm)-&gt;Timing.sampleTimeTaskIDPtr[idx])
+</span><span><a class="LN" name="681">  681   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="682">  682   </a>
+</span><span><a class="LN" name="683">  683   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetSampleTimeTaskID
+</span><span><a class="LN" name="684">  684   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetSampleTimeTaskID(rtm, idx, val) ((rtm)-&gt;Timing.sampleTimeTaskIDPtr[idx] = (val))
+</span><span><a class="LN" name="685">  685   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="686">  686   </a>
+</span><span><a class="LN" name="687">  687   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetVarNextHitTimeList
+</span><span><a class="LN" name="688">  688   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetVarNextHitTimeList(rtm, idx) ((rtm)-&gt;Timing.varNextHitTimesList[idx])
+</span><span><a class="LN" name="689">  689   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="690">  690   </a>
+</span><span><a class="LN" name="691">  691   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetVarNextHitTimeList
+</span><span><a class="LN" name="692">  692   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetVarNextHitTimeList(rtm, idx, val) ((rtm)-&gt;Timing.varNextHitTimesList[idx] = (val))
+</span><span><a class="LN" name="693">  693   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="694">  694   </a>
+</span><span><a class="LN" name="695">  695   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmIsContinuousTask
+</span><span><a class="LN" name="696">  696   </a><font color="#992211">#</font> <span class="PP">define</span> rtmIsContinuousTask(rtm, tid) ((tid) == 0)
+</span><span><a class="LN" name="697">  697   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="698">  698   </a>
+</span><span><a class="LN" name="699">  699   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetErrorStatus
+</span><span><a class="LN" name="700">  700   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetErrorStatus(rtm)        ((rtm)-&gt;errorStatus)
+</span><span><a class="LN" name="701">  701   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="702">  702   </a>
+</span><span><a class="LN" name="703">  703   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetErrorStatus
+</span><span><a class="LN" name="704">  704   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetErrorStatus(rtm, val)   ((rtm)-&gt;errorStatus = (val))
+</span><span><a class="LN" name="705">  705   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="706">  706   </a>
+</span><span><a class="LN" name="707">  707   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmIsMajorTimeStep
+</span><span><a class="LN" name="708">  708   </a><font color="#992211">#</font> <span class="PP">define</span> rtmIsMajorTimeStep(rtm)       (((rtm)-&gt;Timing.simTimeStep) == MAJOR_TIME_STEP)
+</span><span><a class="LN" name="709">  709   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="710">  710   </a>
+</span><span><a class="LN" name="711">  711   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmIsMinorTimeStep
+</span><span><a class="LN" name="712">  712   </a><font color="#992211">#</font> <span class="PP">define</span> rtmIsMinorTimeStep(rtm)       (((rtm)-&gt;Timing.simTimeStep) == MINOR_TIME_STEP)
+</span><span><a class="LN" name="713">  713   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="714">  714   </a>
+</span><span><a class="LN" name="715">  715   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmIsSampleHit
+</span><span><a class="LN" name="716">  716   </a><font color="#992211">#</font> <span class="PP">define</span> rtmIsSampleHit(rtm, sti, tid) ((rtmIsMajorTimeStep((rtm)) &amp;&amp; (rtm)-&gt;Timing.sampleHits[(rtm)-&gt;Timing.sampleTimeTaskIDPtr[sti]]))
+</span><span><a class="LN" name="717">  717   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="718">  718   </a>
+</span><span><a class="LN" name="719">  719   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetStopRequested
+</span><span><a class="LN" name="720">  720   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetStopRequested(rtm)      ((rtm)-&gt;Timing.stopRequestedFlag)
+</span><span><a class="LN" name="721">  721   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="722">  722   </a>
+</span><span><a class="LN" name="723">  723   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetStopRequested
+</span><span><a class="LN" name="724">  724   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetStopRequested(rtm, val) ((rtm)-&gt;Timing.stopRequestedFlag = (val))
+</span><span><a class="LN" name="725">  725   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="726">  726   </a>
+</span><span><a class="LN" name="727">  727   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetStopRequestedPtr
+</span><span><a class="LN" name="728">  728   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetStopRequestedPtr(rtm)   (&amp;((rtm)-&gt;Timing.stopRequestedFlag))
+</span><span><a class="LN" name="729">  729   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="730">  730   </a>
+</span><span><a class="LN" name="731">  731   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetT
+</span><span><a class="LN" name="732">  732   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetT(rtm)                  (rtmGetTPtr((rtm))[0])
+</span><span><a class="LN" name="733">  733   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="734">  734   </a>
+</span><span><a class="LN" name="735">  735   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetT
+</span><span><a class="LN" name="736">  736   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetT(rtm, val)                                       <span class="CT">/* Do Nothing */</span>
+</span><span><a class="LN" name="737">  737   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="738">  738   </a>
+</span><span><a class="LN" name="739">  739   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetTFinal
+</span><span><a class="LN" name="740">  740   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetTFinal(rtm)             ((rtm)-&gt;Timing.tFinal)
+</span><span><a class="LN" name="741">  741   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="742">  742   </a>
+</span><span><a class="LN" name="743">  743   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetTFinal
+</span><span><a class="LN" name="744">  744   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetTFinal(rtm, val)        ((rtm)-&gt;Timing.tFinal = (val))
+</span><span><a class="LN" name="745">  745   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="746">  746   </a>
+</span><span><a class="LN" name="747">  747   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetTPtr
+</span><span><a class="LN" name="748">  748   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetTPtr(rtm)               ((rtm)-&gt;Timing.t)
+</span><span><a class="LN" name="749">  749   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="750">  750   </a>
+</span><span><a class="LN" name="751">  751   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetTPtr
+</span><span><a class="LN" name="752">  752   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetTPtr(rtm, val)          ((rtm)-&gt;Timing.t = (val))
+</span><span><a class="LN" name="753">  753   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="754">  754   </a>
+</span><span><a class="LN" name="755">  755   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetTStart
+</span><span><a class="LN" name="756">  756   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetTStart(rtm)             ((rtm)-&gt;Timing.tStart)
+</span><span><a class="LN" name="757">  757   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="758">  758   </a>
+</span><span><a class="LN" name="759">  759   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetTStart
+</span><span><a class="LN" name="760">  760   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetTStart(rtm, val)        ((rtm)-&gt;Timing.tStart = (val))
+</span><span><a class="LN" name="761">  761   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="762">  762   </a>
+</span><span><a class="LN" name="763">  763   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetTaskTime
+</span><span><a class="LN" name="764">  764   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetTaskTime(rtm, sti)      (rtmGetTPtr((rtm))[(rtm)-&gt;Timing.sampleTimeTaskIDPtr[sti]])
+</span><span><a class="LN" name="765">  765   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="766">  766   </a>
+</span><span><a class="LN" name="767">  767   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmSetTaskTime
+</span><span><a class="LN" name="768">  768   </a><font color="#992211">#</font> <span class="PP">define</span> rtmSetTaskTime(rtm, sti, val) (rtmGetTPtr((rtm))[sti] = (val))
+</span><span><a class="LN" name="769">  769   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="770">  770   </a>
+</span><span><a class="LN" name="771">  771   </a><font color="#992211">#</font><span class="PP">ifndef</span> rtmGetTimeOfLastOutput
+</span><span><a class="LN" name="772">  772   </a><font color="#992211">#</font> <span class="PP">define</span> rtmGetTimeOfLastOutput(rtm)   ((rtm)-&gt;Timing.timeOfLastOutput)
+</span><span><a class="LN" name="773">  773   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="774">  774   </a>
+</span><span><a class="LN" name="775">  775   </a><font color="#992211">#</font><span class="PP">ifdef</span> rtmGetRTWSolverInfo
+</span><span><a class="LN" name="776">  776   </a><font color="#992211">#</font><span class="PP">undef</span> rtmGetRTWSolverInfo
+</span><span><a class="LN" name="777">  777   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="778">  778   </a>
+</span><span><a class="LN" name="779">  779   </a><font color="#992211">#</font><span class="PP">define</span> rtmGetRTWSolverInfo(rtm)       &amp;((rtm)-&gt;solverInfo)
+</span><span><a class="LN" name="780">  780   </a>
+</span><span><a class="LN" name="781">  781   </a><span class="CT">/* Definition for use in the target main file */</span>
+</span><span><a class="LN" name="782">  782   </a><font color="#992211">#</font><span class="PP">define</span> deneme_rtModel                 <a href="deneme_types_h.html#type_RT_MODEL_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_RT_MODEL_deneme_T');" target="_self"><font color="#1122aa">RT_MODEL_deneme_T</font></a>
+</span><span><a class="LN" name="783">  783   </a>
+</span><span><a class="LN" name="784">  784   </a><span class="CT">/* Block signals (auto storage) */</span>
+</span><span><a class="LN" name="785">  785   </a><span class="KW">typedef</span> <span class="KW">struct</span> <b>{</b>
+</span><span><a class="LN" name="786">  786   </a>  real_T Sineinput;                    <span class="CT">/* '&lt;Root&gt;/Sine Wave' */</span>
+</span><span><a class="LN" name="787">  787   </a>  real_T SineOutput;                   <span class="CT">/* '&lt;Root&gt;/Sum' */</span>
+</span><span><a class="LN" name="788">  788   </a><b>}</b> <a name="type_B_deneme_T">B_deneme_T</a>;
+</span><span><a class="LN" name="789">  789   </a>
+</span><span><a class="LN" name="790">  790   </a><span class="CT">/* Block states (auto storage) for system '&lt;Root&gt;' */</span>
+</span><span><a class="LN" name="791">  791   </a><span class="KW">typedef</span> <span class="KW">struct</span> <b>{</b>
+</span><span><a class="LN" name="792">  792   </a>  real_T TimeStampA;                   <span class="CT">/* '&lt;Root&gt;/Derivative' */</span>
+</span><span><a class="LN" name="793">  793   </a>  real_T LastUAtTimeA;                 <span class="CT">/* '&lt;Root&gt;/Derivative' */</span>
+</span><span><a class="LN" name="794">  794   </a>  real_T TimeStampB;                   <span class="CT">/* '&lt;Root&gt;/Derivative' */</span>
+</span><span><a class="LN" name="795">  795   </a>  real_T LastUAtTimeB;                 <span class="CT">/* '&lt;Root&gt;/Derivative' */</span>
+</span><span><a class="LN" name="796">  796   </a>  <span class="KW">struct</span> <b>{</b>
+</span><span><a class="LN" name="797">  797   </a>    <span class="DT">void</span> *LoggedData;
+</span><span><a class="LN" name="798">  798   </a>  <b>}</b> Scope_PWORK;                       <span class="CT">/* '&lt;Root&gt;/Scope' */</span>
+</span><span><a class="LN" name="799">  799   </a><b>}</b> <a name="type_DW_deneme_T">DW_deneme_T</a>;
+</span><span><a class="LN" name="800">  800   </a>
+</span><span><a class="LN" name="801">  801   </a><span class="CT">/* Continuous states (auto storage) */</span>
+</span><span><a class="LN" name="802">  802   </a><span class="KW">typedef</span> <span class="KW">struct</span> <b>{</b>
+</span><span><a class="LN" name="803">  803   </a>  real_T Integrator_CSTATE;            <span class="CT">/* '&lt;Root&gt;/Integrator' */</span>
+</span><span><a class="LN" name="804">  804   </a><b>}</b> <a name="type_X_deneme_T">X_deneme_T</a>;
+</span><span><a class="LN" name="805">  805   </a>
+</span><span><a class="LN" name="806">  806   </a><span class="CT">/* State derivatives (auto storage) */</span>
+</span><span><a class="LN" name="807">  807   </a><span class="KW">typedef</span> <span class="KW">struct</span> <b>{</b>
+</span><span><a class="LN" name="808">  808   </a>  real_T Integrator_CSTATE;            <span class="CT">/* '&lt;Root&gt;/Integrator' */</span>
+</span><span><a class="LN" name="809">  809   </a><b>}</b> <a name="type_XDot_deneme_T">XDot_deneme_T</a>;
+</span><span><a class="LN" name="810">  810   </a>
+</span><span><a class="LN" name="811">  811   </a><span class="CT">/* State disabled  */</span>
+</span><span><a class="LN" name="812">  812   </a><span class="KW">typedef</span> <span class="KW">struct</span> <b>{</b>
+</span><span><a class="LN" name="813">  813   </a>  boolean_T Integrator_CSTATE;         <span class="CT">/* '&lt;Root&gt;/Integrator' */</span>
+</span><span><a class="LN" name="814">  814   </a><b>}</b> <a name="type_XDis_deneme_T">XDis_deneme_T</a>;
+</span><span><a class="LN" name="815">  815   </a>
+</span><span><a class="LN" name="816">  816   </a><font color="#992211">#</font><span class="PP">ifndef</span> ODE1_INTG
+</span><span><a class="LN" name="817">  817   </a><font color="#992211">#</font><span class="PP">define</span> ODE1_INTG
+</span><span><a class="LN" name="818">  818   </a>
+</span><span><a class="LN" name="819">  819   </a><span class="CT">/* ODE1 Integration Data */</span>
+</span><span><a class="LN" name="820">  820   </a><span class="KW">typedef</span> <span class="KW">struct</span> <b>{</b>
+</span><span><a class="LN" name="821">  821   </a>  real_T *f[1];                        <span class="CT">/* derivatives */</span>
+</span><span><a class="LN" name="822">  822   </a><b>}</b> <a name="type_ODE1_IntgData">ODE1_IntgData</a>;
+</span><span><a class="LN" name="823">  823   </a>
+</span><span><a class="LN" name="824">  824   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="825">  825   </a>
+</span><span><a class="LN" name="826">  826   </a><span class="CT">/* Backward compatible GRT Identifiers */</span>
+</span><span><a class="LN" name="827">  827   </a><font color="#992211">#</font><span class="PP">define</span> rtB                            <a href="deneme_c.html#var_deneme_B" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_B');" target="_self"><font color="#1122aa">deneme_B</font></a>
+</span><span><a class="LN" name="828">  828   </a><font color="#992211">#</font><span class="PP">define</span> BlockIO                        <a href="#type_B_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_B_deneme_T');" target="_self"><font color="#1122aa">B_deneme_T</font></a>
+</span><span><a class="LN" name="829">  829   </a><font color="#992211">#</font><span class="PP">define</span> rtX                            <a href="deneme_c.html#var_deneme_X" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_X');" target="_self"><font color="#1122aa">deneme_X</font></a>
+</span><span><a class="LN" name="830">  830   </a><font color="#992211">#</font><span class="PP">define</span> ContinuousStates               <a href="#type_X_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_X_deneme_T');" target="_self"><font color="#1122aa">X_deneme_T</font></a>
+</span><span><a class="LN" name="831">  831   </a><font color="#992211">#</font><span class="PP">define</span> rtXdot                         deneme_XDot
+</span><span><a class="LN" name="832">  832   </a><font color="#992211">#</font><span class="PP">define</span> StateDerivatives               <a href="#type_XDot_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_XDot_deneme_T');" target="_self"><font color="#1122aa">XDot_deneme_T</font></a>
+</span><span><a class="LN" name="833">  833   </a><font color="#992211">#</font><span class="PP">define</span> tXdis                          deneme_XDis
+</span><span><a class="LN" name="834">  834   </a><font color="#992211">#</font><span class="PP">define</span> StateDisabled                  <a href="#type_XDis_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_XDis_deneme_T');" target="_self"><font color="#1122aa">XDis_deneme_T</font></a>
+</span><span><a class="LN" name="835">  835   </a><font color="#992211">#</font><span class="PP">define</span> rtP                            <a href="deneme_data_c.html#var_deneme_P" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_P');" target="_self"><font color="#1122aa">deneme_P</font></a>
+</span><span><a class="LN" name="836">  836   </a><font color="#992211">#</font><span class="PP">define</span> Parameters                     <a href="deneme_types_h.html#type_P_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_P_deneme_T');" target="_self"><font color="#1122aa">P_deneme_T</font></a>
+</span><span><a class="LN" name="837">  837   </a><font color="#992211">#</font><span class="PP">define</span> rtDWork                        <a href="deneme_c.html#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>
+</span><span><a class="LN" name="838">  838   </a><font color="#992211">#</font><span class="PP">define</span> D_Work                         <a href="#type_DW_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_DW_deneme_T');" target="_self"><font color="#1122aa">DW_deneme_T</font></a>
+</span><span><a class="LN" name="839">  839   </a>
+</span><span><a class="LN" name="840">  840   </a><span class="CT">/* Parameters (auto storage) */</span>
+</span><span><a class="LN" name="841">  841   </a><span class="KW">struct</span> P_deneme_T_ <b>{</b>
+</span><span><a class="LN" name="842">  842   </a>  real_T Integrator_IC;                <span class="CT">/* Expression: 0</span>
+</span><span><a class="LN" name="843">  843   </a><span class="CT">                                        * Referenced by: '&lt;Root&gt;/Integrator'</span>
+</span><span><a class="LN" name="844">  844   </a><span class="CT">                                        */</span>
+</span><span><a class="LN" name="845">  845   </a>  real_T SineWave_Amp;                 <span class="CT">/* Expression: 1</span>
+</span><span><a class="LN" name="846">  846   </a><span class="CT">                                        * Referenced by: '&lt;Root&gt;/Sine Wave'</span>
+</span><span><a class="LN" name="847">  847   </a><span class="CT">                                        */</span>
+</span><span><a class="LN" name="848">  848   </a>  real_T SineWave_Bias;                <span class="CT">/* Expression: 0</span>
+</span><span><a class="LN" name="849">  849   </a><span class="CT">                                        * Referenced by: '&lt;Root&gt;/Sine Wave'</span>
+</span><span><a class="LN" name="850">  850   </a><span class="CT">                                        */</span>
+</span><span><a class="LN" name="851">  851   </a>  real_T SineWave_Freq;                <span class="CT">/* Expression: 1</span>
+</span><span><a class="LN" name="852">  852   </a><span class="CT">                                        * Referenced by: '&lt;Root&gt;/Sine Wave'</span>
+</span><span><a class="LN" name="853">  853   </a><span class="CT">                                        */</span>
+</span><span><a class="LN" name="854">  854   </a>  real_T SineWave_Phase;               <span class="CT">/* Expression: 0</span>
+</span><span><a class="LN" name="855">  855   </a><span class="CT">                                        * Referenced by: '&lt;Root&gt;/Sine Wave'</span>
+</span><span><a class="LN" name="856">  856   </a><span class="CT">                                        */</span>
+</span><span><a class="LN" name="857">  857   </a>  real_T Gain_Gain;                    <span class="CT">/* Expression: 2</span>
+</span><span><a class="LN" name="858">  858   </a><span class="CT">                                        * Referenced by: '&lt;Root&gt;/Gain'</span>
+</span><span><a class="LN" name="859">  859   </a><span class="CT">                                        */</span>
+</span><span><a class="LN" name="860">  860   </a><b>}</b>;
+</span><span><a class="LN" name="861">  861   </a>
+</span><span><a class="LN" name="862">  862   </a><span class="CT">/* Real-time Model Data Structure */</span>
+</span><span><a class="LN" name="863">  863   </a><span class="KW">struct</span> tag_RTM_deneme_T <b>{</b>
+</span><span><a class="LN" name="864">  864   </a>  <span class="DT">const</span> char_T *path;
+</span><span><a class="LN" name="865">  865   </a>  <span class="DT">const</span> char_T *modelName;
+</span><span><a class="LN" name="866">  866   </a>  <span class="KW">struct</span> SimStruct_tag * *childSfunctions;
+</span><span><a class="LN" name="867">  867   </a>  <span class="DT">const</span> char_T *errorStatus;
+</span><span><a class="LN" name="868">  868   </a>  SS_SimMode simMode;
+</span><span><a class="LN" name="869">  869   </a>  RTWLogInfo *rtwLogInfo;
+</span><span><a class="LN" name="870">  870   </a>  RTWExtModeInfo *extModeInfo;
+</span><span><a class="LN" name="871">  871   </a>  RTWSolverInfo solverInfo;
+</span><span><a class="LN" name="872">  872   </a>  RTWSolverInfo *solverInfoPtr;
+</span><span><a class="LN" name="873">  873   </a>  <span class="DT">void</span> *sfcnInfo;
+</span><span><a class="LN" name="874">  874   </a>
+</span><span><a class="LN" name="875">  875   </a>  <span class="CT">/*</span>
+</span><span><a class="LN" name="876">  876   </a><span class="CT">   * DataMapInfo:</span>
+</span><span><a class="LN" name="877">  877   </a><span class="CT">   * The following substructure contains information regarding</span>
+</span><span><a class="LN" name="878">  878   </a><span class="CT">   * structures generated in the model's C API.</span>
+</span><span><a class="LN" name="879">  879   </a><span class="CT">   */</span>
+</span><span><a class="LN" name="880">  880   </a>  <span class="KW">struct</span> <b>{</b>
+</span><span><a class="LN" name="881">  881   </a>    rtwCAPI_ModelMappingInfo mmi;
+</span><span><a class="LN" name="882">  882   </a>  <b>}</b> DataMapInfo;
+</span><span><a class="LN" name="883">  883   </a>
+</span><span><a class="LN" name="884">  884   </a>  <span class="CT">/*</span>
+</span><span><a class="LN" name="885">  885   </a><span class="CT">   * ModelData:</span>
+</span><span><a class="LN" name="886">  886   </a><span class="CT">   * The following substructure contains information regarding</span>
+</span><span><a class="LN" name="887">  887   </a><span class="CT">   * the data used in the model.</span>
+</span><span><a class="LN" name="888">  888   </a><span class="CT">   */</span>
+</span><span><a class="LN" name="889">  889   </a>  <span class="KW">struct</span> <b>{</b>
+</span><span><a class="LN" name="890">  890   </a>    <span class="DT">void</span> *blockIO;
+</span><span><a class="LN" name="891">  891   </a>    <span class="DT">const</span> <span class="DT">void</span> *constBlockIO;
+</span><span><a class="LN" name="892">  892   </a>    <span class="DT">void</span> *defaultParam;
+</span><span><a class="LN" name="893">  893   </a>    ZCSigState *prevZCSigState;
+</span><span><a class="LN" name="894">  894   </a>    real_T *contStates;
+</span><span><a class="LN" name="895">  895   </a>    real_T *derivs;
+</span><span><a class="LN" name="896">  896   </a>    <span class="DT">void</span> *zcSignalValues;
+</span><span><a class="LN" name="897">  897   </a>    <span class="DT">void</span> *inputs;
+</span><span><a class="LN" name="898">  898   </a>    <span class="DT">void</span> *outputs;
+</span><span><a class="LN" name="899">  899   </a>    boolean_T *contStateDisabled;
+</span><span><a class="LN" name="900">  900   </a>    boolean_T zCCacheNeedsReset;
+</span><span><a class="LN" name="901">  901   </a>    boolean_T derivCacheNeedsReset;
+</span><span><a class="LN" name="902">  902   </a>    boolean_T blkStateChange;
+</span><span><a class="LN" name="903">  903   </a>    real_T odeF[1][1];
+</span><span><a class="LN" name="904">  904   </a>    <a href="#type_ODE1_IntgData" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_ODE1_IntgData');" target="_self"><font color="#1122aa">ODE1_IntgData</font></a> intgData;
+</span><span><a class="LN" name="905">  905   </a>    <span class="DT">void</span> *dwork;
+</span><span><a class="LN" name="906">  906   </a>  <b>}</b> ModelData;
+</span><span><a class="LN" name="907">  907   </a>
+</span><span><a class="LN" name="908">  908   </a>  <span class="CT">/*</span>
+</span><span><a class="LN" name="909">  909   </a><span class="CT">   * Sizes:</span>
+</span><span><a class="LN" name="910">  910   </a><span class="CT">   * The following substructure contains sizes information</span>
+</span><span><a class="LN" name="911">  911   </a><span class="CT">   * for many of the model attributes such as inputs, outputs,</span>
+</span><span><a class="LN" name="912">  912   </a><span class="CT">   * dwork, sample times, etc.</span>
+</span><span><a class="LN" name="913">  913   </a><span class="CT">   */</span>
+</span><span><a class="LN" name="914">  914   </a>  <span class="KW">struct</span> <b>{</b>
+</span><span><a class="LN" name="915">  915   </a>    uint32_T checksums[4];
+</span><span><a class="LN" name="916">  916   </a>    uint32_T options;
+</span><span><a class="LN" name="917">  917   </a>    int_T numContStates;
+</span><span><a class="LN" name="918">  918   </a>    int_T numU;
+</span><span><a class="LN" name="919">  919   </a>    int_T numY;
+</span><span><a class="LN" name="920">  920   </a>    int_T numSampTimes;
+</span><span><a class="LN" name="921">  921   </a>    int_T numBlocks;
+</span><span><a class="LN" name="922">  922   </a>    int_T numBlockIO;
+</span><span><a class="LN" name="923">  923   </a>    int_T numBlockPrms;
+</span><span><a class="LN" name="924">  924   </a>    int_T numDwork;
+</span><span><a class="LN" name="925">  925   </a>    int_T numSFcnPrms;
+</span><span><a class="LN" name="926">  926   </a>    int_T numSFcns;
+</span><span><a class="LN" name="927">  927   </a>    int_T numIports;
+</span><span><a class="LN" name="928">  928   </a>    int_T numOports;
+</span><span><a class="LN" name="929">  929   </a>    int_T numNonSampZCs;
+</span><span><a class="LN" name="930">  930   </a>    int_T sysDirFeedThru;
+</span><span><a class="LN" name="931">  931   </a>    int_T rtwGenSfcn;
+</span><span><a class="LN" name="932">  932   </a>  <b>}</b> Sizes;
+</span><span><a class="LN" name="933">  933   </a>
+</span><span><a class="LN" name="934">  934   </a>  <span class="CT">/*</span>
+</span><span><a class="LN" name="935">  935   </a><span class="CT">   * SpecialInfo:</span>
+</span><span><a class="LN" name="936">  936   </a><span class="CT">   * The following substructure contains special information</span>
+</span><span><a class="LN" name="937">  937   </a><span class="CT">   * related to other components that are dependent on RTW.</span>
+</span><span><a class="LN" name="938">  938   </a><span class="CT">   */</span>
+</span><span><a class="LN" name="939">  939   </a>  <span class="KW">struct</span> <b>{</b>
+</span><span><a class="LN" name="940">  940   </a>    <span class="DT">const</span> <span class="DT">void</span> *mappingInfo;
+</span><span><a class="LN" name="941">  941   </a>    <span class="DT">void</span> *xpcData;
+</span><span><a class="LN" name="942">  942   </a>  <b>}</b> SpecialInfo;
+</span><span><a class="LN" name="943">  943   </a>
+</span><span><a class="LN" name="944">  944   </a>  <span class="CT">/*</span>
+</span><span><a class="LN" name="945">  945   </a><span class="CT">   * Timing:</span>
+</span><span><a class="LN" name="946">  946   </a><span class="CT">   * The following substructure contains information regarding</span>
+</span><span><a class="LN" name="947">  947   </a><span class="CT">   * the timing information for the model.</span>
+</span><span><a class="LN" name="948">  948   </a><span class="CT">   */</span>
+</span><span><a class="LN" name="949">  949   </a>  <span class="KW">struct</span> <b>{</b>
+</span><span><a class="LN" name="950">  950   </a>    time_T stepSize;
+</span><span><a class="LN" name="951">  951   </a>    uint32_T clockTick0;
+</span><span><a class="LN" name="952">  952   </a>    uint32_T clockTickH0;
+</span><span><a class="LN" name="953">  953   </a>    time_T stepSize0;
+</span><span><a class="LN" name="954">  954   </a>    uint32_T clockTick1;
+</span><span><a class="LN" name="955">  955   </a>    uint32_T clockTickH1;
+</span><span><a class="LN" name="956">  956   </a>    time_T stepSize1;
+</span><span><a class="LN" name="957">  957   </a>    time_T tStart;
+</span><span><a class="LN" name="958">  958   </a>    time_T tFinal;
+</span><span><a class="LN" name="959">  959   </a>    time_T timeOfLastOutput;
+</span><span><a class="LN" name="960">  960   </a>    <span class="DT">void</span> *timingData;
+</span><span><a class="LN" name="961">  961   </a>    real_T *varNextHitTimesList;
+</span><span><a class="LN" name="962">  962   </a>    SimTimeStep simTimeStep;
+</span><span><a class="LN" name="963">  963   </a>    boolean_T stopRequestedFlag;
+</span><span><a class="LN" name="964">  964   </a>    time_T *sampleTimes;
+</span><span><a class="LN" name="965">  965   </a>    time_T *offsetTimes;
+</span><span><a class="LN" name="966">  966   </a>    int_T *sampleTimeTaskIDPtr;
+</span><span><a class="LN" name="967">  967   </a>    int_T *sampleHits;
+</span><span><a class="LN" name="968">  968   </a>    int_T *perTaskSampleHits;
+</span><span><a class="LN" name="969">  969   </a>    time_T *t;
+</span><span><a class="LN" name="970">  970   </a>    time_T sampleTimesArray[2];
+</span><span><a class="LN" name="971">  971   </a>    time_T offsetTimesArray[2];
+</span><span><a class="LN" name="972">  972   </a>    int_T sampleTimeTaskIDArray[2];
+</span><span><a class="LN" name="973">  973   </a>    int_T sampleHitArray[2];
+</span><span><a class="LN" name="974">  974   </a>    int_T perTaskSampleHitsArray[4];
+</span><span><a class="LN" name="975">  975   </a>    time_T tArray[2];
+</span><span><a class="LN" name="976">  976   </a>  <b>}</b> Timing;
+</span><span><a class="LN" name="977">  977   </a><b>}</b>;
+</span><span><a class="LN" name="978">  978   </a>
+</span><span><a class="LN" name="979">  979   </a><span class="CT">/* Block parameters (auto storage) */</span>
+</span><span><a class="LN" name="980">  980   </a><span class="DT">extern</span> <a href="deneme_types_h.html#type_P_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_P_deneme_T');" target="_self"><font color="#1122aa">P_deneme_T</font></a> <a href="deneme_data_c.html#var_deneme_P" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_P');" target="_self"><font color="#1122aa">deneme_P</font></a>;
+</span><span><a class="LN" name="981">  981   </a>
+</span><span><a class="LN" name="982">  982   </a><span class="CT">/* Block signals (auto storage) */</span>
+</span><span><a class="LN" name="983">  983   </a><span class="DT">extern</span> <a href="#type_B_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_B_deneme_T');" target="_self"><font color="#1122aa">B_deneme_T</font></a> <a href="deneme_c.html#var_deneme_B" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_B');" target="_self"><font color="#1122aa">deneme_B</font></a>;
+</span><span><a class="LN" name="984">  984   </a>
+</span><span><a class="LN" name="985">  985   </a><span class="CT">/* Continuous states (auto storage) */</span>
+</span><span><a class="LN" name="986">  986   </a><span class="DT">extern</span> <a href="#type_X_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_X_deneme_T');" target="_self"><font color="#1122aa">X_deneme_T</font></a> <a href="deneme_c.html#var_deneme_X" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_X');" target="_self"><font color="#1122aa">deneme_X</font></a>;
+</span><span><a class="LN" name="987">  987   </a>
+</span><span><a class="LN" name="988">  988   </a><span class="CT">/* Block states (auto storage) */</span>
+</span><span><a class="LN" name="989">  989   </a><span class="DT">extern</span> <a href="#type_DW_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_DW_deneme_T');" target="_self"><font color="#1122aa">DW_deneme_T</font></a> <a href="deneme_c.html#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>;
+</span><span><a class="LN" name="990">  990   </a>
+</span><span><a class="LN" name="991">  991   </a><span class="CT">/* Model entry point functions */</span>
+</span><span><a class="LN" name="992">  992   </a><span class="DT">extern</span> <span class="DT">void</span> <a href="deneme_c.html#fcn_deneme_initialize" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_deneme_initialize');" target="_self"><font color="#1122aa">deneme_initialize</font></a>(<span class="DT">void</span>);
+</span><span><a class="LN" name="993">  993   </a><span class="DT">extern</span> <span class="DT">void</span> <a href="deneme_c.html#fcn_deneme_output" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_deneme_output');" target="_self"><font color="#1122aa">deneme_output</font></a>(<span class="DT">void</span>);
+</span><span><a class="LN" name="994">  994   </a><span class="DT">extern</span> <span class="DT">void</span> <a href="deneme_c.html#fcn_deneme_update" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_deneme_update');" target="_self"><font color="#1122aa">deneme_update</font></a>(<span class="DT">void</span>);
+</span><span><a class="LN" name="995">  995   </a><span class="DT">extern</span> <span class="DT">void</span> <a href="deneme_c.html#fcn_deneme_terminate" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_deneme_terminate');" target="_self"><font color="#1122aa">deneme_terminate</font></a>(<span class="DT">void</span>);
+</span><span><a class="LN" name="996">  996   </a>
+</span><span><a class="LN" name="997">  997   </a><span class="CT">/* Function to get C API Model Mapping Static Info */</span>
+</span><span><a class="LN" name="998">  998   </a><span class="DT">extern</span> <span class="DT">const</span> rtwCAPI_ModelMappingStaticInfo*
+</span><span><a class="LN" name="999">  999   </a>  <a href="deneme_capi_c.html#fcn_deneme_GetCAPIStaticMap" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_deneme_GetCAPIStaticMap');" target="_self"><font color="#1122aa">deneme_GetCAPIStaticMap</font></a>(<span class="DT">void</span>);
+</span><span><a class="LN" name="1000"> 1000   </a>
+</span><span><a class="LN" name="1001"> 1001   </a><span class="CT">/* Real-time Model object */</span>
+</span><span><a class="LN" name="1002"> 1002   </a><span class="DT">extern</span> <a href="deneme_types_h.html#type_RT_MODEL_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_RT_MODEL_deneme_T');" target="_self"><font color="#1122aa">RT_MODEL_deneme_T</font></a> *<span class="DT">const</span> <a href="deneme_c.html#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>;
+</span><span><a class="LN" name="1003"> 1003   </a>
+</span><span><a class="LN" name="1004"> 1004   </a><span class="CT">/*-</span>
+</span><span><a class="LN" name="1005"> 1005   </a><span class="CT"> * The generated code includes comments that allow you to trace directly</span>
+</span><span><a class="LN" name="1006"> 1006   </a><span class="CT"> * back to the appropriate location in the model.  The basic format</span>
+</span><span><a class="LN" name="1007"> 1007   </a><span class="CT"> * is &lt;system&gt;/block_name, where system is the system number (uniquely</span>
+</span><span><a class="LN" name="1008"> 1008   </a><span class="CT"> * assigned by Simulink) and block_name is the name of the block.</span>
+</span><span><a class="LN" name="1009"> 1009   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="1010"> 1010   </a><span class="CT"> * Use the MATLAB hilite_system command to trace the generated code back</span>
+</span><span><a class="LN" name="1011"> 1011   </a><span class="CT"> * to the model.  For example,</span>
+</span><span><a class="LN" name="1012"> 1012   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="1013"> 1013   </a><span class="CT"> * hilite_system('&lt;S3&gt;')    - opens system 3</span>
+</span><span><a class="LN" name="1014"> 1014   </a><span class="CT"> * hilite_system('&lt;S3&gt;/Kp') - opens and selects block Kp which resides in S3</span>
+</span><span><a class="LN" name="1015"> 1015   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="1016"> 1016   </a><span class="CT"> * Here is the system hierarchy for this model</span>
+</span><span><a class="LN" name="1017"> 1017   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="1018"> 1018   </a><span class="CT"> * '&lt;Root&gt;' : 'deneme'</span>
+</span><span><a class="LN" name="1019"> 1019   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="1020"> 1020   </a><font color="#992211">#</font><span class="PP">endif</span>                                 <span class="CT">/* RTW_HEADER_deneme_h_ */</span>
+</span><span><a class="LN" name="1021"> 1021   </a>
+</span></pre>
+</td></tr></table>
+</p>
+</body>
+</html>

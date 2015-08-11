@@ -1,0 +1,68 @@
+%% SYSTLC: Linux / Zenom Real-Time Target\
+%%    TMF: zenom.tmf MAKE: make_rtw EXTMODE: ext_comm  
+%%
+%% $RCSfile: zenom.tlc,v $
+%%
+%selectfile NULL_FILE
+ 
+
+%assign MatFileLogging = 1
+%%assign RTWCAPIParams = 1 
+%%assign RTWCAPISignals = 1
+%%assign ParameterTuning = 1
+%%assign BlockIOSignals = 1
+%%assign RTWCAPI = 1     
+
+
+
+
+%if !EXISTS(RTWCAPISignals)
+  %assign RTWCAPISignals = 1 
+%endif
+ 
+%if !EXISTS(RTWCAPIParams)
+  %assign RTWCAPIParams = 1 
+%endif
+
+%assign TargetType = "RT"
+%assign Language   = "C++"
+
+
+%% Te, 25.8.2002 for R13
+%assign GenRTModel = 1
+
+
+
+
+%include "codegenentry.tlc"
+
+ 
+%% The contents between 'BEGIN_RTW_OPTIONS' and 'END_RTW_OPTIONS' are strictly 
+%% written by the standard format. We need to use this structure in RTW 
+%% options GUI function rtwoptionsdlg.m file.
+%%
+/%
+  BEGIN_RTW_OPTIONS
+
+  %----------------------------------------%
+  % Configure RTW code generation settings %
+  %----------------------------------------%
+  rtwgensettings.BuildDirSuffix = '_zenom';
+  
+  END_RTW_OPTIONS 
+ %/
+%% The content between 'BEGIN_CONFIGSET_TARGET_COMPONENT' and 
+%% 'END_CONFIGSET_TARGET_COMPONENT' is for the MathWorks internal use
+%% only.  You must remove this section if you intend to use this file
+%% as a template for your own system target development.
+/%
+  BEGIN_CONFIGSET_TARGET_COMPONENT
+ 
+  targetComponentClass = 'Simulink.GRTTargetCC';
+  
+  END_CONFIGSET_TARGET_COMPONENT
+ %/
+ %assign aRTWCAPI=1     
+%assign aRTWCAPISignals=1
+%assign aRTWCAPIParams=1
+

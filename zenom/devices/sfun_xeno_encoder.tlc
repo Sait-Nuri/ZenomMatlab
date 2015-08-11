@@ -1,0 +1,114 @@
+%%
+%% $Revision $ 
+%% $RCSfile: sfun_xeno_encoder.tlc,v $
+%%
+%% Abstract:
+%%      TLC file for the Q8 encoder device of Linux-Xenomai Target.
+%%
+%% Copyright 2008-2011 EK
+
+%implements "sfun_xeno_encoder" "C"
+ %openfile buffer
+  
+  /* include header files for Xeno calls */
+
+  
+  %closefile buffer
+  %<LibCacheDefine(buffer)>
+%% Function: Start ==========================================================
+%%
+%% Purpose:
+%%      Q8 Encoder initialization code.
+%%
+%function Start(block, system) Output
+  /* S-Function "sfun_q8_encoder" initialization Block: %<Name> */
+%% Select encoder channel to use,count mode,bcd mode,quad,reset,index enable, 
+%% index polarity
+%%
+
+%assign countmode  = 	CAST( "Number",SFcnParamSettings.count_mode)-1
+%assign bcdmode    = 	CAST( "Number",SFcnParamSettings.bcd_mode)-1
+%assign quadmode   =    CAST( "Number",SFcnParamSettings.quad_mode)-1
+%assign indexenable = 	CAST( "Number",SFcnParamSettings.index)
+%assign indexpol   = 	CAST( "Number",SFcnParamSettings.index_Polarity)-1
+%assign reset      = 	CAST( "Number",SFcnParamSettings.Reset)
+
+%if indexenable==1
+   %assign indexenable=0
+   %else
+   %assign indexenable=1
+   %endif
+
+%assign nPars = SIZE(SFcnParamSettings.Channel_Vec,1)
+ %foreach idx=nPars 
+%assign channelIdx = CAST("Number",SFcnParamSettings.Channel_Vec[idx])
+
+  
+
+ Q8EncoderConfig(0,%<channelIdx>,%<countmode>,%<bcdmode>,%<quadmode>,
+    				%<indexenable>,%<indexpol>);
+  
+%if reset==1				
+    Q8EncoderReset(0,%<channelIdx>);
+%endif
+
+
+
+%endforeach
+
+%endfunction 
+
+%% Function: Outputs ==========================================================
+%%
+%% Purpose:
+%%      Code generation rules for mdlOutputs function.
+%%
+%function Outputs(block, system) Output
+  /* S-Function "sfun_q8_encoder" Block: %<Name> */ 
+
+ %assign nPars = SIZE(SFcnParamSettings.Channel_Vec,1)
+  %assign nextChannel = 0
+	%foreach idx=nPars                                   
+      %assign channelIdx = CAST("Number",SFcnParamSettings.Channel_Vec[idx])
+      %assign  offset=CAST("Number",SFcnParamSettings.offset_vec[idx])
+      
+%assign resetflag = LibBlockInputSignal(0, "", "", %<nextChannel>)
+
+%assign y = LibBlockOutputSignal(0, "", "", %<nextChannel>)
+
+
+     		 
+%<y>=(real_T)Q8EncoderInput(0,%<channelIdx>)+%<offset>; 
+
+if (%<resetflag> < 1)
+      Q8EncoderReset(0,%<channelIdx>);
+
+
+   %assign nextChannel = nextChannel+1
+%endforeach
+
+%endfunction
+
+
+%% Function: Terminate ========================================================
+%% Abstract:
+%%      Resets Encoder channel when program is stopped
+%%
+%function Terminate(block, system) Output
+  /* %<Type> Block: '%<Name>' */
+
+%assign nPars = SIZE(SFcnParamSettings.Channel_Vec,1)
+ %foreach idx=nPars 
+%assign channelIdx = CAST("Number",SFcnParamSettings.Channel_Vec[idx])
+
+ Q8EncoderReset(0,%<channelIdx>);
+
+
+%endforeach
+%endfunction
+
+
+
+%% [EOF] sfun_q8_encoder.tlc
+              
+                    

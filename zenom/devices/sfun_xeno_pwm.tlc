@@ -1,0 +1,46 @@
+%%
+%% $Revision $ 
+%% $RCSfile: sfun_xeno_pwm.tlc,v $
+%%
+%% Abstract:
+%%      TLC file for the Q8 PWM Output device of Linux-Xenomai Target.
+%%
+%% Copyright 2008-2011 EK
+
+%implements "sfun_xeno_pwm" "C"
+
+%% Function: Start ==========================================================
+%%
+%% Purpose:
+%%      Xeno PWM initialization code.
+%%
+%function Start(block, system) Output
+  /* S-Function "sfun_q8_pwm" initialization Block: %<Name> */
+%%
+%assign clock       =      CAST( "Number",SFcnParamSettings.clock)-1
+%assign period        = 	CAST( "Real",SFcnParamSettings.period)
+
+%assign cntrlen       =    CAST( "Number",SFcnParamSettings.cntrlen)
+
+    Q8PwmOutput(0,%<clock>,%<period>,0,%<cntrlen>);
+
+%endfunction  
+
+%% Function: Outputs ==========================================================
+%%
+%% Purpose:
+%%      Code generation rules for mdlOutputs function.
+%%
+%function Outputs(block, system) Output
+  /* S-Function "sfun_q8_pwm" Block: %<Name> */      						
+%assign clock       =      CAST( "Number",SFcnParamSettings.clock)-1
+%assign period        = 	CAST( "Real",SFcnParamSettings.period)
+%assign cntrlen       =    CAST( "Number",SFcnParamSettings.cntrlen)
+%assign pulsewidth = LibBlockInputSignal(0, "","", 0)
+Q8PwmOutput(0,%<clock>,%<period>,%<pulsewidth>,%<cntrlen>); 
+
+%endfunction
+
+%% [EOF] sfun_q8_encoder.tlc
+              
+                    

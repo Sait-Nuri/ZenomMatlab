@@ -1,0 +1,63 @@
+%%
+%% $Revision $ 
+%% $RCSfile: sfun_xeno_adc.tlc,v $
+%%
+%% Abstract:
+%%   TLC file for the Q8 Analog to Digital Converter device of Linux-Xenomai Target.
+%%
+%% Copyright 2008-2011 EK
+
+%implements "sfun_xeno_adc" "C"
+ %openfile buffer
+  
+  /* include header files for Xeno calls */
+
+%%#include "Q8Lib.h"
+  
+  %closefile buffer
+  %<LibCacheDefine(buffer)>
+%% Function: Start ==========================================================
+%%
+%% Purpose:
+%%      Q8 A/D initialization code.
+%%
+%function Start(block, system) Output
+  /* S-Function "sfun_xeno_adc" initialization Block: %<Name> */
+%%
+
+
+
+%endfunction  
+
+%% Function: Outputs ==========================================================
+%%
+%% Purpose:
+%%      Code generation rules for mdlOutputs function.
+%%
+%function Outputs(block, system) Output
+  /* S-Function "sfun_xeno_adc" Block: %<Name> */  
+
+
+  %assign nPars = SIZE(SFcnParamSettings.Channel_Vec,1)
+  %assign nextChannel = 0 
+
+  %foreach idx=nPars                                   
+      %assign channelIdx = CAST("Number",SFcnParamSettings.Channel_Vec[idx])
+     
+    						
+ %assign y = LibBlockOutputSignal(0, "", "", %<nextChannel>)
+
+
+
+float anInputVal%<channelIdx>=(float)Q8AnalogInput(0,%<channelIdx>)*(10.0/8192);
+if (anInputVal%<channelIdx>>=70) %<y>=(anInputVal%<channelIdx>)-80;
+   else
+     %<y>=anInputVal%<channelIdx>;
+
+ %assign nextChannel = nextChannel+1
+%endforeach 
+%endfunction
+
+%% [EOF] sfun_q8_adc.tlc
+              
+                    

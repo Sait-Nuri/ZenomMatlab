@@ -1,0 +1,20 @@
+[zenom]
+frequency=1000
+duration=100
+geometry=@ByteArray(\x1\xd9\xd0\xcb\0\x1\0\0\0\0\x1\x8f\0\0\0\x66\0\0\x3\x32\0\0\x1\xc3\0\0\x1\x99\0\0\0\x8e\0\0\x3(\0\0\x1\xb9\0\0\0\x1\0\0)
+logVariablesWidget\geometry=@ByteArray(\x1\xd9\xd0\xcb\0\x1\0\0\0\0\0\0\0\0\0\0\0\0\x1\xad\0\0\x1\x8f\0\0\0\0\0\0\0\0\0\0\x1\xad\0\0\x1\x8f\0\0\0\x1\0\0)
+logVariablesWidget\visible=false
+controlVariablesWidget\geometry=@ByteArray(\x1\xd9\xd0\xcb\0\x1\0\0\xff\xff\xff\xf6\xff\xff\xff\xf8\0\0\x1I\0\0\x1\xb9\0\0\0\0\0\0\0 \0\0\x1?\0\0\x1\xaf\0\0\0\x1\0\0)
+controlVariablesWidget\visible=false
+controlVariablesWidget\Gain\value%5B0%5D%5B0%5D=12
+controlVariablesWidget\InitialCondition\value%5B0%5D%5B0%5D=0
+controlVariablesWidget\Amplitude\value%5B0%5D%5B0%5D=1
+controlVariablesWidget\Bias\value%5B0%5D%5B0%5D=0
+controlVariablesWidget\Frequency\value%5B0%5D%5B0%5D=1
+controlVariablesWidget\Phase\value%5B0%5D%5B0%5D=0
+Gauges\size=0
+Plots\size=1
+Plots\Plot0\geometry=@ByteArray(\x1\xd9\xd0\xcb\0\x1\0\0\0\0\x3!\0\0\0\x66\0\0\x5\x8c\0\0\x2'\0\0\x3+\0\0\0\x8e\0\0\x5\x82\0\0\x2\x1d\0\0\0\x1\0\0)
+Plots\Plot0\timeInterval=10
+Plots\Plot0\curveCount=0
+Scenes\size=0

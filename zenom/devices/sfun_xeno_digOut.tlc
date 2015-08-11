@@ -1,0 +1,170 @@
+%%
+%% $Revision $ 
+%% $RCSfile: sfun_q8_digOut.tlc,v $
+%%
+%% Abstract:%%      TLC file for the Q8 encoder device of Linux-Xenomai Target. UNUSED channels are overwritten
+ %%
+%% Copyright 2008-2011 EK
+
+%implements "sfun_xeno_digOut" "C"
+ %openfile buffer
+  
+  /* include header files for Xeno calls */
+
+  
+  %closefile buffer
+  %<LibCacheDefine(buffer)>
+%% Function: Start ==========================================================
+%%
+%% Purpose:
+%%      Q8 Digital Output initialization code.
+%%
+%function Start(block, system) Output
+  /* S-Function "sfun_q8_digOut" initialization Block: %<Name> */
+%%
+
+
+%assign nPars = SIZE(SFcnParamSettings.Channel_Vec,1)
+/* Initialize  selected digital output channels */  
+%%uint32_T digOutConstant=0x00000001;
+%%uint32_T digOutDataMask=0x0;
+%%uint32_T digOutChannelCurrent=0x0;
+%%uint32_T digOutDataCurrent_zeroes=0x0;
+%%uint32_T digOutDataCurrent_ones=0xFFFFFFFF;
+uint32_T digout=0x0;
+
+uint32_T channeldir	=0x0;
+uint32_T digconstant    =0x00000001;   
+
+%foreach idx=nPars 
+%assign channelIdx = CAST("Number",SFcnParamSettings.Channel_Vec[idx])
+%assign data= CAST("Number",SFcnParamSettings.init_vec[idx])
+
+%%digOutChannelMask=digOutConstant<<%<channelIdx>;
+%%digOutDataMask=digOutConstant<<%<channelIdx>;
+%%digOutChannelCurrent|=(digOutConstant<<%<channelIdx>);
+digconstant=0x00000001;
+channeldir|=digconstant<<%<channelIdx>;
+
+
+if(%<data>==0)
+{
+digconstant=0x00000001;
+digout &= (~(digconstant<<%<channelIdx>));
+%%digOutDataMask = ~(digOutConstant<<%<channelIdx>);
+%%digOutDataCurrent_ones &= digOutDataMask;
+%%digout &= digOutDataCurrent_ones; 
+}
+else
+{
+digconstant=0x00000001;
+digout|=(digconstant<<%<channelIdx>);
+%%digOutDataCurrent_zeroes|=(digOutConstant<<%<channelIdx>);
+%%out |= digOutDataCurrent_zeroes;
+}
+
+
+%endforeach 
+printf("channeldir--output: %x\n",channeldir);
+%%(commented:29.09.2014,11:16 am) Q8DigitalOutput(0,channeldir,digout,0);
+%% all rows below added into code:  29.09.2014,11:21 am
+channeldir=0x0000FFFF;
+digout    =0x000000AA;
+
+Q8DigitalOutput(0,channeldir,digout,0);
+
+
+%endfunction  
+
+%% Function: Outputs ==========================================================
+%%
+%% Purpose:
+%%      Code generation rules for mdlOutputs function.
+%%
+%function Outputs(block, system) Output
+  /* S-Function "sfun_q8_encoder" Block: %<Name> */ 
+
+%assign nPars = SIZE(SFcnParamSettings.Channel_Vec,1)
+%assign nextChannel = 0 
+
+/* Initialize  selected digital output channels */  
+uint32_T digOutConstant=0x00000001;
+uint32_T digOutDataMask=0x0;
+uint32_T digOutDataCurrent=0x0;
+
+%foreach idx=nPars 
+%assign channelIdx = CAST("Number",SFcnParamSettings.Channel_Vec[idx])
+
+ %assign data = LibBlockInputSignal(0, "", "", %<nextChannel>) 
+digOutConstant=0x00000001;
+ digOutDataMask=0x0;
+%%digOutDataMask=digOutConstant<<%<channelIdx>;
+
+if(%<data>==0)
+{digOutDataMask = ~(digOutConstant<<%<channelIdx>);
+digOutDataCurrent &= digOutDataMask; 
+}
+else
+{
+digOutDataCurrent|=(digOutConstant<<%<channelIdx>);
+}
+	 %assign nextChannel = nextChannel+1			
+%endforeach 
+
+
+%%
+
+%%(commented:29.09.2014,11:27 am)Q8DigitalOutput(0,0,digOutDataCurrent,-1);
+
+%% all rows below added into code:  29.09.2014,11:27 am
+
+digOutDataCurrent=0x000000AA;
+
+Q8DigitalOutput(0,0,digOutDataCurrent,-1);
+
+
+%endfunction
+
+
+%% Function: Terminate ========================================================
+%% Abstract:
+%%      Resets Encoder channel when program is stopped
+%%
+%function Terminate(block, system) Output
+  /* %<Type> Block: '%<Name>' */
+%assign nPars = SIZE(SFcnParamSettings.Channel_Vec,1)
+%assign nextChannel = 0 
+
+/* Initialize  selected digital output channels */  
+uint32_T digOutConstant=0x00000001;
+uint32_T digOutChannelMask=digOutConstant;
+uint32_T digOutDataMask=0x0;
+uint32_T digOutChannelCurrent=0x0;
+uint32_T digOutDataCurrent=0x0;
+%%assign channelIdxs = SFcnParamSettings.Channel_Vec
+
+%foreach idx=nPars 
+%assign channelIdx = CAST("Number",SFcnParamSettings.Channel_Vec[idx])
+%assign data= CAST("Number",SFcnParamSettings.final_vec[idx])
+
+
+digOutDataMask=digOutConstant<<%<channelIdx>;
+
+if(!%<data>)
+{digOutDataMask = ~(digOutConstant<<%<channelIdx>);
+digOutDataCurrent &= digOutDataMask; 
+}
+else
+{
+digOutDataCurrent|=(digOutConstant<<%<channelIdx>);
+}
+
+%endforeach 
+Q8DigitalOutput(0,digOutChannelCurrent,digOutDataCurrent);
+%endfunction
+
+
+
+%% [EOF] sfun_q8_encoder.tlc
+              
+                    

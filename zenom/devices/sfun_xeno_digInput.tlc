@@ -1,0 +1,66 @@
+
+%% Description: 
+%%   Simulink Coder example device driver for HC12 ADC.
+%%
+%implements "sfun_xeno_digInput" "C"
+ %openfile buffer
+  
+  /* include header files for Xeno calls */
+
+  
+  %closefile buffer
+  %<LibCacheDefine(buffer)>
+
+%% Function: Start ==========================================================
+%%
+%% Purpose:
+%%      Analog to Digital Converter initialization code.
+%%
+%function Start(block, system) Output
+
+   %assign nPars = SIZE(SFcnParamSettings.Channel_Vec,1)
+uint32_T digInConstant=0x00000001;     
+uint32_T digInChannelCurrent=0xFFFFFFFF;
+%foreach idx=nPars 
+%assign channelIdx = CAST("Number",SFcnParamSettings.Channel_Vec[idx])
+
+digInChannelCurrent &= ~(digInConstant<<%<channelIdx>);
+
+%endforeach
+
+printf("digInchannel:%x\n",digInChannelCurrent);
+Q8DigitalInput(0,digInChannelCurrent,0); 
+
+%endfunction
+
+
+%% Function: Outputs ==========================================================
+%%
+%% Purpose:
+%%      Code generation rules for mdlOutputs function.
+%%
+%function Outputs(block, system) Output
+  /* S-Function "ADC_examp" Block: %<Name> */
+   uint32_T digitalInConstant;
+   uint32_T mask;
+uint32_T digitalInputData;
+  %assign nPars = SIZE(SFcnParamSettings.Channel_Vec,1)
+  %assign nextChannel = 0 
+  /* Start conversions on selected ADC channels */       
+  %foreach idx=nPars                                   
+      %assign channelIdx = CAST("Number",SFcnParamSettings.Channel_Vec[idx])
+
+      %assign y = LibBlockOutputSignal(0, "", "", %<nextChannel>)
+       digitalInConstant=0x00000001;
+       mask=(digitalInConstant<<%<channelIdx>);
+      digitalInputData=Q8DigitalInput(0, %<channelIdx>,-1);
+     if((digitalInputData & mask)>0)
+     %<y>= 1;
+     else 
+     %<y>= 0;
+      %assign nextChannel = nextChannel+1
+  %endforeach                                          
+  
+%endfunction
+
+%% [EOF] ADC_examp.tlc

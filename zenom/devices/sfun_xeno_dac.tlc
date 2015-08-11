@@ -1,0 +1,88 @@
+%%
+%% $Revision $ 
+%% $RCSfile: sfun_xeno_dac.tlc,v $
+%%
+%% Abstract:
+%%      TLC file for the Q8 D/A device of Linux-Xenomai Target.
+%%
+%% Copyright 2008-2011 EK
+
+%implements "sfun_xeno_dac" "C"
+ %openfile buffer
+ 
+  /* include header files for Q8 calls */
+  #include "Q8Lib.h"
+  
+  %closefile buffer
+  %<LibCacheDefine(buffer)>
+%% Function: Start ==========================================================
+%%
+%% Purpose:
+%%      Q8 Analog to Digital Converter Initialization code.
+%%
+%function Start(block, system) Output
+  /* S-Function "sfun_q8_adc" initialization Block: %<Name> */
+%%
+%assign nPars = SIZE(SFcnParamSettings.Channel_Vec,1)
+
+%assign mode=CAST("Number",SFcnParamSettings.mode)
+
+%foreach idx=nPars 
+%assign channelIdx = CAST("Number",SFcnParamSettings.Channel_Vec[idx])
+%assign data= CAST("Number",SFcnParamSettings.init_vec[idx])
+
+   Q8AnalogConfig(0,%<channelIdx>,%<mode>-1);
+    Q8AnalogOutput(0, %<channelIdx>,%<data>);
+
+%endforeach 
+
+%endfunction  
+
+%% Function: Outputs ==========================================================
+%%
+%% Purpose:
+%%      Code generation rules for mdlOutputs function.
+%%
+%function Outputs(block, system) Output
+  /* S-Function "sfun_q8_dac" Block: %<Name> */ 
+
+%assign nPars = SIZE(SFcnParamSettings.Channel_Vec,1)
+%assign nextChannel = 0 
+     						
+%foreach idx=nPars 
+%assign channelIdx = CAST("Number",SFcnParamSettings.Channel_Vec[idx])
+
+%assign data = LibBlockInputSignal(0, "", "", %<nextChannel>) 
+
+
+ Q8AnalogOutput(0, %<channelIdx>,%<data>);
+
+	 %assign nextChannel = nextChannel+1			
+%endforeach 
+
+%endfunction
+
+
+%% Function: Terminate ========================================================
+%% Abstract:
+%%      When program finishes  writes "0" to analog outputs
+%%
+
+%function Terminate(block, system) Output
+   /* S-Function "sfun_q8_dac" Block: %<Name> */  
+%assign nPars = SIZE(SFcnParamSettings.Channel_Vec,1)
+
+%assign mode=CAST("Number",SFcnParamSettings.mode)
+
+%foreach idx=nPars 
+%assign channelIdx = CAST("Number",SFcnParamSettings.Channel_Vec[idx])
+%assign data= CAST("Number",SFcnParamSettings.final_vec[idx])
+
+    Q8AnalogOutput(0, %<channelIdx>,%<data>);
+
+%endforeach 
+%endfunction
+
+%% [EOF] sfun_q8_adc.tlc
+              
+                    

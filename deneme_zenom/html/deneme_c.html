@@ -1,0 +1,423 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>RTW Report - deneme.c</title>
+<style> .LN { font-style: italic; color: #888888 } </style>
+<style> .CT { font-style: italic; color: #117755 } </style>
+<style> .PP { font-style: bold;   color: #992211 } </style>
+<style> .KW { font-style: bold;   color: #112266 } </style>
+<style> .DT { font-style: bold;   color: #112266 } </style>
+<link rel="stylesheet" type="text/css" href="rtwreport.css"></link><script language="JavaScript" type="text/javascript" src="rtwreport_utils.js"></script>
+<SCRIPT type="text/javascript" src="rtwannotate.js"></SCRIPT>
+</head>
+<body bgcolor="#eeeeee" text="#1122aa" onload="try {if (top) { if (top.rtwFileOnLoad) top.rtwFileOnLoad(window.document); else local_onload();}} catch(err) {};if (typeof rtwannotate === 'function') {rtwannotate('deneme_c_cov.xml');}">
+<p>
+<table border="0" cellspacing="0" cellpadding="6" width="100%%" height="100%%"><tr><td width="100%%" valign="top" bgcolor="#ffffff">
+<h4>File: <a href="../deneme.c" target="rtwreport_document_frame" id="linkToText_plain">deneme.c</a></h4>
+<pre id="RTWcode">
+<span><a class="LN" name="1">    1   </a><span class="CT">/*</span>
+</span><span><a class="LN" name="2">    2   </a><span class="CT"> * deneme.c</span>
+</span><span><a class="LN" name="3">    3   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="4">    4   </a><span class="CT"> * Code generation for model "deneme".</span>
+</span><span><a class="LN" name="5">    5   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="6">    6   </a><span class="CT"> * Model version              : 1.8</span>
+</span><span><a class="LN" name="7">    7   </a><span class="CT"> * Simulink Coder version : 8.6 (R2014a) 27-Dec-2013</span>
+</span><span><a class="LN" name="8">    8   </a><span class="CT"> * C source code generated on : Mon Aug 10 17:05:58 2015</span>
+</span><span><a class="LN" name="9">    9   </a><span class="CT"> *</span>
+</span><span><a class="LN" name="10">   10   </a><span class="CT"> * Target selection: zenom.tlc</span>
+</span><span><a class="LN" name="11">   11   </a><span class="CT"> * Note: GRT includes extra infrastructure and instrumentation for prototyping</span>
+</span><span><a class="LN" name="12">   12   </a><span class="CT"> * Embedded hardware selection: 32-bit Generic</span>
+</span><span><a class="LN" name="13">   13   </a><span class="CT"> * Code generation objectives: Unspecified</span>
+</span><span><a class="LN" name="14">   14   </a><span class="CT"> * Validation result: Not run</span>
+</span><span><a class="LN" name="15">   15   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="16">   16   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;rt_logging_mmi.h&quot;</font>
+</span><span><a class="LN" name="17">   17   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;deneme_capi.h&quot;</font>
+</span><span><a class="LN" name="18">   18   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;deneme.h&quot;</font>
+</span><span><a class="LN" name="19">   19   </a><font color="#992211">#</font><span class="PP">include</span> <font color="#992211">&quot;deneme_private.h&quot;</font>
+</span><span><a class="LN" name="20">   20   </a>
+</span><span><a class="LN" name="21">   21   </a><span class="CT">/* Block signals (auto storage) */</span>
+</span><span><a class="LN" name="22">   22   </a><a href="deneme_h.html#type_B_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_B_deneme_T');" target="_self"><font color="#1122aa">B_deneme_T</font></a> <a name="var_deneme_B">deneme_B</a>;
+</span><span><a class="LN" name="23">   23   </a>
+</span><span><a class="LN" name="24">   24   </a><span class="CT">/* Continuous states */</span>
+</span><span><a class="LN" name="25">   25   </a><a href="deneme_h.html#type_X_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_X_deneme_T');" target="_self"><font color="#1122aa">X_deneme_T</font></a> <a name="var_deneme_X">deneme_X</a>;
+</span><span><a class="LN" name="26">   26   </a>
+</span><span><a class="LN" name="27">   27   </a><span class="CT">/* Block states (auto storage) */</span>
+</span><span><a class="LN" name="28">   28   </a><a href="deneme_h.html#type_DW_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_DW_deneme_T');" target="_self"><font color="#1122aa">DW_deneme_T</font></a> <a name="var_deneme_DW">deneme_DW</a>;
+</span><span><a class="LN" name="29">   29   </a>
+</span><span><a class="LN" name="30">   30   </a><span class="CT">/* Real-time model */</span>
+</span><span><a class="LN" name="31">   31   </a><a href="deneme_types_h.html#type_RT_MODEL_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_RT_MODEL_deneme_T');" target="_self"><font color="#1122aa">RT_MODEL_deneme_T</font></a> <a name="var_deneme_M_">deneme_M_</a>;
+</span><span><a class="LN" name="32">   32   </a><a href="deneme_types_h.html#type_RT_MODEL_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_RT_MODEL_deneme_T');" target="_self"><font color="#1122aa">RT_MODEL_deneme_T</font></a> *<span class="DT">const</span> <a name="var_deneme_M">deneme_M</a> = &amp;<a href="#var_deneme_M_" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M_');" target="_self"><font color="#1122aa">deneme_M_</font></a>;
+</span><span><a class="LN" name="33">   33   </a>
+</span><span><a class="LN" name="34">   34   </a><span class="CT">/*</span>
+</span><span><a class="LN" name="35">   35   </a><span class="CT"> * This function updates continuous states using the ODE1 fixed-step</span>
+</span><span><a class="LN" name="36">   36   </a><span class="CT"> * solver algorithm</span>
+</span><span><a class="LN" name="37">   37   </a><span class="CT"> */</span>
+</span><span><a class="LN" name="38">   38   </a><span class="DT">static</span> <span class="DT">void</span> <a name="fcn_rt_ertODEUpdateContinuousStates">rt_ertODEUpdateContinuousStates</a>(RTWSolverInfo *si )
+</span><span><a class="LN" name="39">   39   </a><b>{</b>
+</span><span><a class="LN" name="40">   40   </a>  time_T tnew = rtsiGetSolverStopTime(si);
+</span><span><a class="LN" name="41">   41   </a>  time_T h = rtsiGetStepSize(si);
+</span><span><a class="LN" name="42">   42   </a>  real_T *x = rtsiGetContStates(si);
+</span><span><a class="LN" name="43">   43   </a>  <a href="deneme_h.html#type_ODE1_IntgData" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_ODE1_IntgData');" target="_self"><font color="#1122aa">ODE1_IntgData</font></a> *id = (<a href="deneme_h.html#type_ODE1_IntgData" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_ODE1_IntgData');" target="_self"><font color="#1122aa">ODE1_IntgData</font></a> *)rtsiGetSolverData(si);
+</span><span><a class="LN" name="44">   44   </a>  real_T *f0 = id-&gt;f[0];
+</span><span><a class="LN" name="45">   45   </a>  int_T i;
+</span><span><a class="LN" name="46">   46   </a>  int_T nXc = 1;
+</span><span><a class="LN" name="47">   47   </a>  rtsiSetSimTimeStep(si,MINOR_TIME_STEP);
+</span><span><a class="LN" name="48">   48   </a>  rtsiSetdX(si, f0);
+</span><span><a class="LN" name="49">   49   </a>  <a href="#fcn_deneme_derivatives" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_deneme_derivatives');" target="_self"><font color="#1122aa">deneme_derivatives</font></a>();
+</span><span><a class="LN" name="50">   50   </a>  rtsiSetT(si, tnew);
+</span><span><a class="LN" name="51">   51   </a>  <span class="KW">for</span> (i = 0; i &lt; nXc; i++) <b>{</b>
+</span><span><a class="LN" name="52">   52   </a>    *x += h * f0[i];
+</span><span><a class="LN" name="53">   53   </a>    x++;
+</span><span><a class="LN" name="54">   54   </a>  <b>}</b>
+</span><span><a class="LN" name="55">   55   </a>
+</span><span><a class="LN" name="56">   56   </a>  rtsiSetSimTimeStep(si,MAJOR_TIME_STEP);
+</span><span><a class="LN" name="57">   57   </a><b>}</b>
+</span><span><a class="LN" name="58">   58   </a>
+</span><span><a class="LN" name="59">   59   </a><span class="CT">/* Model output function */</span>
+</span><span><a class="LN" name="60">   60   </a><span class="DT">void</span> <a name="fcn_deneme_output">deneme_output</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="61">   61   </a><b>{</b>
+</span><span><a class="LN" name="62">   62   </a>  real_T *lastU;
+</span><span><a class="LN" name="63">   63   </a>  real_T rtb_Derivative;
+</span><span><a class="LN" name="64">   64   </a>  <span class="KW">if</span> (rtmIsMajorTimeStep(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>)) <b>{</b>
+</span><span><a class="LN" name="65">   65   </a>    <span class="CT">/* set solver stop time */</span>
+</span><span><a class="LN" name="66">   66   </a>    <span class="KW">if</span> (!(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.clockTick0+1)) <b>{</b>
+</span><span><a class="LN" name="67">   67   </a>      rtsiSetSolverStopTime(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo,
+</span><span><a class="LN" name="68">   68   </a>                            ((<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.clockTickH0 + 1) *
+</span><span><a class="LN" name="69">   69   </a>        <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.stepSize0 * 4294967296.0));
+</span><span><a class="LN" name="70">   70   </a>    <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="71">   71   </a>      rtsiSetSolverStopTime(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo, ((<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.clockTick0
+</span><span><a class="LN" name="72">   72   </a>        + 1) * <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.stepSize0 + <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.clockTickH0 *
+</span><span><a class="LN" name="73">   73   </a>        <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.stepSize0 * 4294967296.0));
+</span><span><a class="LN" name="74">   74   </a>    <b>}</b>
+</span><span><a class="LN" name="75">   75   </a>  <b>}</b>                                    <span class="CT">/* end MajorTimeStep */</span>
+</span><span><a class="LN" name="76">   76   </a>
+</span><span><a class="LN" name="77">   77   </a>  <span class="CT">/* Update absolute time of base rate at minor time step */</span>
+</span><span><a class="LN" name="78">   78   </a>  <span class="KW">if</span> (rtmIsMinorTimeStep(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>)) <b>{</b>
+</span><span><a class="LN" name="79">   79   </a>    <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[0] = rtsiGetT(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo);
+</span><span><a class="LN" name="80">   80   </a>  <b>}</b>
+</span><span><a class="LN" name="81">   81   </a>
+</span><span><a class="LN" name="82">   82   </a>  <span class="CT">/* Sin: '&lt;Root&gt;/Sine Wave' */</span>
+</span><span><a class="LN" name="83">   83   </a>  <a href="#var_deneme_B" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_B');" target="_self"><font color="#1122aa">deneme_B</font></a>.Sineinput = sin(<a href="deneme_data_c.html#var_deneme_P" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_P');" target="_self"><font color="#1122aa">deneme_P</font></a>.SineWave_Freq * <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[0] +
+</span><span><a class="LN" name="84">   84   </a>    <a href="deneme_data_c.html#var_deneme_P" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_P');" target="_self"><font color="#1122aa">deneme_P</font></a>.SineWave_Phase) * <a href="deneme_data_c.html#var_deneme_P" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_P');" target="_self"><font color="#1122aa">deneme_P</font></a>.SineWave_Amp + <a href="deneme_data_c.html#var_deneme_P" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_P');" target="_self"><font color="#1122aa">deneme_P</font></a>.SineWave_Bias;
+</span><span><a class="LN" name="85">   85   </a>
+</span><span><a class="LN" name="86">   86   </a>  <span class="CT">/* Derivative: '&lt;Root&gt;/Derivative' */</span>
+</span><span><a class="LN" name="87">   87   </a>  <span class="KW">if</span> ((<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampA &gt;= <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[0]) &amp;&amp; (<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampB &gt;=
+</span><span><a class="LN" name="88">   88   </a>       <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[0])) <b>{</b>
+</span><span><a class="LN" name="89">   89   </a>    rtb_Derivative = 0.0;
+</span><span><a class="LN" name="90">   90   </a>  <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="91">   91   </a>    rtb_Derivative = <a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampA;
+</span><span><a class="LN" name="92">   92   </a>    lastU = &amp;<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.LastUAtTimeA;
+</span><span><a class="LN" name="93">   93   </a>    <span class="KW">if</span> (<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampA &lt; <a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampB) <b>{</b>
+</span><span><a class="LN" name="94">   94   </a>      <span class="KW">if</span> (<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampB &lt; <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[0]) <b>{</b>
+</span><span><a class="LN" name="95">   95   </a>        rtb_Derivative = <a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampB;
+</span><span><a class="LN" name="96">   96   </a>        lastU = &amp;<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.LastUAtTimeB;
+</span><span><a class="LN" name="97">   97   </a>      <b>}</b>
+</span><span><a class="LN" name="98">   98   </a>    <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="99">   99   </a>      <span class="KW">if</span> (<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampA &gt;= <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[0]) <b>{</b>
+</span><span><a class="LN" name="100">  100   </a>        rtb_Derivative = <a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampB;
+</span><span><a class="LN" name="101">  101   </a>        lastU = &amp;<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.LastUAtTimeB;
+</span><span><a class="LN" name="102">  102   </a>      <b>}</b>
+</span><span><a class="LN" name="103">  103   </a>    <b>}</b>
+</span><span><a class="LN" name="104">  104   </a>
+</span><span><a class="LN" name="105">  105   </a>    rtb_Derivative = (<a href="#var_deneme_B" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_B');" target="_self"><font color="#1122aa">deneme_B</font></a>.Sineinput - *lastU) / (<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[0] -
+</span><span><a class="LN" name="106">  106   </a>      rtb_Derivative);
+</span><span><a class="LN" name="107">  107   </a>  <b>}</b>
+</span><span><a class="LN" name="108">  108   </a>
+</span><span><a class="LN" name="109">  109   </a>  <span class="CT">/* End of Derivative: '&lt;Root&gt;/Derivative' */</span>
+</span><span><a class="LN" name="110">  110   </a>
+</span><span><a class="LN" name="111">  111   </a>  <span class="CT">/* Sum: '&lt;Root&gt;/Sum' incorporates:</span>
+</span><span><a class="LN" name="112">  112   </a><span class="CT">   *  Gain: '&lt;Root&gt;/Gain'</span>
+</span><span><a class="LN" name="113">  113   </a><span class="CT">   *  Integrator: '&lt;Root&gt;/Integrator'</span>
+</span><span><a class="LN" name="114">  114   </a><span class="CT">   *  Sum: '&lt;Root&gt;/Sum1'</span>
+</span><span><a class="LN" name="115">  115   </a><span class="CT">   */</span>
+</span><span><a class="LN" name="116">  116   </a>  <a href="#var_deneme_B" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_B');" target="_self"><font color="#1122aa">deneme_B</font></a>.SineOutput = (<a href="deneme_data_c.html#var_deneme_P" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_P');" target="_self"><font color="#1122aa">deneme_P</font></a>.Gain_Gain * <a href="#var_deneme_B" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_B');" target="_self"><font color="#1122aa">deneme_B</font></a>.Sineinput +
+</span><span><a class="LN" name="117">  117   </a>    rtb_Derivative) + <a href="#var_deneme_X" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_X');" target="_self"><font color="#1122aa">deneme_X</font></a>.Integrator_CSTATE;
+</span><span><a class="LN" name="118">  118   </a>  <span class="KW">if</span> (rtmIsMajorTimeStep(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>)) <b>{</b>
+</span><span><a class="LN" name="119">  119   </a>  <b>}</b>
+</span><span><a class="LN" name="120">  120   </a><b>}</b>
+</span><span><a class="LN" name="121">  121   </a>
+</span><span><a class="LN" name="122">  122   </a><span class="CT">/* Model update function */</span>
+</span><span><a class="LN" name="123">  123   </a><span class="DT">void</span> <a name="fcn_deneme_update">deneme_update</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="124">  124   </a><b>{</b>
+</span><span><a class="LN" name="125">  125   </a>  real_T *lastU;
+</span><span><a class="LN" name="126">  126   </a>
+</span><span><a class="LN" name="127">  127   </a>  <span class="CT">/* Update for Derivative: '&lt;Root&gt;/Derivative' */</span>
+</span><span><a class="LN" name="128">  128   </a>  <span class="KW">if</span> (<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampA == (<a href="rt_nonfinite_c.html#var_rtInf" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtInf');" target="_self"><font color="#1122aa">rtInf</font></a>)) <b>{</b>
+</span><span><a class="LN" name="129">  129   </a>    <a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampA = <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[0];
+</span><span><a class="LN" name="130">  130   </a>    lastU = &amp;<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.LastUAtTimeA;
+</span><span><a class="LN" name="131">  131   </a>  <b>}</b> <span class="KW">else</span> <span class="KW">if</span> (<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampB == (<a href="rt_nonfinite_c.html#var_rtInf" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtInf');" target="_self"><font color="#1122aa">rtInf</font></a>)) <b>{</b>
+</span><span><a class="LN" name="132">  132   </a>    <a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampB = <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[0];
+</span><span><a class="LN" name="133">  133   </a>    lastU = &amp;<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.LastUAtTimeB;
+</span><span><a class="LN" name="134">  134   </a>  <b>}</b> <span class="KW">else</span> <span class="KW">if</span> (<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampA &lt; <a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampB) <b>{</b>
+</span><span><a class="LN" name="135">  135   </a>    <a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampA = <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[0];
+</span><span><a class="LN" name="136">  136   </a>    lastU = &amp;<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.LastUAtTimeA;
+</span><span><a class="LN" name="137">  137   </a>  <b>}</b> <span class="KW">else</span> <b>{</b>
+</span><span><a class="LN" name="138">  138   </a>    <a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampB = <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[0];
+</span><span><a class="LN" name="139">  139   </a>    lastU = &amp;<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.LastUAtTimeB;
+</span><span><a class="LN" name="140">  140   </a>  <b>}</b>
+</span><span><a class="LN" name="141">  141   </a>
+</span><span><a class="LN" name="142">  142   </a>  *lastU = <a href="#var_deneme_B" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_B');" target="_self"><font color="#1122aa">deneme_B</font></a>.Sineinput;
+</span><span><a class="LN" name="143">  143   </a>
+</span><span><a class="LN" name="144">  144   </a>  <span class="CT">/* End of Update for Derivative: '&lt;Root&gt;/Derivative' */</span>
+</span><span><a class="LN" name="145">  145   </a>  <span class="KW">if</span> (rtmIsMajorTimeStep(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>)) <b>{</b>
+</span><span><a class="LN" name="146">  146   </a>    <a href="#fcn_rt_ertODEUpdateContinuousStates" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rt_ertODEUpdateContinuousStates');" target="_self"><font color="#1122aa">rt_ertODEUpdateContinuousStates</font></a>(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo);
+</span><span><a class="LN" name="147">  147   </a>  <b>}</b>
+</span><span><a class="LN" name="148">  148   </a>
+</span><span><a class="LN" name="149">  149   </a>  <span class="CT">/* Update absolute time for base rate */</span>
+</span><span><a class="LN" name="150">  150   </a>  <span class="CT">/* The "clockTick0" counts the number of times the code of this task has</span>
+</span><span><a class="LN" name="151">  151   </a><span class="CT">   * been executed. The absolute time is the multiplication of "clockTick0"</span>
+</span><span><a class="LN" name="152">  152   </a><span class="CT">   * and "Timing.stepSize0". Size of "clockTick0" ensures timer will not</span>
+</span><span><a class="LN" name="153">  153   </a><span class="CT">   * overflow during the application lifespan selected.</span>
+</span><span><a class="LN" name="154">  154   </a><span class="CT">   * Timer of this task consists of two 32 bit unsigned integers.</span>
+</span><span><a class="LN" name="155">  155   </a><span class="CT">   * The two integers represent the low bits Timing.clockTick0 and the high bits</span>
+</span><span><a class="LN" name="156">  156   </a><span class="CT">   * Timing.clockTickH0. When the low bit overflows to 0, the high bits increment.</span>
+</span><span><a class="LN" name="157">  157   </a><span class="CT">   */</span>
+</span><span><a class="LN" name="158">  158   </a>  <span class="KW">if</span> (!(++<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.clockTick0)) <b>{</b>
+</span><span><a class="LN" name="159">  159   </a>    ++<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.clockTickH0;
+</span><span><a class="LN" name="160">  160   </a>  <b>}</b>
+</span><span><a class="LN" name="161">  161   </a>
+</span><span><a class="LN" name="162">  162   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[0] = rtsiGetSolverStopTime(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo);
+</span><span><a class="LN" name="163">  163   </a>
+</span><span><a class="LN" name="164">  164   </a>  <b>{</b>
+</span><span><a class="LN" name="165">  165   </a>    <span class="CT">/* Update absolute timer for sample time: [0.001s, 0.0s] */</span>
+</span><span><a class="LN" name="166">  166   </a>    <span class="CT">/* The "clockTick1" counts the number of times the code of this task has</span>
+</span><span><a class="LN" name="167">  167   </a><span class="CT">     * been executed. The absolute time is the multiplication of "clockTick1"</span>
+</span><span><a class="LN" name="168">  168   </a><span class="CT">     * and "Timing.stepSize1". Size of "clockTick1" ensures timer will not</span>
+</span><span><a class="LN" name="169">  169   </a><span class="CT">     * overflow during the application lifespan selected.</span>
+</span><span><a class="LN" name="170">  170   </a><span class="CT">     * Timer of this task consists of two 32 bit unsigned integers.</span>
+</span><span><a class="LN" name="171">  171   </a><span class="CT">     * The two integers represent the low bits Timing.clockTick1 and the high bits</span>
+</span><span><a class="LN" name="172">  172   </a><span class="CT">     * Timing.clockTickH1. When the low bit overflows to 0, the high bits increment.</span>
+</span><span><a class="LN" name="173">  173   </a><span class="CT">     */</span>
+</span><span><a class="LN" name="174">  174   </a>    <span class="KW">if</span> (!(++<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.clockTick1)) <b>{</b>
+</span><span><a class="LN" name="175">  175   </a>      ++<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.clockTickH1;
+</span><span><a class="LN" name="176">  176   </a>    <b>}</b>
+</span><span><a class="LN" name="177">  177   </a>
+</span><span><a class="LN" name="178">  178   </a>    <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.t[1] = <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.clockTick1 *
+</span><span><a class="LN" name="179">  179   </a>      <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.stepSize1 + <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.clockTickH1 *
+</span><span><a class="LN" name="180">  180   </a>      <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.stepSize1 * 4294967296.0;
+</span><span><a class="LN" name="181">  181   </a>  <b>}</b>
+</span><span><a class="LN" name="182">  182   </a><b>}</b>
+</span><span><a class="LN" name="183">  183   </a>
+</span><span><a class="LN" name="184">  184   </a><span class="CT">/* Derivatives for root system: '&lt;Root&gt;' */</span>
+</span><span><a class="LN" name="185">  185   </a><span class="DT">void</span> <a name="fcn_deneme_derivatives">deneme_derivatives</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="186">  186   </a><b>{</b>
+</span><span><a class="LN" name="187">  187   </a>  <a href="deneme_h.html#type_XDot_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_XDot_deneme_T');" target="_self"><font color="#1122aa">XDot_deneme_T</font></a> *_rtXdot;
+</span><span><a class="LN" name="188">  188   </a>  _rtXdot = ((<a href="deneme_h.html#type_XDot_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_XDot_deneme_T');" target="_self"><font color="#1122aa">XDot_deneme_T</font></a> *) <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;ModelData.derivs);
+</span><span><a class="LN" name="189">  189   </a>
+</span><span><a class="LN" name="190">  190   </a>  <span class="CT">/* Derivatives for Integrator: '&lt;Root&gt;/Integrator' */</span>
+</span><span><a class="LN" name="191">  191   </a>  _rtXdot-&gt;Integrator_CSTATE = <a href="#var_deneme_B" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_B');" target="_self"><font color="#1122aa">deneme_B</font></a>.Sineinput;
+</span><span><a class="LN" name="192">  192   </a><b>}</b>
+</span><span><a class="LN" name="193">  193   </a>
+</span><span><a class="LN" name="194">  194   </a><span class="CT">/* Model initialize function */</span>
+</span><span><a class="LN" name="195">  195   </a><span class="DT">void</span> <a name="fcn_deneme_initialize">deneme_initialize</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="196">  196   </a><b>{</b>
+</span><span><a class="LN" name="197">  197   </a>  <span class="CT">/* InitializeConditions for Integrator: '&lt;Root&gt;/Integrator' */</span>
+</span><span><a class="LN" name="198">  198   </a>  <a href="#var_deneme_X" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_X');" target="_self"><font color="#1122aa">deneme_X</font></a>.Integrator_CSTATE = <a href="deneme_data_c.html#var_deneme_P" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_P');" target="_self"><font color="#1122aa">deneme_P</font></a>.Integrator_IC;
+</span><span><a class="LN" name="199">  199   </a>
+</span><span><a class="LN" name="200">  200   </a>  <span class="CT">/* InitializeConditions for Derivative: '&lt;Root&gt;/Derivative' */</span>
+</span><span><a class="LN" name="201">  201   </a>  <a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampA = (<a href="rt_nonfinite_c.html#var_rtInf" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtInf');" target="_self"><font color="#1122aa">rtInf</font></a>);
+</span><span><a class="LN" name="202">  202   </a>  <a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>.TimeStampB = (<a href="rt_nonfinite_c.html#var_rtInf" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_rtInf');" target="_self"><font color="#1122aa">rtInf</font></a>);
+</span><span><a class="LN" name="203">  203   </a><b>}</b>
+</span><span><a class="LN" name="204">  204   </a>
+</span><span><a class="LN" name="205">  205   </a><span class="CT">/* Model terminate function */</span>
+</span><span><a class="LN" name="206">  206   </a><span class="DT">void</span> <a name="fcn_deneme_terminate">deneme_terminate</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="207">  207   </a><b>{</b>
+</span><span><a class="LN" name="208">  208   </a>  <span class="CT">/* (no terminate code required) */</span>
+</span><span><a class="LN" name="209">  209   </a><b>}</b>
+</span><span><a class="LN" name="210">  210   </a>
+</span><span><a class="LN" name="211">  211   </a><span class="CT">/*========================================================================*</span>
+</span><span><a class="LN" name="212">  212   </a><span class="CT"> * Start of Classic call interface                                        *</span>
+</span><span><a class="LN" name="213">  213   </a><span class="CT"> *========================================================================*/</span>
+</span><span><a class="LN" name="214">  214   </a>
+</span><span><a class="LN" name="215">  215   </a><span class="CT">/* Solver interface called by GRT_Main */</span>
+</span><span><a class="LN" name="216">  216   </a><font color="#992211">#</font><span class="PP">ifndef</span> USE_GENERATED_SOLVER
+</span><span><a class="LN" name="217">  217   </a>
+</span><span><a class="LN" name="218">  218   </a><span class="DT">void</span> <a name="fcn_rt_ODECreateIntegrationData">rt_ODECreateIntegrationData</a>(RTWSolverInfo *si)
+</span><span><a class="LN" name="219">  219   </a><b>{</b>
+</span><span><a class="LN" name="220">  220   </a>  UNUSED_PARAMETER(si);
+</span><span><a class="LN" name="221">  221   </a>  <span class="KW">return</span>;
+</span><span><a class="LN" name="222">  222   </a><b>}</b>                                      <span class="CT">/* do nothing */</span>
+</span><span><a class="LN" name="223">  223   </a>
+</span><span><a class="LN" name="224">  224   </a><span class="DT">void</span> <a name="fcn_rt_ODEDestroyIntegrationData">rt_ODEDestroyIntegrationData</a>(RTWSolverInfo *si)
+</span><span><a class="LN" name="225">  225   </a><b>{</b>
+</span><span><a class="LN" name="226">  226   </a>  UNUSED_PARAMETER(si);
+</span><span><a class="LN" name="227">  227   </a>  <span class="KW">return</span>;
+</span><span><a class="LN" name="228">  228   </a><b>}</b>                                      <span class="CT">/* do nothing */</span>
+</span><span><a class="LN" name="229">  229   </a>
+</span><span><a class="LN" name="230">  230   </a><span class="DT">void</span> <a name="fcn_rt_ODEUpdateContinuousStates">rt_ODEUpdateContinuousStates</a>(RTWSolverInfo *si)
+</span><span><a class="LN" name="231">  231   </a><b>{</b>
+</span><span><a class="LN" name="232">  232   </a>  UNUSED_PARAMETER(si);
+</span><span><a class="LN" name="233">  233   </a>  <span class="KW">return</span>;
+</span><span><a class="LN" name="234">  234   </a><b>}</b>                                      <span class="CT">/* do nothing */</span>
+</span><span><a class="LN" name="235">  235   </a>
+</span><span><a class="LN" name="236">  236   </a><font color="#992211">#</font><span class="PP">endif</span>
+</span><span><a class="LN" name="237">  237   </a>
+</span><span><a class="LN" name="238">  238   </a><span class="DT">void</span> <a name="fcn_MdlOutputs">MdlOutputs</a>(int_T tid)
+</span><span><a class="LN" name="239">  239   </a><b>{</b>
+</span><span><a class="LN" name="240">  240   </a>  <a href="#fcn_deneme_output" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_deneme_output');" target="_self"><font color="#1122aa">deneme_output</font></a>();
+</span><span><a class="LN" name="241">  241   </a>  UNUSED_PARAMETER(tid);
+</span><span><a class="LN" name="242">  242   </a><b>}</b>
+</span><span><a class="LN" name="243">  243   </a>
+</span><span><a class="LN" name="244">  244   </a><span class="DT">void</span> <a name="fcn_MdlUpdate">MdlUpdate</a>(int_T tid)
+</span><span><a class="LN" name="245">  245   </a><b>{</b>
+</span><span><a class="LN" name="246">  246   </a>  <a href="#fcn_deneme_update" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_deneme_update');" target="_self"><font color="#1122aa">deneme_update</font></a>();
+</span><span><a class="LN" name="247">  247   </a>  UNUSED_PARAMETER(tid);
+</span><span><a class="LN" name="248">  248   </a><b>}</b>
+</span><span><a class="LN" name="249">  249   </a>
+</span><span><a class="LN" name="250">  250   </a><span class="DT">void</span> <a name="fcn_MdlInitializeSizes">MdlInitializeSizes</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="251">  251   </a><b>{</b>
+</span><span><a class="LN" name="252">  252   </a><b>}</b>
+</span><span><a class="LN" name="253">  253   </a>
+</span><span><a class="LN" name="254">  254   </a><span class="DT">void</span> <a name="fcn_MdlInitializeSampleTimes">MdlInitializeSampleTimes</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="255">  255   </a><b>{</b>
+</span><span><a class="LN" name="256">  256   </a><b>}</b>
+</span><span><a class="LN" name="257">  257   </a>
+</span><span><a class="LN" name="258">  258   </a><span class="DT">void</span> <a name="fcn_MdlInitialize">MdlInitialize</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="259">  259   </a><b>{</b>
+</span><span><a class="LN" name="260">  260   </a><b>}</b>
+</span><span><a class="LN" name="261">  261   </a>
+</span><span><a class="LN" name="262">  262   </a><span class="DT">void</span> <a name="fcn_MdlStart">MdlStart</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="263">  263   </a><b>{</b>
+</span><span><a class="LN" name="264">  264   </a>  <a href="#fcn_deneme_initialize" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_deneme_initialize');" target="_self"><font color="#1122aa">deneme_initialize</font></a>();
+</span><span><a class="LN" name="265">  265   </a><b>}</b>
+</span><span><a class="LN" name="266">  266   </a>
+</span><span><a class="LN" name="267">  267   </a><span class="DT">void</span> <a name="fcn_MdlTerminate">MdlTerminate</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="268">  268   </a><b>{</b>
+</span><span><a class="LN" name="269">  269   </a>  <a href="#fcn_deneme_terminate" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_deneme_terminate');" target="_self"><font color="#1122aa">deneme_terminate</font></a>();
+</span><span><a class="LN" name="270">  270   </a><b>}</b>
+</span><span><a class="LN" name="271">  271   </a>
+</span><span><a class="LN" name="272">  272   </a><span class="CT">/* Registration function */</span>
+</span><span><a class="LN" name="273">  273   </a><a href="deneme_types_h.html#type_RT_MODEL_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_RT_MODEL_deneme_T');" target="_self"><font color="#1122aa">RT_MODEL_deneme_T</font></a> *<a name="fcn_deneme">deneme</a>(<span class="DT">void</span>)
+</span><span><a class="LN" name="274">  274   </a><b>{</b>
+</span><span><a class="LN" name="275">  275   </a>  <span class="CT">/* Registration code */</span>
+</span><span><a class="LN" name="276">  276   </a>
+</span><span><a class="LN" name="277">  277   </a>  <span class="CT">/* initialize non-finites */</span>
+</span><span><a class="LN" name="278">  278   </a>  <a href="rt_nonfinite_c.html#fcn_rt_InitInfAndNaN" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rt_InitInfAndNaN');" target="_self"><font color="#1122aa">rt_InitInfAndNaN</font></a>(<span class="KW">sizeof</span>(real_T));
+</span><span><a class="LN" name="279">  279   </a>
+</span><span><a class="LN" name="280">  280   </a>  <span class="CT">/* initialize real-time model */</span>
+</span><span><a class="LN" name="281">  281   </a>  (<span class="DT">void</span>) memset((<span class="DT">void</span> *)<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>, 0,
+</span><span><a class="LN" name="282">  282   </a>                <span class="KW">sizeof</span>(<a href="deneme_types_h.html#type_RT_MODEL_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_RT_MODEL_deneme_T');" target="_self"><font color="#1122aa">RT_MODEL_deneme_T</font></a>));
+</span><span><a class="LN" name="283">  283   </a>
+</span><span><a class="LN" name="284">  284   </a>  <b>{</b>
+</span><span><a class="LN" name="285">  285   </a>    <span class="CT">/* Setup solver object */</span>
+</span><span><a class="LN" name="286">  286   </a>    rtsiSetSimTimeStepPtr(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo, &amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.simTimeStep);
+</span><span><a class="LN" name="287">  287   </a>    rtsiSetTPtr(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo, &amp;rtmGetTPtr(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>));
+</span><span><a class="LN" name="288">  288   </a>    rtsiSetStepSizePtr(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo, &amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.stepSize0);
+</span><span><a class="LN" name="289">  289   </a>    rtsiSetdXPtr(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo, &amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;ModelData.derivs);
+</span><span><a class="LN" name="290">  290   </a>    rtsiSetContStatesPtr(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo, (real_T **)
+</span><span><a class="LN" name="291">  291   </a>                         &amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;ModelData.contStates);
+</span><span><a class="LN" name="292">  292   </a>    rtsiSetNumContStatesPtr(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo,
+</span><span><a class="LN" name="293">  293   </a>      &amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Sizes.numContStates);
+</span><span><a class="LN" name="294">  294   </a>    rtsiSetErrorStatusPtr(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo, (&amp;rtmGetErrorStatus(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>)));
+</span><span><a class="LN" name="295">  295   </a>    rtsiSetRTModelPtr(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo, <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>);
+</span><span><a class="LN" name="296">  296   </a>  <b>}</b>
+</span><span><a class="LN" name="297">  297   </a>
+</span><span><a class="LN" name="298">  298   </a>  rtsiSetSimTimeStep(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo, MAJOR_TIME_STEP);
+</span><span><a class="LN" name="299">  299   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;ModelData.intgData.f[0] = <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;ModelData.odeF[0];
+</span><span><a class="LN" name="300">  300   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;ModelData.contStates = ((real_T *) &amp;<a href="#var_deneme_X" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_X');" target="_self"><font color="#1122aa">deneme_X</font></a>);
+</span><span><a class="LN" name="301">  301   </a>  rtsiSetSolverData(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo, (<span class="DT">void</span> *)&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;ModelData.intgData);
+</span><span><a class="LN" name="302">  302   </a>  rtsiSetSolverName(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo,<font color="#1122ff">&quot;ode1&quot;</font>);
+</span><span><a class="LN" name="303">  303   </a>
+</span><span><a class="LN" name="304">  304   </a>  <span class="CT">/* Initialize timing info */</span>
+</span><span><a class="LN" name="305">  305   </a>  <b>{</b>
+</span><span><a class="LN" name="306">  306   </a>    int_T *mdlTsMap = <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.sampleTimeTaskIDArray;
+</span><span><a class="LN" name="307">  307   </a>    mdlTsMap[0] = 0;
+</span><span><a class="LN" name="308">  308   </a>    mdlTsMap[1] = 1;
+</span><span><a class="LN" name="309">  309   </a>    <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.sampleTimeTaskIDPtr = (&amp;mdlTsMap[0]);
+</span><span><a class="LN" name="310">  310   </a>    <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.sampleTimes = (&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.sampleTimesArray[0]);
+</span><span><a class="LN" name="311">  311   </a>    <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.offsetTimes = (&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.offsetTimesArray[0]);
+</span><span><a class="LN" name="312">  312   </a>
+</span><span><a class="LN" name="313">  313   </a>    <span class="CT">/* task periods */</span>
+</span><span><a class="LN" name="314">  314   </a>    <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.sampleTimes[0] = (0.0);
+</span><span><a class="LN" name="315">  315   </a>    <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.sampleTimes[1] = (0.001);
+</span><span><a class="LN" name="316">  316   </a>
+</span><span><a class="LN" name="317">  317   </a>    <span class="CT">/* task offsets */</span>
+</span><span><a class="LN" name="318">  318   </a>    <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.offsetTimes[0] = (0.0);
+</span><span><a class="LN" name="319">  319   </a>    <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.offsetTimes[1] = (0.0);
+</span><span><a class="LN" name="320">  320   </a>  <b>}</b>
+</span><span><a class="LN" name="321">  321   </a>
+</span><span><a class="LN" name="322">  322   </a>  rtmSetTPtr(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>, &amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.tArray[0]);
+</span><span><a class="LN" name="323">  323   </a>
+</span><span><a class="LN" name="324">  324   </a>  <b>{</b>
+</span><span><a class="LN" name="325">  325   </a>    int_T *mdlSampleHits = <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.sampleHitArray;
+</span><span><a class="LN" name="326">  326   </a>    mdlSampleHits[0] = 1;
+</span><span><a class="LN" name="327">  327   </a>    mdlSampleHits[1] = 1;
+</span><span><a class="LN" name="328">  328   </a>    <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.sampleHits = (&amp;mdlSampleHits[0]);
+</span><span><a class="LN" name="329">  329   </a>  <b>}</b>
+</span><span><a class="LN" name="330">  330   </a>
+</span><span><a class="LN" name="331">  331   </a>  rtmSetTFinal(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>, 10.0);
+</span><span><a class="LN" name="332">  332   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.stepSize0 = 0.001;
+</span><span><a class="LN" name="333">  333   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.stepSize1 = 0.001;
+</span><span><a class="LN" name="334">  334   </a>
+</span><span><a class="LN" name="335">  335   </a>  <span class="CT">/* Setup for data logging */</span>
+</span><span><a class="LN" name="336">  336   </a>  <b>{</b>
+</span><span><a class="LN" name="337">  337   </a>    <span class="DT">static</span> RTWLogInfo rt_DataLoggingInfo;
+</span><span><a class="LN" name="338">  338   </a>    <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo = &amp;rt_DataLoggingInfo;
+</span><span><a class="LN" name="339">  339   </a>  <b>}</b>
+</span><span><a class="LN" name="340">  340   </a>
+</span><span><a class="LN" name="341">  341   </a>  <span class="CT">/* Setup for data logging */</span>
+</span><span><a class="LN" name="342">  342   </a>  <b>{</b>
+</span><span><a class="LN" name="343">  343   </a>    rtliSetLogXSignalInfo(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo, (NULL));
+</span><span><a class="LN" name="344">  344   </a>    rtliSetLogXSignalPtrs(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo, (NULL));
+</span><span><a class="LN" name="345">  345   </a>    rtliSetLogT(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo, <font color="#1122ff">&quot;tout&quot;</font>);
+</span><span><a class="LN" name="346">  346   </a>    rtliSetLogX(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo, <font color="#1122ff">&quot;&quot;</font>);
+</span><span><a class="LN" name="347">  347   </a>    rtliSetLogXFinal(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo, <font color="#1122ff">&quot;&quot;</font>);
+</span><span><a class="LN" name="348">  348   </a>    rtliSetLogVarNameModifier(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo, <font color="#1122ff">&quot;rt_&quot;</font>);
+</span><span><a class="LN" name="349">  349   </a>    rtliSetLogFormat(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo, 0);
+</span><span><a class="LN" name="350">  350   </a>    rtliSetLogMaxRows(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo, 1000);
+</span><span><a class="LN" name="351">  351   </a>    rtliSetLogDecimation(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo, 1);
+</span><span><a class="LN" name="352">  352   </a>    rtliSetLogY(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo, <font color="#1122ff">&quot;&quot;</font>);
+</span><span><a class="LN" name="353">  353   </a>    rtliSetLogYSignalInfo(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo, (NULL));
+</span><span><a class="LN" name="354">  354   </a>    rtliSetLogYSignalPtrs(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;rtwLogInfo, (NULL));
+</span><span><a class="LN" name="355">  355   </a>  <b>}</b>
+</span><span><a class="LN" name="356">  356   </a>
+</span><span><a class="LN" name="357">  357   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfoPtr = (&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo);
+</span><span><a class="LN" name="358">  358   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Timing.stepSize = (0.001);
+</span><span><a class="LN" name="359">  359   </a>  rtsiSetFixedStepSize(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo, 0.001);
+</span><span><a class="LN" name="360">  360   </a>  rtsiSetSolverMode(&amp;<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;solverInfo, SOLVER_MODE_SINGLETASKING);
+</span><span><a class="LN" name="361">  361   </a>
+</span><span><a class="LN" name="362">  362   </a>  <span class="CT">/* block I/O */</span>
+</span><span><a class="LN" name="363">  363   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;ModelData.blockIO = ((<span class="DT">void</span> *) &amp;<a href="#var_deneme_B" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_B');" target="_self"><font color="#1122aa">deneme_B</font></a>);
+</span><span><a class="LN" name="364">  364   </a>  (<span class="DT">void</span>) memset(((<span class="DT">void</span> *) &amp;<a href="#var_deneme_B" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_B');" target="_self"><font color="#1122aa">deneme_B</font></a>), 0,
+</span><span><a class="LN" name="365">  365   </a>                <span class="KW">sizeof</span>(<a href="deneme_h.html#type_B_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_B_deneme_T');" target="_self"><font color="#1122aa">B_deneme_T</font></a>));
+</span><span><a class="LN" name="366">  366   </a>
+</span><span><a class="LN" name="367">  367   </a>  <span class="CT">/* parameters */</span>
+</span><span><a class="LN" name="368">  368   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;ModelData.defaultParam = ((real_T *)&amp;<a href="deneme_data_c.html#var_deneme_P" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_P');" target="_self"><font color="#1122aa">deneme_P</font></a>);
+</span><span><a class="LN" name="369">  369   </a>
+</span><span><a class="LN" name="370">  370   </a>  <span class="CT">/* states (continuous) */</span>
+</span><span><a class="LN" name="371">  371   </a>  <b>{</b>
+</span><span><a class="LN" name="372">  372   </a>    real_T *x = (real_T *) &amp;<a href="#var_deneme_X" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_X');" target="_self"><font color="#1122aa">deneme_X</font></a>;
+</span><span><a class="LN" name="373">  373   </a>    <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;ModelData.contStates = (x);
+</span><span><a class="LN" name="374">  374   </a>    (<span class="DT">void</span>) memset((<span class="DT">void</span> *)&amp;<a href="#var_deneme_X" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_X');" target="_self"><font color="#1122aa">deneme_X</font></a>, 0,
+</span><span><a class="LN" name="375">  375   </a>                  <span class="KW">sizeof</span>(<a href="deneme_h.html#type_X_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_X_deneme_T');" target="_self"><font color="#1122aa">X_deneme_T</font></a>));
+</span><span><a class="LN" name="376">  376   </a>  <b>}</b>
+</span><span><a class="LN" name="377">  377   </a>
+</span><span><a class="LN" name="378">  378   </a>  <span class="CT">/* states (dwork) */</span>
+</span><span><a class="LN" name="379">  379   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;ModelData.dwork = ((<span class="DT">void</span> *) &amp;<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>);
+</span><span><a class="LN" name="380">  380   </a>  (<span class="DT">void</span>) memset((<span class="DT">void</span> *)&amp;<a href="#var_deneme_DW" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_DW');" target="_self"><font color="#1122aa">deneme_DW</font></a>, 0,
+</span><span><a class="LN" name="381">  381   </a>                <span class="KW">sizeof</span>(<a href="deneme_h.html#type_DW_deneme_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_DW_deneme_T');" target="_self"><font color="#1122aa">DW_deneme_T</font></a>));
+</span><span><a class="LN" name="382">  382   </a>
+</span><span><a class="LN" name="383">  383   </a>  <span class="CT">/* Initialize DataMapInfo substructure containing ModelMap for C API */</span>
+</span><span><a class="LN" name="384">  384   </a>  <a href="deneme_capi_c.html#fcn_deneme_InitializeDataMapInfo" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_deneme_InitializeDataMapInfo');" target="_self"><font color="#1122aa">deneme_InitializeDataMapInfo</font></a>(<a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>);
+</span><span><a class="LN" name="385">  385   </a>
+</span><span><a class="LN" name="386">  386   </a>  <span class="CT">/* Initialize Sizes */</span>
+</span><span><a class="LN" name="387">  387   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Sizes.numContStates = (1); <span class="CT">/* Number of continuous states */</span>
+</span><span><a class="LN" name="388">  388   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Sizes.numY = (0);          <span class="CT">/* Number of model outputs */</span>
+</span><span><a class="LN" name="389">  389   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Sizes.numU = (0);          <span class="CT">/* Number of model inputs */</span>
+</span><span><a class="LN" name="390">  390   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Sizes.sysDirFeedThru = (0);<span class="CT">/* The model is not direct feedthrough */</span>
+</span><span><a class="LN" name="391">  391   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Sizes.numSampTimes = (2);  <span class="CT">/* Number of sample times */</span>
+</span><span><a class="LN" name="392">  392   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Sizes.numBlocks = (7);     <span class="CT">/* Number of blocks */</span>
+</span><span><a class="LN" name="393">  393   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Sizes.numBlockIO = (2);    <span class="CT">/* Number of block outputs */</span>
+</span><span><a class="LN" name="394">  394   </a>  <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>-&gt;Sizes.numBlockPrms = (6);  <span class="CT">/* Sum of parameter "widths" */</span>
+</span><span><a class="LN" name="395">  395   </a>  <span class="KW">return</span> <a href="#var_deneme_M" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'var_deneme_M');" target="_self"><font color="#1122aa">deneme_M</font></a>;
+</span><span><a class="LN" name="396">  396   </a><b>}</b>
+</span><span><a class="LN" name="397">  397   </a>
+</span><span><a class="LN" name="398">  398   </a><span class="CT">/*========================================================================*</span>
+</span><span><a class="LN" name="399">  399   </a><span class="CT"> * End of Classic call interface                                          *</span>
+</span><span><a class="LN" name="400">  400   </a><span class="CT"> *========================================================================*/</span>
+</span><span><a class="LN" name="401">  401   </a>
+</span></pre>
+</td></tr></table>
+</p>
+</body>
+</html>
