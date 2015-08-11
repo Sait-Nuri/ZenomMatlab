@@ -36,7 +36,7 @@
 #include "rtw_capi.h"/*bio_sig.h ve pt_info.h yerine*/
 #include "rt_sim.h"
 #include "Q8Lib.h"
-
+#include <math.h>
 #include <string>
 
 #define QUOTE1(name) #name
@@ -337,7 +337,7 @@ int ZenomMatlab::doloop()
     }
 
     mmi = &(rtmGetDataMapInfo(rtM).mmi);
-    
+
     Xrt_SetParameterInfo(mmi);
 
     return 0;
@@ -423,19 +423,8 @@ char* ZenomMatlab::concatParamName(char * blockName, char * paramName){
     case rtcase: \
              \
         if (xtsi[sigIdx].isComplex==0) { \
-            rttype *param = (rttype *) paramAddress;\
-            switch ( xrtpi[sigIdx].dataOrientation) { \
-                case rtwCAPI_SCALAR: {\
-                    xtsi[sigIdx].dataValue = (double*)param;}\
-                    break; \
-                case rtwCAPI_VECTOR: \
-                    xtsi[sigIdx].dataValue = (double*)param; \
-                    break; \
-                case rtwCAPI_MATRIX_COL_MAJOR_ND: \
-                    break; \
-                default: \
-                    return(1); \
-            } \
+            rttype *param = (rttype *) paramAddress; \
+            xtsi[sigIdx].dataValue = (double*)param; \
         } \
     break;  
 
