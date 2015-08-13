@@ -36,7 +36,7 @@
 #include "rtw_capi.h"/*bio_sig.h ve pt_info.h yerine*/
 #include "rt_sim.h"
 #include "Q8Lib.h"
-#include <math.h>
+#include <cmath>
 #include <string>
 
 #define QUOTE1(name) #name
@@ -117,16 +117,6 @@ typedef struct rtTargetSignalInfo{
     rtwCAPI_Orientation dataOrientation;/*scalar,vector,matrix*/
     double* dataValue;
 }XrtTargetSignalInfo;
-
-template<typename T, typename P>
-T remove_if(T beg, T end, P pred)
-{
-    T dest = beg;
-    for (T itr = beg;itr != end; ++itr)
-        if (!pred(*itr))
-            *(dest++) = *itr;
-    return dest;
-}
 
 class ZenomMatlab : public ControlBase
 {
@@ -245,8 +235,13 @@ int ZenomMatlab::initialize()
     for(paramIdx = 0; paramIdx < rtwCAPI_GetNumBlockParameters(mmi); paramIdx++){
         
         std::string paramName(xrtpi[paramIdx].paramName);
-        
-        paramName.erase(std::remove_if(paramName.begin(), paramName.end(), isspace), paramName.end());
+
+        for (std::size_t found = paramName.find_first_of(" "); 
+            found != std::string::npos ; 
+            found = paramName.find_first_of(" "))
+        {
+            paramName.erase (found);
+        }
 
         registerControlVariable( xrtpi[paramIdx].dataValue, 
                                  paramName, 
@@ -258,7 +253,12 @@ int ZenomMatlab::initialize()
 
         std::string sigName(xtsi[sigIdx].signalName);  
 
-        sigName.erase(std::remove_if(sigName.begin(), sigName.end(), isspace), sigName.end());
+        for (std::size_t found = sigName.find_first_of(" "); 
+            found != std::string::npos ; 
+            found = sigName.find_first_of(" "))
+        {
+            sigName.erase (found);
+        }
 
         registerLogVariable(xtsi[sigIdx].dataValue,
                         sigName,
@@ -799,10 +799,9 @@ uint_T numPages = 0;
       RT_GET_PARAM_INFO_IF(SS_UINT32, uint32_T)
       RT_GET_PARAM_INFO_IF(SS_BOOLEAN, boolean_T)
       
-default:
-{ //free(actualDimensions); 
-               return -1;}
-}//switch
+    default:
+        return -1;
+    }//switch
 }//for
 
 
@@ -895,4 +894,4 @@ int_T ZenomMatlab::Xrt_SetParameterInfo(rtwCAPI_ModelMappingInfo* mmi){
         }
     }
 }   
-
+}
