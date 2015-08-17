@@ -48,6 +48,10 @@
 #define COUNTER           0
 #define WATCHDOG          1
 
+#if defined __cplusplus
+extern "C" {
+#endif
+
 
 struct Q8_Config{
 	int iChannelNum;
@@ -99,4 +103,10 @@ typedef struct Q8_Config struct_Q8_Config;
  void Q8TimerStop(int cardNum); 
  void Q8TimerIntEnable(int cardNum);
  uint8_t Q8GetIrq(int cardNum);
+
+#if defined __cplusplus
+};
+#endif
+
+ 
 #endif

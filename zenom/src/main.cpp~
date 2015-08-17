@@ -36,7 +36,7 @@
 #include "rtw_capi.h"/*bio_sig.h ve pt_info.h yerine*/
 #include "rt_sim.h"
 #include "Q8Lib.h"
-#include <cmath>
+#include <math.h>
 #include <string>
 
 #define QUOTE1(name) #name
@@ -95,7 +95,6 @@ extern "C" {
       rtmSetT(S, rtsiGetSolverStopTime(rtmGetRTWSolverInfo(S)));
 #endif      
 
-
 typedef struct rtTargetParamInfo {
   char modelName[MAX_NAMES_SIZE];
   char blockName[MAX_NAMES_SIZE];
@@ -119,6 +118,16 @@ typedef struct rtTargetSignalInfo{
     double* dataValue;
 }XrtTargetSignalInfo;
 
+template<typename T, typename P>
+T remove_if(T beg, T end, P pred)
+{
+    T dest = beg;
+    for (T itr = beg;itr != end; ++itr)
+        if (!pred(*itr))
+            *(dest++) = *itr;
+    return dest;
+}
+
 class ZenomMatlab : public ControlBase
 {
 public:
@@ -140,7 +149,6 @@ private:
     XrtTargetParamInfo *xrtpi;
     XrtTargetSignalInfo *xtsi;
     real_T tnext;
-    int unknown_param_counter;
 
     void strncpyz(char *dest, const char *src, size_t n);
     void init_xenomai();
@@ -168,19 +176,18 @@ int ZenomMatlab::initialize()
     
     int paramIdx, sigIdx;
     int nBlockParams, nSignals;
+    int fd;
     const char* status;
     
-    // İsmi gözükmeyen parametrelerin sayısını tutar.
-    unknown_param_counter = 0;
-
+    
     /* Here is where Q8 dirver is  loaded to kernel space */
-     
-    //system(STR(sudo insmod DQ8));
+    /* 
+    system(STR(sudo insmod DQ8));
     fd = rt_dev_open(DEV_NAME, O_RDWR);
 
     if(fd < 0)
         fprintf(stderr, "target:Q8 device open error!\n");
-    
+    */
     
     init_xenomai();
 
@@ -238,29 +245,9 @@ int ZenomMatlab::initialize()
     for(paramIdx = 0; paramIdx < rtwCAPI_GetNumBlockParameters(mmi); paramIdx++){
         
         std::string paramName(xrtpi[paramIdx].paramName);
-        std::string blockName(xrtpi[paramIdx].blockName);
-
-        if(paramName.empty()){
-            paramName = std::string("unknownBlock");
-        }
-            
-
-        for (std::size_t found = paramName.find_first_of(" "); 
-            found != std::string::npos ; 
-            found = paramName.find_first_of(" "))
-        {
-            paramName.erase (found);
-        }
-
-        for (std::size_t found = blockName.find_first_of(" "); 
-            found != std::string::npos ; 
-            found = blockName.find_first_of(" "))
-        {
-            blockName.erase (found);
-        }
-
-        paramName = blockName + "-" + paramName;
         
+        paramName.erase(std::remove_if(paramName.begin(), paramName.end(), isspace), paramName.end());
+
         registerControlVariable( xrtpi[paramIdx].dataValue, 
                                  paramName, 
                                  xrtpi[paramIdx].numRows, 
@@ -271,17 +258,7 @@ int ZenomMatlab::initialize()
 
         std::string sigName(xtsi[sigIdx].signalName);  
 
-        if(sigName.empty()){
-            sigName = std::string("unknownSignal");
-            sigName += unknown_param_counter;
-        }
-
-        for (std::size_t found = sigName.find_first_of(" "); 
-            found != std::string::npos ; 
-            found = sigName.find_first_of(" "))
-        {
-            sigName.erase (found);
-        }
+        sigName.erase(std::remove_if(sigName.begin(), sigName.end(), isspace), sigName.end());
 
         registerLogVariable(xtsi[sigIdx].dataValue,
                         sigName,
@@ -388,11 +365,11 @@ int ZenomMatlab::stop()
  */
 int ZenomMatlab::terminate()
 {
-     if (fd >= 0){
+    // if (fd >= 0){
         
-         Q8Close(fd);        
-         printf("q8 is closing...\n");
-     }
+    //     Q8Close(fd);        
+    //     printf("q8 is closing...\n");
+    // }
 
     TERMINATE(rtM);
 
@@ -822,9 +799,10 @@ uint_T numPages = 0;
       RT_GET_PARAM_INFO_IF(SS_UINT32, uint32_T)
       RT_GET_PARAM_INFO_IF(SS_BOOLEAN, boolean_T)
       
-    default:
-        return -1;
-    }//switch
+default:
+{ //free(actualDimensions); 
+               return -1;}
+}//switch
 }//for
 
 
@@ -917,3 +895,4 @@ int_T ZenomMatlab::Xrt_SetParameterInfo(rtwCAPI_ModelMappingInfo* mmi){
         }
     }
 }   
+}

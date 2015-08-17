@@ -261,7 +261,7 @@ ifeq ($(MODELREF_TARGET_TYPE), NONE)
     PRODUCT            = $(RELATIVE_PATH_TO_ANCHOR)/$(MODEL)
     BIN_SETTING        = $(XENO_CFLAGS) $(LDFLAGS) $(ADDITIONAL_LDFLAGS) $(XENO_LDFLAGS) $(ZENOM_LFLAGS) $(XENO_LIBS) $(SYSLIBS)  $(ZENOM_LIBS) -lm 
     BUILD_PRODUCT_TYPE = "executable"
-    SRCS               += $(MODEL).$(TARGET_LANG_EXT) main.cpp rt_sim.c $(EXT_SRC) $(SOLVER) Q8Lib_utils.c 
+    SRCS               += $(MODEL).$(TARGET_LANG_EXT) main.cpp rt_sim.c $(EXT_SRC) $(SOLVER) Q8Lib_utils.c
 else
     # Model reference rtw target
     PRODUCT            = $(MODELLIB)
@@ -323,12 +323,14 @@ ifeq ($(MODELREF_TARGET_TYPE),NONE)
 $(PRODUCT) : $(OBJS) $(SHARED_LIB) $(LIBS) $(MODELREF_LINK_LIBS)
 	$(LD) -o $(PRODUCT) $(LINK_OBJS) $(BIN_SETTING) $(MODELREF_LINK_LIBS) $(SHARED_LIB) $(LIBS) 
 	@echo "### Created $(BUILD_PRODUCT_TYPE): $@"$(XENO_CFLAGS)
+	@echo '' >  $(PRODUCT).znm
 else
 $(PRODUCT) : $(OBJS) $(SHARED_LIB)
 	@rm -f $(MODELLIB)
 	ar ruvs $(MODELLIB) $(LINK_OBJS)
 	@echo "### Created $(MODELLIB)"
 	@echo "### Created $(BUILD_PRODUCT_TYPE): $@"
+	@echo '' >  $(PRODUCT).znm
 endif
 
 ifneq ($(SHARED_SRC_DIR),)
@@ -339,13 +341,13 @@ $(SHARED_BIN_DIR)/%.o : $(SHARED_SRC_DIR)/%.cpp
 	cd $(SHARED_BIN_DIR); $(CPP) -c $(CPPFLAGS) $(GCC_WALL_FLAG_MAX) $(notdir $?)
 endif
 
-%.o : %.c
-	@$(GCC_TEST_CMD) "$<" $(GCC_TEST_OUT)
-	$(CC) -c $(CFLAGS) $(GCC_WALL_FLAG) "$<"
-
 %.o : %.cpp
 	@$(GCC_TEST_CMD) "$<" $(GCC_TEST_OUT)
 	$(CPP) -c $(CPPFLAGS) $(GCC_WALL_FLAG) "$<"
+
+%.o : %.c
+	@$(GCC_TEST_CMD) "$<" $(GCC_TEST_OUT)
+	$(CC) -c $(CFLAGS) $(GCC_WALL_FLAG) "$<"
 
 %.o : $(RELATIVE_PATH_TO_ANCHOR)/%.c
 	@$(GCC_TEST_CMD) "$<" $(GCC_TEST_OUT)
@@ -444,7 +446,6 @@ $(SHARED_LIB) : $(SHARED_OBJS)
 	@echo "### Creating $@ "
 	ar ruvs $@ $(SHARED_OBJS)
 	@echo "### $@ Created  "
-
 
 #--------- Miscellaneous rules to purge, clean and lint (sol2 only) ------------
 
